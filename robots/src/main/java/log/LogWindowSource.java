@@ -29,7 +29,6 @@ public class LogWindowSource
     
     public void registerListener(LogChangeListener listener)
     {
-        System.out.println("Add: " + m_listeners.size());
         synchronized(m_listeners)
         {
             m_listeners.add(listener);
@@ -39,7 +38,6 @@ public class LogWindowSource
     
     public void unregisterListener(LogChangeListener listener)
     {
-        System.out.println("Delete: " + m_listeners.size());
         synchronized(m_listeners)
         {
             m_listeners.remove(listener);
