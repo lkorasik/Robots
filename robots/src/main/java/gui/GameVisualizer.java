@@ -99,6 +99,7 @@ public class GameVisualizer extends JPanel {
     }
 
     private void moveRobot(double velocity, double angularVelocity, double duration) {
+        m_robotDirection = getDirectionToTarget(m_targetPositionX, m_targetPositionY, m_robotPositionX, m_robotPositionY);
         velocity = applyLimits(velocity, 0, maxVelocity);
         angularVelocity = applyLimits(angularVelocity, -maxAngularVelocity, maxAngularVelocity);
         double newX = m_robotPositionX + velocity / angularVelocity *
@@ -117,6 +118,12 @@ public class GameVisualizer extends JPanel {
         m_robotPositionY = newY;
         double newDirection = asNormalizedRadians(m_robotDirection + angularVelocity * duration);
         m_robotDirection = newDirection;
+    }
+
+    private double getDirectionToTarget(double targetPositionX, double targetPositionY, double positionX, double positionY) {
+        double diffX = targetPositionX - positionX;
+        double diffY = targetPositionY - positionY;
+        return asNormalizedRadians(Math.atan2(diffY, diffX));
     }
 
     private static double asNormalizedRadians(double angle) {
