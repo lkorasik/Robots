@@ -1,18 +1,14 @@
 package gui;
 
-import log.LogChangeListener;
-
-import java.awt.BorderLayout;
-
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+import java.awt.*;
 
-public class GameWindow extends JInternalFrame
-{
+public class GameWindow extends JInternalFrame {
     private final GameVisualizer m_visualizer;
-    public GameWindow() 
-    {
+
+    public GameWindow() {
         super("Игровое поле", true, true, true, true);
         m_visualizer = new GameVisualizer();
         JPanel panel = new JPanel(new BorderLayout());
@@ -22,9 +18,9 @@ public class GameWindow extends JInternalFrame
 
         setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
 
-        addInternalFrameListener(new InternalFrameAdapter(){
+        addInternalFrameListener(new InternalFrameAdapter() {
             public void internalFrameClosing(InternalFrameEvent e) {
-                Object[] options = { "Да", "Нет!" };
+                Object[] options = {"Да", "Нет!"};
                 var decision = JOptionPane
                         .showOptionDialog(e.getInternalFrame(), "Закрыть окно?",
                                 "Подтверждение", JOptionPane.YES_NO_OPTION,

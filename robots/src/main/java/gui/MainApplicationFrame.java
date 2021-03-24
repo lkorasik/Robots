@@ -1,17 +1,12 @@
 package gui;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import log.Logger;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import javax.swing.*;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
-
-import log.LogChangeListener;
-import log.Logger;
 
 /**
  * Что требуется сделать:
@@ -48,11 +43,11 @@ public class MainApplicationFrame extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                Object[] options = { "Да", "Нет" };
+                Object[] options = {"Да", "Нет"};
                 var decision = JOptionPane
                         .showOptionDialog(e.getWindow(), "Close?", "Agree", JOptionPane.YES_NO_OPTION,
                                 JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-                if(decision == 0){
+                if (decision == 0) {
                     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 }
             }
@@ -132,7 +127,7 @@ public class MainApplicationFrame extends JFrame {
         return systemLookAndFeel;
     }
 
-    private JMenuItem exit(){
+    private JMenuItem exit() {
         JMenuItem exit = new JMenuItem("Выход", KeyEvent.VK_S);
         exit.addActionListener(e -> {
             this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
