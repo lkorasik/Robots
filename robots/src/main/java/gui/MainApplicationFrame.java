@@ -119,6 +119,7 @@ public class MainApplicationFrame extends JFrame {
 
         lookAndFeelMenu.add(getSystemLookAndFeel());
         lookAndFeelMenu.add(getCrossplatformLookAndFeel());
+        lookAndFeelMenu.add(exit());
         return lookAndFeelMenu;
     }
 
@@ -129,6 +130,14 @@ public class MainApplicationFrame extends JFrame {
             this.invalidate();
         });
         return systemLookAndFeel;
+    }
+
+    private JMenuItem exit(){
+        JMenuItem exit = new JMenuItem("Выход", KeyEvent.VK_S);
+        exit.addActionListener(e -> {
+            this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        });
+        return exit;
     }
 
     private JMenuItem getCrossplatformLookAndFeel() {
