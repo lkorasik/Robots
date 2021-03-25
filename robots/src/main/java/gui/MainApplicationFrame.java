@@ -32,7 +32,7 @@ public class MainApplicationFrame extends JFrame {
         addWindow(logWindow);
 
         GameWindow gameWindow = new GameWindow();
-        gameWindow.setSize(MainApplicationFrameConstants.WIDTH,MainApplicationFrameConstants.HEIGHT);
+        gameWindow.setSize(Constants.MainApplicationFrame.WIDTH, Constants.MainApplicationFrame.HEIGHT);
         addWindow(gameWindow);
 
         setJMenuBar(generateMenuBar());
@@ -67,7 +67,7 @@ public class MainApplicationFrame extends JFrame {
         logWindow.setSize(300, 800);
         setMinimumSize(logWindow.getSize());
         logWindow.pack();
-        Logger.debug(MainApplicationFrameConstants.PROTOCOL_WORKING);
+        Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
         return logWindow;
     }
 
@@ -114,9 +114,9 @@ public class MainApplicationFrame extends JFrame {
     }
 
     private JMenu getLookAndFeel() {
-        JMenu lookAndFeelMenu = new JMenu(MainApplicationFrameConstants.DISPLAY_MODE_MENU);
+        JMenu lookAndFeelMenu = new JMenu(Constants.MainApplicationFrame.DISPLAY_MODE_MENU);
         lookAndFeelMenu.setMnemonic(KeyEvent.VK_V);
-        lookAndFeelMenu.getAccessibleContext().setAccessibleDescription(MainApplicationFrameConstants.DISPLAY_MODE_MENU_DESCRIPTION);
+        lookAndFeelMenu.getAccessibleContext().setAccessibleDescription(Constants.MainApplicationFrame.DISPLAY_MODE_MENU_DESCRIPTION);
 
         lookAndFeelMenu.add(getSystemLookAndFeel());
         lookAndFeelMenu.add(getCrossPlatformLookAndFeel());
@@ -125,7 +125,7 @@ public class MainApplicationFrame extends JFrame {
     }
 
     private JMenuItem getSystemLookAndFeel() {
-        JMenuItem systemLookAndFeel = new JMenuItem(MainApplicationFrameConstants.SYSTEM_SCHEME, KeyEvent.VK_S);
+        JMenuItem systemLookAndFeel = new JMenuItem(Constants.MainApplicationFrame.SYSTEM_SCHEME, KeyEvent.VK_S);
         systemLookAndFeel.addActionListener((event) -> {
             setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             this.invalidate();
@@ -134,7 +134,7 @@ public class MainApplicationFrame extends JFrame {
     }
 
     private JMenuItem getExitItem() {
-        JMenuItem exit = new JMenuItem(MainApplicationFrameConstants.EXIT_MENU, KeyEvent.VK_S);
+        JMenuItem exit = new JMenuItem(Constants.MainApplicationFrame.EXIT_MENU, KeyEvent.VK_S);
         exit.addActionListener(e -> {
             this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         });
@@ -142,7 +142,7 @@ public class MainApplicationFrame extends JFrame {
     }
 
     private JMenuItem getCrossPlatformLookAndFeel() {
-        JMenuItem crossPlatformLookAndFeel = new JMenuItem(MainApplicationFrameConstants.UNIVERSAL_SCHEME, KeyEvent.VK_S);
+        JMenuItem crossPlatformLookAndFeel = new JMenuItem(Constants.MainApplicationFrame.UNIVERSAL_SCHEME, KeyEvent.VK_S);
         crossPlatformLookAndFeel.addActionListener((event) -> {
             setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
             this.invalidate();
@@ -151,18 +151,18 @@ public class MainApplicationFrame extends JFrame {
     }
 
     private JMenu getTestMenu() {
-        JMenu testMenu = new JMenu(MainApplicationFrameConstants.TEST_MENU);
+        JMenu testMenu = new JMenu(Constants.MainApplicationFrame.TEST_MENU);
         testMenu.setMnemonic(KeyEvent.VK_T);
         testMenu.getAccessibleContext().setAccessibleDescription(
-                MainApplicationFrameConstants.TEST_MENU_DESCRIPTION);
+                Constants.MainApplicationFrame.TEST_MENU_DESCRIPTION);
         testMenu.add(getLogMessageItem());
         return testMenu;
     }
 
     private JMenuItem getLogMessageItem() {
-        JMenuItem addLogMessageItem = new JMenuItem(MainApplicationFrameConstants.TESTS_MESSAGE_TO_LOG, KeyEvent.VK_S);
+        JMenuItem addLogMessageItem = new JMenuItem(Constants.MainApplicationFrame.TESTS_MESSAGE_TO_LOG, KeyEvent.VK_S);
         addLogMessageItem.addActionListener((event) -> {
-            Logger.debug(MainApplicationFrameConstants.LOG_MESSAGE);
+            Logger.debug(Constants.MainApplicationFrame.LOG_MESSAGE);
         });
         return addLogMessageItem;
     }
@@ -178,23 +178,34 @@ public class MainApplicationFrame extends JFrame {
     }
 }
 
-class MainApplicationFrameConstants {
-    public static final int WIDTH = 400;
-    public static final int HEIGHT = 400;
 
-    public static final String TEST_MENU = "Тесты";
-    public static final String TEST_MENU_DESCRIPTION = "Тестовые команды";
-    public static final String TESTS_MESSAGE_TO_LOG = "Сообщение в лог";
-    public static final String LOG_MESSAGE = "Новая строка";
 
-    public static final String DISPLAY_MODE_MENU = "Режим отображения";
-    public static final String DISPLAY_MODE_MENU_DESCRIPTION = "Управление режимом отображения приложения";
-    public static final String UNIVERSAL_SCHEME = "Универсальная схема";
-    public static final String SYSTEM_SCHEME = "Системная схема";
+class Constants{
+    static class MainApplicationFrame {
+        public static final int WIDTH = 400;
+        public static final int HEIGHT = 400;
 
-    public static final String EXIT_MENU = "Выход";
+        public static final String TEST_MENU = "Тесты";
+        public static final String TEST_MENU_DESCRIPTION = "Тестовые команды";
+        public static final String TESTS_MESSAGE_TO_LOG = "Сообщение в лог";
+        public static final String LOG_MESSAGE = "Новая строка";
 
-    public static final String PROTOCOL_WORKING = "Протокол работает";
+        public static final String DISPLAY_MODE_MENU = "Режим отображения";
+        public static final String DISPLAY_MODE_MENU_DESCRIPTION = "Управление режимом отображения приложения";
+        public static final String UNIVERSAL_SCHEME = "Универсальная схема";
+        public static final String SYSTEM_SCHEME = "Системная схема";
+
+        public static final String EXIT_MENU = "Выход";
+
+        public static final String PROTOCOL_WORKING = "Протокол работает";
+    }
+
+    static class LogWindow{
+        public static final int WIDTH = 200;
+        public static final int HEIGHT = 500;
+
+        public static final String WINDOW_TITLE = "Протокол работы";
+    }
 }
 
 class ExitPaneOptions {

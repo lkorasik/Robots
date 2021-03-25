@@ -14,11 +14,13 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
     private TextArea m_logContent;
 
     public LogWindow(LogWindowSource logSource) {
-        super("Протокол работы", true, true, true, true);
+        super(Constants.LogWindow.WINDOW_TITLE, true, true, true, true);
         m_logSource = logSource;
         m_logSource.registerListener(this);
         m_logContent = new TextArea("");
-        m_logContent.setSize(200, 500);
+        m_logContent.setSize(
+                Constants.LogWindow.WIDTH,
+                Constants.LogWindow.HEIGHT);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(m_logContent, BorderLayout.CENTER);
