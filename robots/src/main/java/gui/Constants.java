@@ -4,6 +4,7 @@ public class Constants {
     static class MainApplicationFrame {
         public static final int WIDTH = 400;
         public static final int HEIGHT = 400;
+        public static final int INSET = 50;
 
         public static final String TEST_MENU = "Тесты";
         public static final String TEST_MENU_DESCRIPTION = "Тестовые команды";
