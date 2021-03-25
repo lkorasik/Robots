@@ -43,12 +43,12 @@ public class MainApplicationFrame extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                Object[] options = {ExitPaneOptions.YES, ExitPaneOptions.NO};
+                Object[] options = {Constants.ExitPaneOptions.YES, Constants.ExitPaneOptions.NO};
                 var decision = JOptionPane
                         .showOptionDialog(
                                 e.getWindow(),
-                                ExitPaneOptions.WINDOW_MESSAGE,
-                                ExitPaneOptions.WINDOW_TITLE,
+                                Constants.ExitPaneOptions.WINDOW_MESSAGE,
+                                Constants.ExitPaneOptions.WINDOW_TITLE,
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.QUESTION_MESSAGE,
                                 null,
@@ -206,11 +206,13 @@ class Constants{
 
         public static final String WINDOW_TITLE = "Протокол работы";
     }
+
+    static class ExitPaneOptions {
+        public static final String YES = "Да";
+        public static final String NO = "Нет";
+        public static final String WINDOW_TITLE = "Подтверждение";
+        public static final String WINDOW_MESSAGE = "Вы действительн хотите закрыть окно?";
+    }
 }
 
-class ExitPaneOptions {
-    public static final String YES = "Да";
-    public static final String NO = "Нет";
-    public static final String WINDOW_TITLE = "Подтверждение";
-    public static final String WINDOW_MESSAGE = "Вы действительн хотите закрыть окно?";
-}
+
