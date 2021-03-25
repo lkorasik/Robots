@@ -32,7 +32,7 @@ public class MainApplicationFrame extends JFrame {
         addWindow(logWindow);
 
         GameWindow gameWindow = new GameWindow();
-        gameWindow.setSize(400, 400);
+        gameWindow.setSize(MainApplicationFrameConstants.WIDTH,MainApplicationFrameConstants.HEIGHT);
         addWindow(gameWindow);
 
         setJMenuBar(generateMenuBar());
@@ -43,10 +43,17 @@ public class MainApplicationFrame extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                Object[] options = {"Да", "Нет"};
+                Object[] options = {ExitPaneOptions.YES, ExitPaneOptions.NO};
                 var decision = JOptionPane
-                        .showOptionDialog(e.getWindow(), "Close?", "Agree", JOptionPane.YES_NO_OPTION,
-                                JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                        .showOptionDialog(
+                                e.getWindow(),
+                                ExitPaneOptions.WINDOW_MESSAGE,
+                                ExitPaneOptions.WINDOW_TITLE,
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                options,
+                                options[0]);
                 if (decision == 0) {
                     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 }
@@ -60,7 +67,7 @@ public class MainApplicationFrame extends JFrame {
         logWindow.setSize(300, 800);
         setMinimumSize(logWindow.getSize());
         logWindow.pack();
-        Logger.debug("Протокол работает");
+        Logger.debug(MainApplicationFrameConstants.PROTOCOL_WORKING);
         return logWindow;
     }
 
@@ -107,19 +114,18 @@ public class MainApplicationFrame extends JFrame {
     }
 
     private JMenu getLookAndFeel() {
-        JMenu lookAndFeelMenu = new JMenu("Режим отображения");
+        JMenu lookAndFeelMenu = new JMenu(MainApplicationFrameConstants.DISPLAY_MODE_MENU);
         lookAndFeelMenu.setMnemonic(KeyEvent.VK_V);
-        lookAndFeelMenu.getAccessibleContext().setAccessibleDescription(
-                "Управление режимом отображения приложения");
+        lookAndFeelMenu.getAccessibleContext().setAccessibleDescription(MainApplicationFrameConstants.DISPLAY_MODE_MENU_DESCRIPTION);
 
         lookAndFeelMenu.add(getSystemLookAndFeel());
-        lookAndFeelMenu.add(getCrossplatformLookAndFeel());
-        lookAndFeelMenu.add(exit());
+        lookAndFeelMenu.add(getCrossPlatformLookAndFeel());
+        lookAndFeelMenu.add(getExitItem());
         return lookAndFeelMenu;
     }
 
     private JMenuItem getSystemLookAndFeel() {
-        JMenuItem systemLookAndFeel = new JMenuItem("Системная схема", KeyEvent.VK_S);
+        JMenuItem systemLookAndFeel = new JMenuItem(MainApplicationFrameConstants.SYSTEM_SCHEME, KeyEvent.VK_S);
         systemLookAndFeel.addActionListener((event) -> {
             setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             this.invalidate();
@@ -127,36 +133,36 @@ public class MainApplicationFrame extends JFrame {
         return systemLookAndFeel;
     }
 
-    private JMenuItem exit() {
-        JMenuItem exit = new JMenuItem("Выход", KeyEvent.VK_S);
+    private JMenuItem getExitItem() {
+        JMenuItem exit = new JMenuItem(MainApplicationFrameConstants.EXIT_MENU, KeyEvent.VK_S);
         exit.addActionListener(e -> {
             this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         });
         return exit;
     }
 
-    private JMenuItem getCrossplatformLookAndFeel() {
-        JMenuItem crossplatformLookAndFeel = new JMenuItem("Универсальная схема", KeyEvent.VK_S);
-        crossplatformLookAndFeel.addActionListener((event) -> {
+    private JMenuItem getCrossPlatformLookAndFeel() {
+        JMenuItem crossPlatformLookAndFeel = new JMenuItem(MainApplicationFrameConstants.UNIVERSAL_SCHEME, KeyEvent.VK_S);
+        crossPlatformLookAndFeel.addActionListener((event) -> {
             setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
             this.invalidate();
         });
-        return crossplatformLookAndFeel;
+        return crossPlatformLookAndFeel;
     }
 
     private JMenu getTestMenu() {
-        JMenu testMenu = new JMenu("Тесты");
+        JMenu testMenu = new JMenu(MainApplicationFrameConstants.TEST_MENU);
         testMenu.setMnemonic(KeyEvent.VK_T);
         testMenu.getAccessibleContext().setAccessibleDescription(
-                "Тестовые команды");
+                MainApplicationFrameConstants.TEST_MENU_DESCRIPTION);
         testMenu.add(getLogMessageItem());
         return testMenu;
     }
 
     private JMenuItem getLogMessageItem() {
-        JMenuItem addLogMessageItem = new JMenuItem("Сообщение в лог", KeyEvent.VK_S);
+        JMenuItem addLogMessageItem = new JMenuItem(MainApplicationFrameConstants.TESTS_MESSAGE_TO_LOG, KeyEvent.VK_S);
         addLogMessageItem.addActionListener((event) -> {
-            Logger.debug("Новая строка");
+            Logger.debug(MainApplicationFrameConstants.LOG_MESSAGE);
         });
         return addLogMessageItem;
     }
@@ -170,4 +176,30 @@ public class MainApplicationFrame extends JFrame {
             // just ignore
         }
     }
+}
+
+class MainApplicationFrameConstants {
+    public static final int WIDTH = 400;
+    public static final int HEIGHT = 400;
+
+    public static final String TEST_MENU = "Тесты";
+    public static final String TEST_MENU_DESCRIPTION = "Тестовые команды";
+    public static final String TESTS_MESSAGE_TO_LOG = "Сообщение в лог";
+    public static final String LOG_MESSAGE = "Новая строка";
+
+    public static final String DISPLAY_MODE_MENU = "Режим отображения";
+    public static final String DISPLAY_MODE_MENU_DESCRIPTION = "Управление режимом отображения приложения";
+    public static final String UNIVERSAL_SCHEME = "Универсальная схема";
+    public static final String SYSTEM_SCHEME = "Системная схема";
+
+    public static final String EXIT_MENU = "Выход";
+
+    public static final String PROTOCOL_WORKING = "Протокол работает";
+}
+
+class ExitPaneOptions {
+    public static final String YES = "Да";
+    public static final String NO = "Нет";
+    public static final String WINDOW_TITLE = "Подтверждение";
+    public static final String WINDOW_MESSAGE = "Вы действительн хотите закрыть окно?";
 }

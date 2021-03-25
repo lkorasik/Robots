@@ -30,11 +30,16 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
 
         addInternalFrameListener(new InternalFrameAdapter() {
             public void internalFrameClosing(InternalFrameEvent e) {
-                Object[] options = {"Да", "Нет!"};
+                Object[] options = {ExitPaneOptions.YES, ExitPaneOptions.NO};
                 var decision = JOptionPane
-                        .showOptionDialog(e.getInternalFrame(), "Закрыть окно?",
-                                "Подтверждение", JOptionPane.YES_NO_OPTION,
-                                JOptionPane.QUESTION_MESSAGE, null, options,
+                        .showOptionDialog(
+                                e.getInternalFrame(),
+                                ExitPaneOptions.WINDOW_TITLE,
+                                ExitPaneOptions.WINDOW_TITLE,
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                options,
                                 options[0]);
                 if (decision == 0) {
                     //e.getInternalFrame().setVisible(false);
