@@ -213,6 +213,10 @@ class Constants{
         public static final String WINDOW_TITLE = "Подтверждение";
         public static final String WINDOW_MESSAGE = "Вы действительн хотите закрыть окно?";
     }
+
+    static class GameWindow {
+        public static final String WINDOW_TITLE = "Игровое поле";
+    }
 }
 
 
