@@ -27,7 +27,6 @@ public class MainApplicationFrame extends JFrame {
 
         setContentPane(desktopPane);
 
-
         LogWindow logWindow = createLogWindow();
         addWindow(logWindow);
 
@@ -38,6 +37,10 @@ public class MainApplicationFrame extends JFrame {
         setJMenuBar(generateMenuBar());
         //setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        setExitDialog();
+    }
+
+    private void setExitDialog(){
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         addWindowListener(new WindowAdapter() {

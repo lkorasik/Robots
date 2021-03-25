@@ -16,6 +16,10 @@ public class GameWindow extends JInternalFrame {
         getContentPane().add(panel);
         pack();
 
+        setCloseDialog();
+    }
+
+    private void setCloseDialog(){
         setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
 
         addInternalFrameListener(new InternalFrameAdapter() {
