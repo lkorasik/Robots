@@ -14,11 +14,13 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
     private TextArea m_logContent;
 
     public LogWindow(LogWindowSource logSource) {
-        super("Протокол работы", true, true, true, true);
+        super(Constants.LogWindow.WINDOW_TITLE, true, true, true, true);
         m_logSource = logSource;
         m_logSource.registerListener(this);
         m_logContent = new TextArea("");
-        m_logContent.setSize(200, 500);
+        m_logContent.setSize(
+                Constants.LogWindow.WIDTH,
+                Constants.LogWindow.HEIGHT);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(m_logContent, BorderLayout.CENTER);
@@ -26,15 +28,24 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
         pack();
         updateLogContent();
 
+        setExitDialog();
+    }
+
+    private void setExitDialog(){
         setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
 
         addInternalFrameListener(new InternalFrameAdapter() {
             public void internalFrameClosing(InternalFrameEvent e) {
-                Object[] options = {"Да", "Нет!"};
+                Object[] options = {Constants.ExitPaneOptions.YES, Constants.ExitPaneOptions.NO};
                 var decision = JOptionPane
-                        .showOptionDialog(e.getInternalFrame(), "Закрыть окно?",
-                                "Подтверждение", JOptionPane.YES_NO_OPTION,
-                                JOptionPane.QUESTION_MESSAGE, null, options,
+                        .showOptionDialog(
+                                e.getInternalFrame(),
+                                Constants.ExitPaneOptions.WINDOW_TITLE,
+                                Constants.ExitPaneOptions.WINDOW_TITLE,
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                options,
                                 options[0]);
                 if (decision == 0) {
                     //e.getInternalFrame().setVisible(false);
