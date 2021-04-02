@@ -117,6 +117,12 @@ public class GameVisualizer extends JPanel {
         m_robotPositionY = newY;
     }
 
+    private double getDirectionToTarget(double targetPositionX, double targetPositionY, double positionX, double positionY) {
+        double diffX = targetPositionX - positionX;
+        double diffY = targetPositionY - positionY;
+        return asNormalizedRadians(Math.atan2(diffY, diffX));
+    }
+
     private static double asNormalizedRadians(double angle) {
         while (angle < 0) {
             angle += 2 * Math.PI;
