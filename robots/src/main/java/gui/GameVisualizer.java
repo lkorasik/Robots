@@ -96,6 +96,8 @@ public class GameVisualizer extends JPanel {
     }
 
     private void moveRobot(double velocity, double angularVelocity, double duration) {
+        //Сохрани поворот
+        //чтоб не мог исчезнуть за границей
         m_robotDirection = getDirectionToTarget(m_targetPositionX, m_targetPositionY, m_robotPositionX, m_robotPositionY);
         velocity = applyLimits(velocity, 0, Constants.Robot.MAX_VELOCITY);
         angularVelocity = applyLimits(angularVelocity, -Constants.Robot.MAX_ANGULAR_VELOCITY, Constants.Robot.MAX_ANGULAR_VELOCITY);
@@ -113,8 +115,6 @@ public class GameVisualizer extends JPanel {
         }
         m_robotPositionX = newX;
         m_robotPositionY = newY;
-        double newDirection = asNormalizedRadians(m_robotDirection + angularVelocity * duration);
-        m_robotDirection = newDirection;
     }
 
     private double getDirectionToTarget(double targetPositionX, double targetPositionY, double positionX, double positionY) {
