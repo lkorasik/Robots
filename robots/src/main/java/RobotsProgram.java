@@ -1,4 +1,6 @@
-package gui;
+import controller.robotController.RobotController;
+import model.robotModel.RobotLogic;
+import view.MainApplicationFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +15,11 @@ public class RobotsProgram {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
         SwingUtilities.invokeLater(() -> {
-            MainApplicationFrame frame = new MainApplicationFrame();
+            RobotLogic robotLogic = new RobotLogic();
+            MainApplicationFrame frame = new MainApplicationFrame(new RobotController(robotLogic), robotLogic);
             frame.pack();
             frame.setVisible(true);
             frame.setExtendedState(Frame.MAXIMIZED_BOTH);

@@ -1,8 +1,9 @@
-package gui;
+package view.logView;
 
-import log.LogChangeListener;
-import log.LogEntry;
-import log.LogWindowSource;
+import model.logModel.LogChangeListener;
+import model.logModel.LogEntry;
+import controller.LogController.LogWindowSource;
+import model.Constants;
 
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
@@ -10,20 +11,19 @@ import javax.swing.event.InternalFrameEvent;
 import java.awt.*;
 
 public class LogWindow extends JInternalFrame implements LogChangeListener {
-    private LogWindowSource m_logSource;
-    private TextArea m_logContent;
+    private LogWindowSource windowSource;
+    private TextArea logContent;
 
-    public LogWindow(LogWindowSource logSource) {
+    public LogWindow(LogWindowSource windowSource) {
         super(Constants.LogWindow.WINDOW_TITLE, true, true, true, true);
-        m_logSource = logSource;
-        m_logSource.registerListener(this);
-        m_logContent = new TextArea("");
-        m_logContent.setSize(
-                Constants.LogWindow.WIDTH,
-                Constants.LogWindow.HEIGHT);
+        this.windowSource = windowSource;
+        this.windowSource.registerListener(this);
+
+        logContent = new TextArea("");
+        logContent.setSize(Constants.LogWindow.WIDTH, Constants.LogWindow.HEIGHT);
 
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(m_logContent, BorderLayout.CENTER);
+        panel.add(logContent, BorderLayout.CENTER);
         getContentPane().add(panel);
         pack();
         updateLogContent();
@@ -31,7 +31,7 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
         setExitDialog();
     }
 
-    private void setExitDialog(){
+    private void setExitDialog() {
         setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
 
         addInternalFrameListener(new InternalFrameAdapter() {
@@ -50,7 +50,7 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
                 if (decision == 0) {
                     //e.getInternalFrame().setVisible(false);
                     e.getInternalFrame().dispose();
-                    m_logSource.unregisterListener((LogChangeListener) e.getInternalFrame());
+                    windowSource.unregisterListener((LogChangeListener) e.getInternalFrame());
                 }
             }
         });
@@ -58,11 +58,11 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
 
     private void updateLogContent() {
         StringBuilder content = new StringBuilder();
-        for (LogEntry entry : m_logSource.all()) {
+        for (LogEntry entry : windowSource.getLogEntries()) {
             content.append(entry.getMessage()).append("\n");
         }
-        m_logContent.setText(content.toString());
-        m_logContent.invalidate();
+        logContent.setText(content.toString());
+        logContent.invalidate();
     }
 
     @Override
