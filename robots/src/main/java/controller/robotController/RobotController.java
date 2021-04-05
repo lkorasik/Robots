@@ -34,7 +34,7 @@ public class RobotController {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                robotLogic.onModelUpdateEvent();
+                robotLogic.onModelUpdateEvent(robotVisualizer.getWidth(), robotVisualizer.getHeight());
             }
         }, 0, 10);
 
