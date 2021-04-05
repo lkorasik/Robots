@@ -58,9 +58,9 @@ public class RobotVisualizer extends JPanel {
         super.paint(graphics);
         Graphics2D g2d = (Graphics2D) graphics;
         drawRobot(g2d, RobotLogic.round(
-                robotLogic.getM_robotPositionX()),
-                RobotLogic.round(robotLogic.getM_robotPositionY()),
-                robotLogic.getM_robotDirection());
-        drawTarget(g2d, robotLogic.getM_targetPositionX(), robotLogic.getM_targetPositionY());
+                robotLogic.getRobotPositionX()),
+                RobotLogic.round(robotLogic.getRobotPositionY()),
+                robotLogic.getRobotDirection());
+        drawTarget(g2d, robotLogic.getTargetPositionX(), robotLogic.getTargetPositionY());
     }
 }

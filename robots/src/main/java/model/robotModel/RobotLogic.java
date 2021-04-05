@@ -9,16 +9,16 @@ import lombok.Getter;
 public class RobotLogic {
 
     @Getter
-    private volatile double m_robotPositionX = 100;
+    private volatile double robotPositionX = 100;
     @Getter
-    private volatile double m_robotPositionY = 100;
+    private volatile double robotPositionY = 100;
     @Getter
-    private volatile double m_robotDirection = 0;
+    private volatile double robotDirection = 0;
 
     @Getter
-    private volatile int m_targetPositionX = 150;
+    private volatile int targetPositionX = 150;
     @Getter
-    private volatile int m_targetPositionY = 100;
+    private volatile int targetPositionY = 100;
 
     private static double distance(double x1, double y1, double x2, double y2) {
         double diffX = x1 - x2;
@@ -37,23 +37,23 @@ public class RobotLogic {
     private void moveRobot(double velocity, double angularVelocity, double duration) {
         //Сохрани поворот
         //чтоб не мог исчезнуть за границей
-        m_robotDirection = getDirectionToTarget(m_targetPositionX, m_targetPositionY, m_robotPositionX, m_robotPositionY);
+        robotDirection = getDirectionToTarget(targetPositionX, targetPositionY, robotPositionX, robotPositionY);
         velocity = applyLimits(velocity, 0, Constants.Robot.MAX_VELOCITY);
         angularVelocity = applyLimits(angularVelocity, -Constants.Robot.MAX_ANGULAR_VELOCITY, Constants.Robot.MAX_ANGULAR_VELOCITY);
-        double newX = m_robotPositionX + velocity / angularVelocity *
-                (Math.sin(m_robotDirection + angularVelocity * duration) -
-                        Math.sin(m_robotDirection));
+        double newX = robotPositionX + velocity / angularVelocity *
+                (Math.sin(robotDirection + angularVelocity * duration) -
+                        Math.sin(robotDirection));
         if (!Double.isFinite(newX))
-            newX = m_robotPositionX + velocity * duration * Math.cos(m_robotDirection);
+            newX = robotPositionX + velocity * duration * Math.cos(robotDirection);
 
-        double newY = m_robotPositionY - velocity / angularVelocity *
-                (Math.cos(m_robotDirection + angularVelocity * duration) -
-                        Math.cos(m_robotDirection));
+        double newY = robotPositionY - velocity / angularVelocity *
+                (Math.cos(robotDirection + angularVelocity * duration) -
+                        Math.cos(robotDirection));
         if (!Double.isFinite(newY))
-            newY = m_robotPositionY + velocity * duration * Math.sin(m_robotDirection);
+            newY = robotPositionY + velocity * duration * Math.sin(robotDirection);
 
-        m_robotPositionX = newX;
-        m_robotPositionY = newY;
+        robotPositionX = newX;
+        robotPositionY = newY;
 
     }
 
@@ -86,23 +86,23 @@ public class RobotLogic {
     }
 
     public void setTargetPosition(Point p) {
-        m_targetPositionX = p.x;
-        m_targetPositionY = p.y;
+        targetPositionX = p.x;
+        targetPositionY = p.y;
     }
 
     public void onModelUpdateEvent() {
-        double distance = distance(m_targetPositionX, m_targetPositionY,
-                m_robotPositionX, m_robotPositionY);
+        double distance = distance(targetPositionX, targetPositionY,
+                robotPositionX, robotPositionY);
         if (distance < 0.5) {
             return;
         }
         double velocity = Constants.Robot.MAX_VELOCITY;
-        double angleToTarget = angleTo(m_robotPositionX, m_robotPositionY, m_targetPositionX, m_targetPositionY);
+        double angleToTarget = angleTo(robotPositionX, robotPositionY, targetPositionX, targetPositionY);
         double angularVelocity = 0;
-        if (angleToTarget > m_robotDirection) {
+        if (angleToTarget > robotDirection) {
             angularVelocity = Constants.Robot.MAX_ANGULAR_VELOCITY;
         }
-        if (angleToTarget < m_robotDirection) {
+        if (angleToTarget < robotDirection) {
             angularVelocity = -Constants.Robot.MAX_ANGULAR_VELOCITY;
         }
 
