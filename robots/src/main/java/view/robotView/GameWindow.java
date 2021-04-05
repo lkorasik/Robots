@@ -1,4 +1,8 @@
-package gui;
+package view.robotView;
+
+import controller.robotController.RobotController;
+import model.Constants;
+import model.robotModel.RobotLogic;
 
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
@@ -6,13 +10,14 @@ import javax.swing.event.InternalFrameEvent;
 import java.awt.*;
 
 public class GameWindow extends JInternalFrame {
-    private final GameVisualizer m_visualizer;
+    private final RobotVisualizer robotVisualizer;
 
-    public GameWindow() {
+    public GameWindow(RobotController robotController, RobotLogic robotLogic) {
         super(Constants.GameWindow.WINDOW_TITLE, true, true, true, true);
-        m_visualizer = new GameVisualizer();
+        robotVisualizer = new RobotVisualizer(robotController, robotLogic);
+
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(m_visualizer, BorderLayout.CENTER);
+        panel.add(robotVisualizer, BorderLayout.CENTER);
         getContentPane().add(panel);
         pack();
 

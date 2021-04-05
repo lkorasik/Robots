@@ -1,6 +1,11 @@
-package gui;
+package view;
 
-import log.Logger;
+import controller.robotController.RobotController;
+import controller.LogController.Logger;
+import model.Constants;
+import model.robotModel.RobotLogic;
+import view.logView.LogWindow;
+import view.robotView.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +21,7 @@ import java.awt.event.WindowEvent;
 public class MainApplicationFrame extends JFrame {
     private final JDesktopPane desktopPane = new JDesktopPane();
 
-    public MainApplicationFrame() {
+    public MainApplicationFrame(RobotController robotController, RobotLogic robotLogic) {
         //Make the big window be indented 50 pixels from each edge
         //of the screen.
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -24,13 +29,12 @@ public class MainApplicationFrame extends JFrame {
                 Constants.MainApplicationFrame.INSET,
                 screenSize.width - Constants.MainApplicationFrame.INSET * 2,
                 screenSize.height - Constants.MainApplicationFrame.INSET * 2);
-
         setContentPane(desktopPane);
 
         LogWindow logWindow = createLogWindow();
         addWindow(logWindow);
 
-        GameWindow gameWindow = new GameWindow();
+        GameWindow gameWindow = new GameWindow(robotController, robotLogic);
         gameWindow.setSize(Constants.MainApplicationFrame.WIDTH, Constants.MainApplicationFrame.HEIGHT);
         addWindow(gameWindow);
 
@@ -40,7 +44,7 @@ public class MainApplicationFrame extends JFrame {
         setExitDialog();
     }
 
-    private void setExitDialog(){
+    private void setExitDialog() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         addWindowListener(new WindowAdapter() {
@@ -78,35 +82,6 @@ public class MainApplicationFrame extends JFrame {
         desktopPane.add(frame);
         frame.setVisible(true);
     }
-
-//    protected JMenuBar createMenuBar() {
-//        JMenuBar menuBar = new JMenuBar();
-// 
-//        //Set up the lone menu.
-//        JMenu menu = new JMenu("Document");
-//        menu.setMnemonic(KeyEvent.VK_D);
-//        menuBar.add(menu);
-// 
-//        //Set up the first menu item.
-//        JMenuItem menuItem = new JMenuItem("New");
-//        menuItem.setMnemonic(KeyEvent.VK_N);
-//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-//                KeyEvent.VK_N, ActionEvent.ALT_MASK));
-//        menuItem.setActionCommand("new");
-////        menuItem.addActionListener(this);
-//        menu.add(menuItem);
-// 
-//        //Set up the second menu item.
-//        menuItem = new JMenuItem("Quit");
-//        menuItem.setMnemonic(KeyEvent.VK_Q);
-//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-//                KeyEvent.VK_Q, ActionEvent.ALT_MASK));
-//        menuItem.setActionCommand("quit");
-////        menuItem.addActionListener(this);
-//        menu.add(menuItem);
-// 
-//        return menuBar;
-//    }
 
     private JMenuBar generateMenuBar() {
         JMenuBar menuBar = new JMenuBar();
@@ -179,4 +154,33 @@ public class MainApplicationFrame extends JFrame {
             // just ignore
         }
     }
+
+    //    protected JMenuBar createMenuBar() {
+//        JMenuBar menuBar = new JMenuBar();
+//
+//        //Set up the lone menu.
+//        JMenu menu = new JMenu("Document");
+//        menu.setMnemonic(KeyEvent.VK_D);
+//        menuBar.add(menu);
+//
+//        //Set up the first menu item.
+//        JMenuItem menuItem = new JMenuItem("New");
+//        menuItem.setMnemonic(KeyEvent.VK_N);
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+//                KeyEvent.VK_N, ActionEvent.ALT_MASK));
+//        menuItem.setActionCommand("new");
+////        menuItem.addActionListener(this);
+//        menu.add(menuItem);
+//
+//        //Set up the second menu item.
+//        menuItem = new JMenuItem("Quit");
+//        menuItem.setMnemonic(KeyEvent.VK_Q);
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+//                KeyEvent.VK_Q, ActionEvent.ALT_MASK));
+//        menuItem.setActionCommand("quit");
+////        menuItem.addActionListener(this);
+//        menu.add(menuItem);
+//
+//        return menuBar;
+//    }
 }
