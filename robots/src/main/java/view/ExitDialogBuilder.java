@@ -23,7 +23,7 @@ public class ExitDialogBuilder {
                 var decision = JOptionPane
                         .showOptionDialog(
                                 e.getInternalFrame(),
-                                Constants.ExitPaneOptions.WINDOW_TITLE,
+                                Constants.ExitPaneOptions.WINDOW_MESSAGE,
                                 Constants.ExitPaneOptions.WINDOW_TITLE,
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.QUESTION_MESSAGE,
