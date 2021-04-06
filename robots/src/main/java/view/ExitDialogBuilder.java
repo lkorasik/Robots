@@ -30,7 +30,7 @@ public class ExitDialogBuilder {
                                 null,
                                 options,
                                 options[0]);
-                if (decision == 0) {
+                if (decision == JOptionPane.YES_OPTION) {
                     e.getInternalFrame().dispose();
 
                     if (source != null)
@@ -55,7 +55,7 @@ public class ExitDialogBuilder {
                                 null,
                                 options,
                                 options[0]);
-                if (decision == 0) {
+                if (decision == JOptionPane.YES_OPTION) {
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 }
             }
