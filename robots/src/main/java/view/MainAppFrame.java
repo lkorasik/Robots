@@ -3,6 +3,7 @@ package view;
 import controller.LogController.Logger;
 import controller.robotController.RobotController;
 import model.Constants;
+import model.property.PropertyWorker;
 import model.robotModel.RobotLogic;
 import view.logFrame.LogFrame;
 import view.menu.MenuInternalItem;
@@ -16,7 +17,6 @@ import java.awt.event.KeyEvent;
 
 
 public class MainAppFrame extends JFrame {
-
     private final JDesktopPane desktopPane = new JDesktopPane();
 
     public MainAppFrame(RobotController robotController, RobotLogic robotLogic) {
@@ -32,8 +32,12 @@ public class MainAppFrame extends JFrame {
         LogFrame logWindow = createLogWindow();
         addWindow(logWindow);
 
+        var configuration = PropertyWorker.load();
+
         GameFrame gameFrame = new GameFrame(robotController, robotLogic);
-        gameFrame.setSize(Constants.MainApplicationFrame.WIDTH, Constants.MainApplicationFrame.HEIGHT);
+        //gameFrame.setSize(Constants.MainApplicationFrame.WIDTH, Constants.MainApplicationFrame.HEIGHT);
+        gameFrame.setSize(configuration.gameFrameWidth, configuration.logFrameHeight);
+        gameFrame.setLocation(configuration.gameFramePositionX, configuration.gameFramePositionY);
         addWindow(gameFrame);
 
         setJMenuBar(createMenuBar());

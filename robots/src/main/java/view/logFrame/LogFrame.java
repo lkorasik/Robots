@@ -13,13 +13,17 @@ public class LogFrame extends JInternalFrame implements LogChangeListener {
     private LogWindowSource windowSource;
     private TextArea logContent;
 
-    public LogFrame(LogWindowSource windowSource) {
+    public LogFrame(LogWindowSource windowSource, int x, int y, int width, int height) {
         super(Constants.LogWindow.WINDOW_TITLE, true, true, true, true);
         this.windowSource = windowSource;
         this.windowSource.registerListener(this);
 
+        setLocation(x, y);
+
         logContent = new TextArea("");
-        logContent.setSize(Constants.LogWindow.WIDTH, Constants.LogWindow.HEIGHT);
+        //logContent.setSize(Constants.LogWindow.WIDTH, Constants.LogWindow.HEIGHT);
+        logContent.setSize(width, height);
+        setSize(width, height);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(logContent, BorderLayout.CENTER);
