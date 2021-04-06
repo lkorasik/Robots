@@ -1,7 +1,7 @@
 package controller.LogController;
 
-import model.logModel.LogChangeListener;
 import lombok.Getter;
+import model.logModel.LogChangeListener;
 import model.logModel.LogEntry;
 import model.logModel.LogType;
 
@@ -19,8 +19,6 @@ import java.util.List;
  * ограниченного размера)
  */
 public class LogWindowSource {
-
-
     @Getter
     private List<LogEntry> logEntries;
     private final List<LogChangeListener> listeners;
