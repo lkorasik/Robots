@@ -10,11 +10,10 @@ public enum LogType {
     Error(4),
     Fatal(5);
 
-
     @Getter
     private int type;
 
-    private LogType(int type) {       // конструктор для энума? -> зачем? и почему он private
+    LogType(int type) {       // конструктор для энума? -> зачем? и почему он private
         this.type = type;
     }
 }
