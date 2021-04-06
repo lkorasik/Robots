@@ -15,7 +15,7 @@ public class ExitDialogBuilder {
     private WindowAdapter windowAdapter;
     private LogWindowSource source;
 
-    public ExitDialogBuilder(){
+    public ExitDialogBuilder() {
         internalFrameAdapter = new InternalFrameAdapter() {
             @Override
             public void internalFrameClosing(InternalFrameEvent e) {
@@ -33,14 +33,14 @@ public class ExitDialogBuilder {
                 if (decision == 0) {
                     e.getInternalFrame().dispose();
 
-                    if(source != null)
+                    if (source != null)
                         source.unregisterListener((LogChangeListener) e.getInternalFrame());
                 }
             }
         };
     }
 
-    public ExitDialogBuilder(JFrame frame){
+    public ExitDialogBuilder(JFrame frame) {
         windowAdapter = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -62,17 +62,17 @@ public class ExitDialogBuilder {
         };
     }
 
-    public ExitDialogBuilder setSource(LogWindowSource source){
+    public ExitDialogBuilder setSource(LogWindowSource source) {
         this.source = source;
 
         return this;
     }
 
-    public InternalFrameAdapter buildInternalFrameAdapter(){
+    public InternalFrameAdapter buildInternalFrameAdapter() {
         return internalFrameAdapter;
     }
 
-    public WindowAdapter buildWindowAdapter(){
+    public WindowAdapter buildWindowAdapter() {
         return windowAdapter;
     }
 }

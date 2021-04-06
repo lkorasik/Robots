@@ -4,13 +4,12 @@ import controller.robotController.RobotController;
 import controller.LogController.Logger;
 import model.Constants;
 import model.robotModel.RobotLogic;
-import view.logView.LogWindow;
-import view.robotView.GameWindow;
+import view.logFrame.LogFrame;
+import view.robotFrame.GameFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
@@ -31,10 +30,10 @@ public class MainApplicationFrame extends JFrame {
                 screenSize.height - Constants.MainApplicationFrame.INSET * 2);
         setContentPane(desktopPane);
 
-        LogWindow logWindow = createLogWindow();
+        var logWindow = createLogWindow();
         addWindow(logWindow);
 
-        GameWindow gameWindow = new GameWindow(robotController, robotLogic);
+        var gameWindow = new GameFrame(robotController, robotLogic);
         gameWindow.setSize(Constants.MainApplicationFrame.WIDTH, Constants.MainApplicationFrame.HEIGHT);
         addWindow(gameWindow);
 
@@ -72,8 +71,8 @@ public class MainApplicationFrame extends JFrame {
         addWindowListener(new ExitDialogBuilder(this).buildWindowAdapter());
     }
 
-    protected LogWindow createLogWindow() {
-        LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
+    protected LogFrame createLogWindow() {
+        var logWindow = new LogFrame(Logger.getDefaultLogSource());
         logWindow.setLocation(10, 10);
         logWindow.setSize(300, 800);
         setMinimumSize(logWindow.getSize());

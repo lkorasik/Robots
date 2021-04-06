@@ -23,25 +23,8 @@ public class GameFrame extends JInternalFrame {
         setCloseDialog();
     }
 
-    private void setCloseDialog(){
+    private void setCloseDialog() {
         setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
-
-        /*
-        addInternalFrameListener(new InternalFrameAdapter() {
-            public void internalFrameClosing(InternalFrameEvent e) {
-                Object[] options = {Constants.ExitPaneOptions.YES, Constants.ExitPaneOptions.NO};
-                var decision = JOptionPane
-                        .showOptionDialog(e.getInternalFrame(), Constants.ExitPaneOptions.WINDOW_MESSAGE,
-                                Constants.ExitPaneOptions.WINDOW_TITLE, JOptionPane.YES_NO_OPTION,
-                                JOptionPane.QUESTION_MESSAGE, null, options,
-                                options[0]);
-                if (decision == 0) {
-                    //e.getInternalFrame().setVisible(false);
-                    e.getInternalFrame().dispose();
-                }
-            }
-        });
-         */
 
         addInternalFrameListener(new ExitDialogBuilder().buildInternalFrameAdapter());
     }

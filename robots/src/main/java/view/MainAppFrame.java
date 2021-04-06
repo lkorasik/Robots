@@ -1,7 +1,7 @@
 package view;
 
-import controller.robotController.RobotController;
 import controller.LogController.Logger;
+import controller.robotController.RobotController;
 import model.Constants;
 import model.robotModel.RobotLogic;
 import view.logFrame.LogFrame;
@@ -92,7 +92,7 @@ public class MainAppFrame extends JFrame {
         return menuBar;
     }
 
-    private view.menu.MenuItem createThemeMenuItem() {
+    private MenuItem createThemeMenuItem() {
         var menuItem = new MenuItem(
                 Constants.MainApplicationFrame.DISPLAY_MODE_MENU,
                 Constants.MainApplicationFrame.DISPLAY_MODE_MENU_DESCRIPTION,
@@ -110,7 +110,7 @@ public class MainAppFrame extends JFrame {
         return menuItem;
     }
 
-    private view.menu.MenuItem createLogMenuItem() {
+    private MenuItem createLogMenuItem() {
         var logMenuItem = new MenuItem(
                 Constants.MainApplicationFrame.TEST_MENU,
                 Constants.MainApplicationFrame.TEST_MENU_DESCRIPTION,
@@ -123,7 +123,7 @@ public class MainAppFrame extends JFrame {
         return logMenuItem;
     }
 
-    private view.menu.MenuItem createProgramMenuItem() {
+    private MenuItem createProgramMenuItem() {
         var programMenuItem = new MenuItem(
                 Constants.MainApplicationFrame.PROGRAM_MENU,
                 Constants.MainApplicationFrame.PROGRAM_MENU_DESCRIPTION,
@@ -136,32 +136,34 @@ public class MainAppFrame extends JFrame {
         return programMenuItem;
     }
 
-    //    protected JMenuBar createMenuBar() {
-//        JMenuBar menuBar = new JMenuBar();
-//
-//        //Set up the lone menu.
-//        JMenu menu = new JMenu("Document");
-//        menu.setMnemonic(KeyEvent.VK_D);
-//        menuBar.add(menu);
-//
-//        //Set up the first menu item.
-//        JMenuItem menuItem = new JMenuItem("New");
-//        menuItem.setMnemonic(KeyEvent.VK_N);
-//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-//                KeyEvent.VK_N, ActionEvent.ALT_MASK));
-//        menuItem.setActionCommand("new");
-////        menuItem.addActionListener(this);
-//        menu.add(menuItem);
-//
-//        //Set up the second menu item.
-//        menuItem = new JMenuItem("Quit");
-//        menuItem.setMnemonic(KeyEvent.VK_Q);
-//        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-//                KeyEvent.VK_Q, ActionEvent.ALT_MASK));
-//        menuItem.setActionCommand("quit");
-////        menuItem.addActionListener(this);
-//        menu.add(menuItem);
-//
-//        return menuBar;
-//    }
+    /*
+    protected JMenuBar createMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+
+        //Set up the lone menu.
+        JMenu menu = new JMenu("Document");
+        menu.setMnemonic(KeyEvent.VK_D);
+        menuBar.add(menu);
+
+        //Set up the first menu item.
+        JMenuItem menuItem = new JMenuItem("New");
+        menuItem.setMnemonic(KeyEvent.VK_N);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_N, ActionEvent.ALT_MASK));
+        menuItem.setActionCommand("new");
+//        menuItem.addActionListener(this);
+        menu.add(menuItem);
+
+        //Set up the second menu item.
+        menuItem = new JMenuItem("Quit");
+        menuItem.setMnemonic(KeyEvent.VK_Q);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_Q, ActionEvent.ALT_MASK));
+        menuItem.setActionCommand("quit");
+//        menuItem.addActionListener(this);
+        menu.add(menuItem);
+
+        return menuBar;
+    }
+     */
 }
