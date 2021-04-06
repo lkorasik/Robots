@@ -1,7 +1,7 @@
 package controller.robotController;
 
 import model.robotModel.RobotLogic;
-import view.robotView.RobotVisualizer;
+import view.robotFrame.RobotVisualizer;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -34,7 +34,7 @@ public class RobotController {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                robotLogic.onModelUpdateEvent();
+                robotLogic.onModelUpdateEvent(robotVisualizer.getWidth(), robotVisualizer.getHeight());
             }
         }, 0, 10);
 

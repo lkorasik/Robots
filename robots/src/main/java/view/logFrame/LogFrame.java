@@ -1,4 +1,4 @@
-package view.logView;
+package view.logFrame;
 
 import model.logModel.LogChangeListener;
 import model.logModel.LogEntry;
@@ -9,11 +9,11 @@ import view.ExitDialogBuilder;
 import javax.swing.*;
 import java.awt.*;
 
-public class LogWindow extends JInternalFrame implements LogChangeListener {
+public class LogFrame extends JInternalFrame implements LogChangeListener {
     private LogWindowSource windowSource;
     private TextArea logContent;
 
-    public LogWindow(LogWindowSource windowSource) {
+    public LogFrame(LogWindowSource windowSource) {
         super(Constants.LogWindow.WINDOW_TITLE, true, true, true, true);
         this.windowSource = windowSource;
         this.windowSource.registerListener(this);
