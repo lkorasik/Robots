@@ -13,12 +13,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-/**
+/**JFrame
  * Что требуется сделать:
  * 1. Метод создания меню перегружен функционалом и трудно читается.
  * Следует разделить его на серию более простых методов (или вообще выделить отдельный класс).
  */
 public class MainApplicationFrame extends JFrame {
+
+
     private final JDesktopPane desktopPane = new JDesktopPane();
 
     public MainApplicationFrame(RobotController robotController, RobotLogic robotLogic) {
@@ -86,38 +88,21 @@ public class MainApplicationFrame extends JFrame {
     private JMenuBar generateMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
-        menuBar.add(getLookAndFeel());
+        var menuItem = new Menu(
+                Constants.MainApplicationFrame.DISPLAY_MODE_MENU,
+                Constants.MainApplicationFrame.DISPLAY_MODE_MENU_DESCRIPTION,
+                KeyEvent.VK_V);
+        menuItem.add(new MenuItem(Constants.MainApplicationFrame.SYSTEM_SCHEME, KeyEvent.VK_S));
+        menuItem.add(new MenuItem(Constants.MainApplicationFrame.EXIT_MENU, KeyEvent.VK_S));
+
+
+        menuBar.add(menuItem);
         menuBar.add(getTestMenu());
         return menuBar;
     }
 
-    private JMenu getLookAndFeel() {
-        JMenu lookAndFeelMenu = new JMenu(Constants.MainApplicationFrame.DISPLAY_MODE_MENU);
-        lookAndFeelMenu.setMnemonic(KeyEvent.VK_V);
-        lookAndFeelMenu.getAccessibleContext().setAccessibleDescription(Constants.MainApplicationFrame.DISPLAY_MODE_MENU_DESCRIPTION);
 
-        lookAndFeelMenu.add(getSystemLookAndFeel());
-        lookAndFeelMenu.add(getCrossPlatformLookAndFeel());
-        lookAndFeelMenu.add(getExitItem());
-        return lookAndFeelMenu;
-    }
 
-    private JMenuItem getSystemLookAndFeel() {
-        JMenuItem systemLookAndFeel = new JMenuItem(Constants.MainApplicationFrame.SYSTEM_SCHEME, KeyEvent.VK_S);
-        systemLookAndFeel.addActionListener((event) -> {
-            setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            this.invalidate();
-        });
-        return systemLookAndFeel;
-    }
-
-    private JMenuItem getExitItem() {
-        JMenuItem exit = new JMenuItem(Constants.MainApplicationFrame.EXIT_MENU, KeyEvent.VK_S);
-        exit.addActionListener(e -> {
-            this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-        });
-        return exit;
-    }
 
     private JMenuItem getCrossPlatformLookAndFeel() {
         JMenuItem crossPlatformLookAndFeel = new JMenuItem(Constants.MainApplicationFrame.UNIVERSAL_SCHEME, KeyEvent.VK_S);
@@ -127,6 +112,7 @@ public class MainApplicationFrame extends JFrame {
         });
         return crossPlatformLookAndFeel;
     }
+
 
     private JMenu getTestMenu() {
         JMenu testMenu = new JMenu(Constants.MainApplicationFrame.TEST_MENU);
@@ -145,15 +131,6 @@ public class MainApplicationFrame extends JFrame {
         return addLogMessageItem;
     }
 
-    private void setLookAndFeel(String className) {
-        try {
-            UIManager.setLookAndFeel(className);
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (ClassNotFoundException | InstantiationException
-                | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            // just ignore
-        }
-    }
 
     //    protected JMenuBar createMenuBar() {
 //        JMenuBar menuBar = new JMenuBar();

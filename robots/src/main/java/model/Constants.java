@@ -1,5 +1,7 @@
 package model;
 
+
+
 public class Constants {
     public static class MainApplicationFrame {
         public static final int WIDTH = 400;
@@ -12,7 +14,7 @@ public class Constants {
         public static final String LOG_MESSAGE = "Новая строка";
 
         public static final String DISPLAY_MODE_MENU = "Режим отображения";
-        public static final String DISPLAY_MODE_MENU_DESCRIPTION = "Управление режимом отображения приложения";
+        public static final String  DISPLAY_MODE_MENU_DESCRIPTION = "Управление режимом отображения приложения";
         public static final String UNIVERSAL_SCHEME = "Универсальная схема";
         public static final String SYSTEM_SCHEME = "Системная схема";
 
