@@ -1,4 +1,4 @@
-package view.robotView;
+package view.robotFrame;
 
 import controller.robotController.RobotController;
 import model.Constants;
@@ -9,10 +9,10 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import java.awt.*;
 
-public class GameWindow extends JInternalFrame {
+public class GameFrame extends JInternalFrame {
     private final RobotVisualizer robotVisualizer;
 
-    public GameWindow(RobotController robotController, RobotLogic robotLogic) {
+    public GameFrame(RobotController robotController, RobotLogic robotLogic) {
         super(Constants.GameWindow.WINDOW_TITLE, true, true, true, true);
         robotVisualizer = new RobotVisualizer(robotController, robotLogic);
 

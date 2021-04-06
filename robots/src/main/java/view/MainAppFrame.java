@@ -4,8 +4,11 @@ import controller.robotController.RobotController;
 import controller.LogController.Logger;
 import model.Constants;
 import model.robotModel.RobotLogic;
-import view.logView.LogWindow;
-import view.robotView.GameWindow;
+import view.logFrame.LogFrame;
+import view.menu.MenuInternalItem;
+import view.menu.MenuItem;
+import view.menu.TypeMenuItem;
+import view.robotFrame.GameFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,12 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-/**
- * JFrame
- * Что требуется сделать:
- * 1. Метод создания меню перегружен функционалом и трудно читается.
- * Следует разделить его на серию более простых методов (или вообще выделить отдельный класс).
- */
+
 public class MainAppFrame extends JFrame {
 
     private final JDesktopPane desktopPane = new JDesktopPane();
@@ -33,12 +31,12 @@ public class MainAppFrame extends JFrame {
                 screenSize.height - Constants.MainApplicationFrame.INSET * 2);
         setContentPane(desktopPane);
 
-        LogWindow logWindow = createLogWindow();
+        LogFrame logWindow = createLogWindow();
         addWindow(logWindow);
 
-        GameWindow gameWindow = new GameWindow(robotController, robotLogic);
-        gameWindow.setSize(Constants.MainApplicationFrame.WIDTH, Constants.MainApplicationFrame.HEIGHT);
-        addWindow(gameWindow);
+        GameFrame gameFrame = new GameFrame(robotController, robotLogic);
+        gameFrame.setSize(Constants.MainApplicationFrame.WIDTH, Constants.MainApplicationFrame.HEIGHT);
+        addWindow(gameFrame);
 
         setJMenuBar(createMenuBar());
 
@@ -69,15 +67,15 @@ public class MainAppFrame extends JFrame {
         });
     }
 
-    protected LogWindow createLogWindow() {
-        LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
-        logWindow.setLocation(10, 10);
-        logWindow.setSize(300, 800);
-        setMinimumSize(logWindow.getSize());
-        logWindow.pack();
+    protected LogFrame createLogWindow() {
+        LogFrame logFrame = new LogFrame(Logger.getDefaultLogSource());
+        logFrame.setLocation(10, 10);
+        logFrame.setSize(300, 800);
+        setMinimumSize(logFrame.getSize());
+        logFrame.pack();
         Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
 
-        return logWindow;
+        return logFrame;
     }
 
     protected void addWindow(JInternalFrame frame) {
@@ -94,11 +92,11 @@ public class MainAppFrame extends JFrame {
         return menuBar;
     }
 
-    private MenuItem createThemeMenuItem() {
+    private view.menu.MenuItem createThemeMenuItem() {
         var menuItem = new MenuItem(
                 Constants.MainApplicationFrame.DISPLAY_MODE_MENU,
                 Constants.MainApplicationFrame.DISPLAY_MODE_MENU_DESCRIPTION,
-                KeyEvent.VK_V);
+                KeyEvent.VK_T);
         menuItem.add(new MenuInternalItem(
                 Constants.MainApplicationFrame.SYSTEM_SCHEME,
                 KeyEvent.VK_S,
@@ -112,11 +110,11 @@ public class MainAppFrame extends JFrame {
         return menuItem;
     }
 
-    private MenuItem createLogMenuItem() {
+    private view.menu.MenuItem createLogMenuItem() {
         var logMenuItem = new MenuItem(
                 Constants.MainApplicationFrame.TEST_MENU,
                 Constants.MainApplicationFrame.TEST_MENU_DESCRIPTION,
-                KeyEvent.VK_T);
+                KeyEvent.VK_L);
         logMenuItem.add(new MenuInternalItem(
                 Constants.MainApplicationFrame.TESTS_MESSAGE_TO_LOG,
                 KeyEvent.VK_S,
@@ -125,11 +123,11 @@ public class MainAppFrame extends JFrame {
         return logMenuItem;
     }
 
-    private MenuItem createProgramMenuItem() {
+    private view.menu.MenuItem createProgramMenuItem() {
         var programMenuItem = new MenuItem(
-                "Программа",
-                "",
-                KeyEvent.VK_V);
+                Constants.MainApplicationFrame.PROGRAM_MENU,
+                Constants.MainApplicationFrame.PROGRAM_MENU_DESCRIPTION,
+                KeyEvent.VK_P);
         programMenuItem.add(new MenuInternalItem(
                 Constants.MainApplicationFrame.EXIT_MENU,
                 KeyEvent.VK_S,

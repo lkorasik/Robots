@@ -1,7 +1,8 @@
-package view;
+package view.menu;
 
 import controller.LogController.Logger;
 import model.Constants;
+import view.MainAppFrame;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
@@ -34,8 +35,7 @@ public class MenuInternalItem extends JMenuItem {
             UIManager.setLookAndFeel(className);
             SwingUtilities.updateComponentTreeUI(mainAppFrame);
         } catch (ClassNotFoundException | InstantiationException
-                | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            //
+                | IllegalAccessException | UnsupportedLookAndFeelException ignored) {
         }
     }
 }

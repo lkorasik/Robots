@@ -1,8 +1,7 @@
-package view;
+package view.menu;
 
 public enum TypeMenuItem {
     EXIT,
-    THEME,
     LOG,
     THEME_UNIVERSAL,
     THEME_SYSTEM,

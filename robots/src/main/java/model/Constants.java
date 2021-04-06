@@ -9,6 +9,8 @@ public class Constants {
         public static final int INSET = 50;
 
         public static final String TEST_MENU = "Тесты";
+        public static final String PROGRAM_MENU = "Программа";
+        public static final String PROGRAM_MENU_DESCRIPTION = "Настройки программы";
         public static final String TEST_MENU_DESCRIPTION = "Тестовые команды";
         public static final String TESTS_MESSAGE_TO_LOG = "Сообщение в лог";
         public static final String LOG_MESSAGE = "Новая строка";
