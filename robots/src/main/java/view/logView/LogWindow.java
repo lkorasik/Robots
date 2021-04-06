@@ -4,10 +4,9 @@ import model.logModel.LogChangeListener;
 import model.logModel.LogEntry;
 import controller.LogController.LogWindowSource;
 import model.Constants;
+import view.ExitDialogBuilder;
 
 import javax.swing.*;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
 import java.awt.*;
 
 public class LogWindow extends JInternalFrame implements LogChangeListener {
@@ -34,6 +33,7 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
     private void setExitDialog() {
         setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
 
+        /*
         addInternalFrameListener(new InternalFrameAdapter() {
             public void internalFrameClosing(InternalFrameEvent e) {
                 Object[] options = {Constants.ExitPaneOptions.YES, Constants.ExitPaneOptions.NO};
@@ -54,6 +54,9 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
                 }
             }
         });
+         */
+
+        addInternalFrameListener(new ExitDialogBuilder().setSource(windowSource).buildInternalFrameAdapter());
     }
 
     private void updateLogContent() {

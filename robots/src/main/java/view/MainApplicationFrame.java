@@ -47,6 +47,7 @@ public class MainApplicationFrame extends JFrame {
     private void setExitDialog() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
+        /*
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -66,6 +67,9 @@ public class MainApplicationFrame extends JFrame {
                 }
             }
         });
+         */
+
+        addWindowListener(new ExitDialogBuilder(this).buildWindowAdapter());
     }
 
     protected LogWindow createLogWindow() {

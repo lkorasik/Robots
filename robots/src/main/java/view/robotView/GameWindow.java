@@ -3,10 +3,9 @@ package view.robotView;
 import controller.robotController.RobotController;
 import model.Constants;
 import model.robotModel.RobotLogic;
+import view.ExitDialogBuilder;
 
 import javax.swing.*;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
 import java.awt.*;
 
 public class GameWindow extends JInternalFrame {
@@ -27,6 +26,7 @@ public class GameWindow extends JInternalFrame {
     private void setCloseDialog(){
         setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
 
+        /*
         addInternalFrameListener(new InternalFrameAdapter() {
             public void internalFrameClosing(InternalFrameEvent e) {
                 Object[] options = {Constants.ExitPaneOptions.YES, Constants.ExitPaneOptions.NO};
@@ -41,5 +41,8 @@ public class GameWindow extends JInternalFrame {
                 }
             }
         });
+         */
+
+        addInternalFrameListener(new ExitDialogBuilder().buildInternalFrameAdapter());
     }
 }
