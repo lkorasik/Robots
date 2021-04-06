@@ -13,17 +13,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-/**JFrame
+/**
+ * JFrame
  * Что требуется сделать:
  * 1. Метод создания меню перегружен функционалом и трудно читается.
  * Следует разделить его на серию более простых методов (или вообще выделить отдельный класс).
  */
-public class MainApplicationFrame extends JFrame {
-
+public class MainAppFrame extends JFrame {
 
     private final JDesktopPane desktopPane = new JDesktopPane();
 
-    public MainApplicationFrame(RobotController robotController, RobotLogic robotLogic) {
+    public MainAppFrame(RobotController robotController, RobotLogic robotLogic) {
         //Make the big window be indented 50 pixels from each edge
         //of the screen.
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -40,8 +40,7 @@ public class MainApplicationFrame extends JFrame {
         gameWindow.setSize(Constants.MainApplicationFrame.WIDTH, Constants.MainApplicationFrame.HEIGHT);
         addWindow(gameWindow);
 
-        setJMenuBar(generateMenuBar());
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setJMenuBar(createMenuBar());
 
         setExitDialog();
     }
@@ -77,6 +76,7 @@ public class MainApplicationFrame extends JFrame {
         setMinimumSize(logWindow.getSize());
         logWindow.pack();
         Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
+
         return logWindow;
     }
 
@@ -85,52 +85,58 @@ public class MainApplicationFrame extends JFrame {
         frame.setVisible(true);
     }
 
-    private JMenuBar generateMenuBar() {
+    private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
+        menuBar.add(createProgramMenuItem());
+        menuBar.add(createThemeMenuItem());
+        menuBar.add(createLogMenuItem());
 
-        var menuItem = new Menu(
-                Constants.MainApplicationFrame.DISPLAY_MODE_MENU,
-                Constants.MainApplicationFrame.DISPLAY_MODE_MENU_DESCRIPTION,
-                KeyEvent.VK_V);
-        menuItem.add(new MenuItem(Constants.MainApplicationFrame.SYSTEM_SCHEME, KeyEvent.VK_S));
-        menuItem.add(new MenuItem(Constants.MainApplicationFrame.EXIT_MENU, KeyEvent.VK_S));
-
-
-        menuBar.add(menuItem);
-        menuBar.add(getTestMenu());
         return menuBar;
     }
 
-
-
-
-    private JMenuItem getCrossPlatformLookAndFeel() {
-        JMenuItem crossPlatformLookAndFeel = new JMenuItem(Constants.MainApplicationFrame.UNIVERSAL_SCHEME, KeyEvent.VK_S);
-        crossPlatformLookAndFeel.addActionListener((event) -> {
-            setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            this.invalidate();
-        });
-        return crossPlatformLookAndFeel;
+    private MenuItem createThemeMenuItem() {
+        var menuItem = new MenuItem(
+                Constants.MainApplicationFrame.DISPLAY_MODE_MENU,
+                Constants.MainApplicationFrame.DISPLAY_MODE_MENU_DESCRIPTION,
+                KeyEvent.VK_V);
+        menuItem.add(new MenuInternalItem(
+                Constants.MainApplicationFrame.SYSTEM_SCHEME,
+                KeyEvent.VK_S,
+                TypeMenuItem.THEME_SYSTEM,
+                this));
+        menuItem.add(new MenuInternalItem(
+                Constants.MainApplicationFrame.UNIVERSAL_SCHEME,
+                KeyEvent.VK_S,
+                TypeMenuItem.THEME_UNIVERSAL,
+                this));
+        return menuItem;
     }
 
-
-    private JMenu getTestMenu() {
-        JMenu testMenu = new JMenu(Constants.MainApplicationFrame.TEST_MENU);
-        testMenu.setMnemonic(KeyEvent.VK_T);
-        testMenu.getAccessibleContext().setAccessibleDescription(
-                Constants.MainApplicationFrame.TEST_MENU_DESCRIPTION);
-        testMenu.add(getLogMessageItem());
-        return testMenu;
+    private MenuItem createLogMenuItem() {
+        var logMenuItem = new MenuItem(
+                Constants.MainApplicationFrame.TEST_MENU,
+                Constants.MainApplicationFrame.TEST_MENU_DESCRIPTION,
+                KeyEvent.VK_T);
+        logMenuItem.add(new MenuInternalItem(
+                Constants.MainApplicationFrame.TESTS_MESSAGE_TO_LOG,
+                KeyEvent.VK_S,
+                TypeMenuItem.LOG,
+                this));
+        return logMenuItem;
     }
 
-    private JMenuItem getLogMessageItem() {
-        JMenuItem addLogMessageItem = new JMenuItem(Constants.MainApplicationFrame.TESTS_MESSAGE_TO_LOG, KeyEvent.VK_S);
-        addLogMessageItem.addActionListener((event) -> {
-            Logger.debug(Constants.MainApplicationFrame.LOG_MESSAGE);
-        });
-        return addLogMessageItem;
+    private MenuItem createProgramMenuItem() {
+        var programMenuItem = new MenuItem(
+                "Программа",
+                "",
+                KeyEvent.VK_V);
+        programMenuItem.add(new MenuInternalItem(
+                Constants.MainApplicationFrame.EXIT_MENU,
+                KeyEvent.VK_S,
+                TypeMenuItem.EXIT,
+                this));
+        return programMenuItem;
     }
-
 
     //    protected JMenuBar createMenuBar() {
 //        JMenuBar menuBar = new JMenuBar();
