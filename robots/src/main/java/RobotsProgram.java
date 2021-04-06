@@ -1,6 +1,6 @@
 import controller.robotController.RobotController;
 import model.robotModel.RobotLogic;
-import view.MainApplicationFrame;
+import view.MainAppFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,10 +19,10 @@ public class RobotsProgram {
 
         SwingUtilities.invokeLater(() -> {
             RobotLogic robotLogic = new RobotLogic();
-            MainApplicationFrame frame = new MainApplicationFrame(new RobotController(robotLogic), robotLogic);
-            frame.pack();
-            frame.setVisible(true);
-            frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+            MainAppFrame mainAppFrame = new MainAppFrame(new RobotController(robotLogic), robotLogic);
+            mainAppFrame.pack();
+            mainAppFrame.setVisible(true);
+            mainAppFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
         });
     }
 }

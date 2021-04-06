@@ -1,4 +1,4 @@
-package view.robotView;
+package view.robotFrame;
 
 import controller.robotController.RobotController;
 import model.robotModel.RobotLogic;
