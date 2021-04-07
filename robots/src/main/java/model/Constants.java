@@ -48,4 +48,16 @@ public class Constants {
         public static final double MAX_ANGULAR_VELOCITY = 0.001;
         public static final double DEFAULT_DURATION = 10d;
     }
+
+    public static class PropertyDefaultValues{
+        public static final int LOG_FRAME_POSITION_X = 20;
+        public static final int LOG_FRAME_POSITION_Y = 10;
+        public static final int LOG_FRAME_WIDTH = 300;
+        public static final int LOG_FRAME_HEIGHT = 500;
+
+        public static final int GAME_FRAME_POSITION_X = 340;
+        public static final int GAME_FRAME_POSITION_Y = 20;
+        public static final int GAME_FRAME_WIDTH = 500;
+        public static final int GAME_FRAME_HEIGHT = 800;
+    }
 }

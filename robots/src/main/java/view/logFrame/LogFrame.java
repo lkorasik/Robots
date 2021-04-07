@@ -19,7 +19,7 @@ public class LogFrame extends JInternalFrame implements LogChangeListener {
         this.windowSource.registerListener(this);
 
         logContent = new TextArea("");
-        logContent.setSize(Constants.LogWindow.WIDTH, Constants.LogWindow.HEIGHT);
+        //logContent.setSize(Constants.LogWindow.WIDTH, Constants.LogWindow.HEIGHT);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(logContent, BorderLayout.CENTER);
