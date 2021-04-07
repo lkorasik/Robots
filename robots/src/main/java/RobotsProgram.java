@@ -1,11 +1,9 @@
 import controller.robotController.RobotController;
-import model.property.PropertyWorker;
 import model.robotModel.RobotLogic;
 import view.MainAppFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 public class RobotsProgram {
     public static void main(String[] args) {

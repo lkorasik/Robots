@@ -3,6 +3,7 @@ package view;
 import controller.LogController.Logger;
 import controller.robotController.RobotController;
 import model.Constants;
+import model.property.PropertyContainer;
 import model.property.PropertyWorker;
 import model.robotModel.RobotLogic;
 import view.logFrame.LogFrame;
@@ -29,16 +30,11 @@ public class MainAppFrame extends JFrame {
                 screenSize.height - Constants.MainApplicationFrame.INSET * 2);
         setContentPane(desktopPane);
 
-        LogFrame logWindow = createLogWindow();
-        addWindow(logWindow);
-
         var configuration = PropertyWorker.load();
 
-        GameFrame gameFrame = new GameFrame(robotController, robotLogic);
-        //gameFrame.setSize(Constants.MainApplicationFrame.WIDTH, Constants.MainApplicationFrame.HEIGHT);
-        gameFrame.setSize(configuration.gameFrameWidth, configuration.logFrameHeight);
-        gameFrame.setLocation(configuration.gameFramePositionX, configuration.gameFramePositionY);
-        addWindow(gameFrame);
+        createLogWindow(configuration);
+
+        createGameWindow(configuration, robotController, robotLogic);
 
         setJMenuBar(createMenuBar());
 
@@ -51,20 +47,24 @@ public class MainAppFrame extends JFrame {
         addWindowListener(new ExitDialogBuilder(this).buildWindowAdapter());
     }
 
-    protected LogFrame createLogWindow() {
-        LogFrame logFrame = new LogFrame(Logger.getDefaultLogSource());
-        logFrame.setLocation(10, 10);
-        logFrame.setSize(300, 800);
-        setMinimumSize(logFrame.getSize());
-        logFrame.pack();
-        Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
-
-        return logFrame;
-    }
-
     protected void addWindow(JInternalFrame frame) {
         desktopPane.add(frame);
         frame.setVisible(true);
+    }
+
+    private void createGameWindow(PropertyContainer configuration, RobotController robotController, RobotLogic robotLogic){
+        GameFrame gameFrame = new GameFrame(robotController, robotLogic);
+        gameFrame.setSize(configuration.gameFrameWidth, configuration.gameFrameHeight);
+        gameFrame.setLocation(configuration.gameFramePositionX, configuration.gameFramePositionY);
+        addWindow(gameFrame);
+    }
+
+    private void createLogWindow(PropertyContainer configuration){
+        LogFrame logWindow = new LogFrame(Logger.getDefaultLogSource());
+        logWindow.setSize(configuration.logFrameWidth, configuration.logFrameHeight);
+        logWindow.setLocation(configuration.logFramePositionX, configuration.logFramePositionY);
+        addWindow(logWindow);
+        Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
     }
 
     private JMenuBar createMenuBar() {
