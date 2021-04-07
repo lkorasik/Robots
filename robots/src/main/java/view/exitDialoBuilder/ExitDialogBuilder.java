@@ -1,4 +1,4 @@
-package view;
+package view.exitDialoBuilder;
 
 import controller.LogController.LogWindowSource;
 import model.Constants;
@@ -10,12 +10,20 @@ import javax.swing.event.InternalFrameEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class ExitDialogBuilder {
+public class ExitDialogBuilder implements InternalExitDialogBuilder, WindowExitDialogBuilder {
     private InternalFrameAdapter internalFrameAdapter;
     private WindowAdapter windowAdapter;
     private LogWindowSource source;
 
-    public ExitDialogBuilder() {
+    public static InternalExitDialogBuilder getInstance(){
+        return (InternalExitDialogBuilder) new ExitDialogBuilder();
+    }
+
+    public static WindowExitDialogBuilder getInstance(JFrame frame){
+        return (WindowExitDialogBuilder) new ExitDialogBuilder(frame);
+    }
+
+    private ExitDialogBuilder() {
         internalFrameAdapter = new InternalFrameAdapter() {
             @Override
             public void internalFrameClosing(InternalFrameEvent e) {
@@ -40,7 +48,7 @@ public class ExitDialogBuilder {
         };
     }
 
-    public ExitDialogBuilder(JFrame frame) {
+    private ExitDialogBuilder(JFrame frame) {
         windowAdapter = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
