@@ -1,5 +1,8 @@
 package model.property;
 
+import lombok.Getter;
+import model.Constants;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -7,11 +10,11 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PropertyWorker {
-    private static final String filename = ".session";
+    private final String filename = ".session";
 
-    private static final String logFramePositionXKey = "logFramePositionX";
-    private static final String logFramePositionYKey = "logFramePositionY";
-    private static final String logFrameWidth = "logFrameWidth";
+    private final String logFramePositionXKey = "logFramePositionX";
+    private final String logFramePositionYKey = "logFramePositionY";
+    private final String logFrameWidth = "logFrameWidth";
     private static final String logFrameHeight = "logFrameHeight";
 
     private static final String gameFramePositionXKey = "gameFramePositionX";
@@ -19,32 +22,25 @@ public class PropertyWorker {
     private static final String gameFrameWidth = "gameFrameWidth";
     private static final String gameFrameHeight = "gameFrameHeight";
 
-    static {
+    public static final PropertyWorker instance = new PropertyWorker();
+    @Getter
+    private static boolean isFileCreated;
+
+    private PropertyWorker() {
+        isFileCreated = false;
+
         var file = new File(filename);
         if (!file.exists()) {
             try {
                 file.createNewFile();
+                isFileCreated = true;
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
-
-            var container = new PropertyContainer();
-
-            container.logFramePositionX = 20;
-            container.logFramePositionY = 10;
-            container.logFrameWidth = 300;
-            container.logFrameHeight = 500;
-
-            container.gameFramePositionX = 340;
-            container.gameFramePositionY = 20;
-            container.gameFrameWidth = 500;
-            container.gameFrameHeight = 800;
-
-            save(container);
         }
     }
 
-    public static void save(PropertyContainer container) {
+    public void save(PropertyContainer container) {
         Properties properties = new Properties();
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(filename)) {
@@ -63,7 +59,7 @@ public class PropertyWorker {
         }
     }
 
-    public static PropertyContainer load() {
+    public PropertyContainer load() {
         Properties properties = new Properties();
 
         PropertyContainer container = null;
@@ -72,18 +68,30 @@ public class PropertyWorker {
             properties.load(fileInputStream);
 
             container = new PropertyContainer();
-            container.logFramePositionX = Integer.parseInt(properties.getProperty(logFramePositionXKey));
-            container.logFramePositionY = Integer.parseInt(properties.getProperty(logFramePositionYKey));
-            container.logFrameWidth = Integer.parseInt(properties.getProperty(logFrameWidth));
-            container.logFrameHeight = Integer.parseInt(properties.getProperty(logFrameHeight));
-            container.gameFramePositionX = Integer.parseInt(properties.getProperty(gameFramePositionXKey));
-            container.gameFramePositionY = Integer.parseInt(properties.getProperty(gameFramePositionYKey));
-            container.gameFrameWidth = Integer.parseInt(properties.getProperty(gameFrameWidth));
-            container.gameFrameHeight = Integer.parseInt(properties.getProperty(gameFrameHeight));
+            container.logFramePositionX = tryParse(properties.getProperty(logFramePositionXKey), Constants.PropertyDefaultValues.LOG_FRAME_POSITION_X);
+            container.logFramePositionY = tryParse(properties.getProperty(logFramePositionYKey), Constants.PropertyDefaultValues.LOG_FRAME_POSITION_Y);
+            container.logFrameWidth = tryParse(properties.getProperty(logFrameWidth), Constants.PropertyDefaultValues.LOG_FRAME_WIDTH);
+            container.logFrameHeight = tryParse(properties.getProperty(logFrameHeight), Constants.PropertyDefaultValues.LOG_FRAME_HEIGHT);
+            container.gameFramePositionX = tryParse(properties.getProperty(gameFramePositionXKey), Constants.PropertyDefaultValues.GAME_FRAME_POSITION_X);
+            container.gameFramePositionY = tryParse(properties.getProperty(gameFramePositionYKey), Constants.PropertyDefaultValues.GAME_FRAME_POSITION_Y);
+            container.gameFrameWidth = tryParse(properties.getProperty(gameFrameWidth), Constants.PropertyDefaultValues.GAME_FRAME_WIDTH);
+            container.gameFrameHeight = tryParse(properties.getProperty(gameFrameHeight), Constants.PropertyDefaultValues.GAME_FRAME_HEIGHT);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return container;
+    }
+
+    private int tryParse(String property, int defaultValue) {
+        int value = 0;
+
+        try {
+            value = Integer.parseInt(property);
+        } catch (NumberFormatException exception) {
+            value = defaultValue;
+        }
+
+        return value;
     }
 }

@@ -35,7 +35,7 @@ public class MainAppFrame extends JFrame {
                 screenSize.height - Constants.MainApplicationFrame.INSET * 2);
         setContentPane(desktopPane);
 
-        var propertyContainer = PropertyWorker.load();
+        var propertyContainer = PropertyWorker.instance.load();
 
         logFrame = new LogFrame(Logger.getDefaultLogSource());
         createLogWindow(propertyContainer);
@@ -56,7 +56,7 @@ public class MainAppFrame extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 updateConfiguration(propertyContainer);
-                PropertyWorker.save(propertyContainer);
+                PropertyWorker.instance.save(propertyContainer);
             }
         });
     }
