@@ -6,6 +6,7 @@ import model.Constants;
 import model.property.PropertyContainer;
 import model.property.PropertyWorker;
 import model.robotModel.RobotLogic;
+import view.exitDialoBuilder.ExitDialogBuilder;
 import view.logFrame.LogFrame;
 import view.menu.MenuInternalItem;
 import view.menu.MenuItem;
@@ -44,7 +45,7 @@ public class MainAppFrame extends JFrame {
     private void setExitDialog() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        addWindowListener(new ExitDialogBuilder(this).buildWindowAdapter());
+        addWindowListener(ExitDialogBuilder.getInstance(this).buildWindowAdapter());
     }
 
     protected void addWindow(JInternalFrame frame) {
