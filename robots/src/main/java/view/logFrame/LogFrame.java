@@ -4,7 +4,7 @@ import controller.LogController.LogWindowSource;
 import model.Constants;
 import model.logModel.LogChangeListener;
 import model.logModel.LogEntry;
-import view.ExitDialogBuilder;
+import view.exitDialoBuilder.ExitDialogBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +33,7 @@ public class LogFrame extends JInternalFrame implements LogChangeListener {
     private void setExitDialog() {
         setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
 
-        addInternalFrameListener(new ExitDialogBuilder().setSource(windowSource).buildInternalFrameAdapter());
+        addInternalFrameListener(ExitDialogBuilder.getInstance().setSource(windowSource).buildInternalFrameAdapter());
     }
 
     private void updateLogContent() {
