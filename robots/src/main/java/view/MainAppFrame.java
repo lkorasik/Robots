@@ -16,10 +16,14 @@ import view.robotFrame.GameFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 public class MainAppFrame extends JFrame {
     private final JDesktopPane desktopPane = new JDesktopPane();
+    private final GameFrame gameFrame;
+    private final LogFrame logFrame;
 
     public MainAppFrame(RobotController robotController, RobotLogic robotLogic) {
         //Make the big window be indented 50 pixels from each edge
@@ -31,21 +35,42 @@ public class MainAppFrame extends JFrame {
                 screenSize.height - Constants.MainApplicationFrame.INSET * 2);
         setContentPane(desktopPane);
 
-        var configuration = PropertyWorker.load();
+        var propertyContainer = PropertyWorker.load();
 
-        createLogWindow(configuration);
+        logFrame = new LogFrame(Logger.getDefaultLogSource());
+        createLogWindow(propertyContainer);
 
-        createGameWindow(configuration, robotController, robotLogic);
+        gameFrame = new GameFrame(robotController, robotLogic);
+        createGameWindow(propertyContainer);
 
         setJMenuBar(createMenuBar());
 
-        setExitDialog();
+        setExitDialog(propertyContainer);
     }
 
-    private void setExitDialog() {
+    private void setExitDialog(PropertyContainer propertyContainer) {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         addWindowListener(ExitDialogBuilder.getInstance(this).buildWindowAdapter());
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                updateConfiguration(propertyContainer);
+                PropertyWorker.save(propertyContainer);
+            }
+        });
+    }
+
+    private void updateConfiguration(PropertyContainer propertyContainer){
+        propertyContainer.logFramePositionX = logFrame.getX();
+        propertyContainer.logFramePositionY = logFrame.getY();
+        propertyContainer.logFrameWidth = logFrame.getWidth();
+        propertyContainer.logFrameHeight = logFrame.getHeight();
+
+        propertyContainer.gameFramePositionX = gameFrame.getX();
+        propertyContainer.gameFramePositionY = gameFrame.getY();
+        propertyContainer.gameFrameWidth = gameFrame.getWidth();
+        propertyContainer.gameFrameHeight = gameFrame.getHeight();
     }
 
     protected void addWindow(JInternalFrame frame) {
@@ -53,18 +78,16 @@ public class MainAppFrame extends JFrame {
         frame.setVisible(true);
     }
 
-    private void createGameWindow(PropertyContainer configuration, RobotController robotController, RobotLogic robotLogic){
-        GameFrame gameFrame = new GameFrame(robotController, robotLogic);
-        gameFrame.setSize(configuration.gameFrameWidth, configuration.gameFrameHeight);
-        gameFrame.setLocation(configuration.gameFramePositionX, configuration.gameFramePositionY);
+    private void createGameWindow(PropertyContainer propertyContainer){
+        gameFrame.setSize(propertyContainer.gameFrameWidth, propertyContainer.gameFrameHeight);
+        gameFrame.setLocation(propertyContainer.gameFramePositionX, propertyContainer.gameFramePositionY);
         addWindow(gameFrame);
     }
 
-    private void createLogWindow(PropertyContainer configuration){
-        LogFrame logWindow = new LogFrame(Logger.getDefaultLogSource());
-        logWindow.setSize(configuration.logFrameWidth, configuration.logFrameHeight);
-        logWindow.setLocation(configuration.logFramePositionX, configuration.logFramePositionY);
-        addWindow(logWindow);
+    private void createLogWindow(PropertyContainer propertyContainer){
+        logFrame.setSize(propertyContainer.logFrameWidth, propertyContainer.logFrameHeight);
+        logFrame.setLocation(propertyContainer.logFramePositionX, propertyContainer.logFramePositionY);
+        addWindow(logFrame);
         Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
     }
 

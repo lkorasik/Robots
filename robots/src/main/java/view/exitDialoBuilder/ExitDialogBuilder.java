@@ -3,12 +3,15 @@ package view.exitDialoBuilder;
 import controller.LogController.LogWindowSource;
 import model.Constants;
 import model.logModel.LogChangeListener;
+import model.property.PropertyContainer;
+import model.property.PropertyWorker;
 
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.PipedWriter;
 
 public class ExitDialogBuilder implements InternalExitDialogBuilder, WindowExitDialogBuilder {
     private InternalFrameAdapter internalFrameAdapter;
@@ -64,6 +67,7 @@ public class ExitDialogBuilder implements InternalExitDialogBuilder, WindowExitD
                                 options,
                                 options[0]);
                 if (decision == JOptionPane.YES_OPTION) {
+
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 }
             }
