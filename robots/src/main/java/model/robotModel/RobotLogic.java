@@ -90,10 +90,17 @@ public class RobotLogic {
 
     public void onModelUpdateEvent(int width, int height) {
         double distance = distance(targetPositionX, targetPositionY, robotPositionX, robotPositionY);
-        if (distance < 0.5) {
+        if (distance < 0.5)
             return;
-        }
-
-        moveRobot(getAngularVelocity(), width, height);
+        if (robotPositionX > width)
+            robotPositionX = width;
+        else if (robotPositionX < 0)
+            robotPositionX = 0;
+        else if (robotPositionY < 0)
+            robotPositionY = 0;
+        else if (robotPositionY > height)
+            robotPositionY = height;
+        else
+            moveRobot(getAngularVelocity(), width, height);
     }
 }
