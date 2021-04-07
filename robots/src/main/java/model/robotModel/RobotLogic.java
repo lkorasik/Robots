@@ -88,7 +88,20 @@ public class RobotLogic {
         return angularVelocity;
     }
 
+    private void keepTargetInRectangle(int width, int height) {
+        if (targetPositionX > width)
+            targetPositionX = width;
+        else if (targetPositionX < 0)
+            targetPositionX = 0;
+        else if (targetPositionY < 0)
+            targetPositionY = 0;
+        else if (targetPositionY > height)
+            targetPositionY = height;
+    }
+
     public void onModelUpdateEvent(int width, int height) {
+        keepTargetInRectangle(width, height);
+
         double distance = distance(targetPositionX, targetPositionY, robotPositionX, robotPositionY);
         if (distance < 0.5)
             return;
