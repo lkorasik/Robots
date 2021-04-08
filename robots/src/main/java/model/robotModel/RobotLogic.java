@@ -88,12 +88,32 @@ public class RobotLogic {
         return angularVelocity;
     }
 
-    public void onModelUpdateEvent(int width, int height) {
-        double distance = distance(targetPositionX, targetPositionY, robotPositionX, robotPositionY);
-        if (distance < 0.5) {
-            return;
-        }
+    private void keepTargetInRectangle(int width, int height) {
+        if (targetPositionX > width)
+            targetPositionX = width;
+        else if (targetPositionX < 0)
+            targetPositionX = 0;
+        else if (targetPositionY < 0)
+            targetPositionY = 0;
+        else if (targetPositionY > height)
+            targetPositionY = height;
+    }
 
-        moveRobot(getAngularVelocity(), width, height);
+    public void onModelUpdateEvent(int width, int height) {
+        keepTargetInRectangle(width, height);
+
+        double distance = distance(targetPositionX, targetPositionY, robotPositionX, robotPositionY);
+        if (distance < 0.5)
+            return;
+        if (robotPositionX > width)
+            robotPositionX = width;
+        else if (robotPositionX < 0)
+            robotPositionX = 0;
+        else if (robotPositionY < 0)
+            robotPositionY = 0;
+        else if (robotPositionY > height)
+            robotPositionY = height;
+        else
+            moveRobot(getAngularVelocity(), width, height);
     }
 }
