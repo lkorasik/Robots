@@ -39,6 +39,11 @@ public class Constants {
         public static final String WINDOW_MESSAGE = "Вы действительно хотите закрыть окно?";
     }
 
+    public static class LoadPreviousSessionOptions{
+        public static final String TITLE = "Загрузить предыдущую сессеию?";
+        public static final String MESSAGE = "Вы хотите загрузить данные из предыдущей сессии?";
+    }
+
     public static class GameWindow {
         public static final String WINDOW_TITLE = "Игровое поле";
     }

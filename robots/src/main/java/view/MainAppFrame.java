@@ -38,14 +38,40 @@ public class MainAppFrame extends JFrame {
         var propertyContainer = PropertyWorker.instance.load();
 
         logFrame = new LogFrame(Logger.getDefaultLogSource());
-        createLogWindow(propertyContainer);
-
         gameFrame = new GameFrame(robotController, robotLogic);
-        createGameWindow(propertyContainer);
 
         setJMenuBar(createMenuBar());
 
         setExitDialog(propertyContainer);
+
+        createLastSessionDialog(propertyContainer);
+    }
+
+    private void createLastSessionDialog(PropertyContainer propertyContainer){
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                Object[] options = {Constants.ExitPaneOptions.YES, Constants.ExitPaneOptions.NO};
+                var decision = JOptionPane
+                        .showOptionDialog(
+                                e.getWindow(),
+                                Constants.LoadPreviousSessionOptions.MESSAGE,
+                                Constants.LoadPreviousSessionOptions.TITLE,
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                options,
+                                options[0]);
+                if(decision == JOptionPane.YES_OPTION){
+                    createLogWindow(propertyContainer);
+                    createGameWindow(propertyContainer);
+                }
+                else {
+                    createLogWindow();
+                    createGameWindow();
+                }
+            }
+        });
     }
 
     private void setExitDialog(PropertyContainer propertyContainer) {
@@ -87,6 +113,19 @@ public class MainAppFrame extends JFrame {
     private void createLogWindow(PropertyContainer propertyContainer){
         logFrame.setSize(propertyContainer.logFrameWidth, propertyContainer.logFrameHeight);
         logFrame.setLocation(propertyContainer.logFramePositionX, propertyContainer.logFramePositionY);
+        addWindow(logFrame);
+        Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
+    }
+
+    private void createGameWindow(){
+        gameFrame.setSize(Constants.PropertyDefaultValues.GAME_FRAME_WIDTH, Constants.PropertyDefaultValues.GAME_FRAME_HEIGHT);
+        gameFrame.setLocation(Constants.PropertyDefaultValues.GAME_FRAME_POSITION_X, Constants.PropertyDefaultValues.GAME_FRAME_POSITION_Y);
+        addWindow(gameFrame);
+    }
+
+    private void createLogWindow(){
+        logFrame.setSize(Constants.PropertyDefaultValues.LOG_FRAME_WIDTH, Constants.PropertyDefaultValues.LOG_FRAME_HEIGHT);
+        logFrame.setLocation(Constants.PropertyDefaultValues.LOG_FRAME_POSITION_X, Constants.PropertyDefaultValues.LOG_FRAME_POSITION_Y);
         addWindow(logFrame);
         Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
     }
