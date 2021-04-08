@@ -55,14 +55,14 @@ public class Constants {
     }
 
     public static class PropertyDefaultValues{
-        public static final int LOG_FRAME_POSITION_X = 20;
+        public static final int LOG_FRAME_POSITION_X = 10;
         public static final int LOG_FRAME_POSITION_Y = 10;
-        public static final int LOG_FRAME_WIDTH = 300;
+        public static final int LOG_FRAME_WIDTH = 200;
         public static final int LOG_FRAME_HEIGHT = 500;
 
-        public static final int GAME_FRAME_POSITION_X = 340;
-        public static final int GAME_FRAME_POSITION_Y = 20;
+        public static final int GAME_FRAME_POSITION_X = 2 * LOG_FRAME_POSITION_X + LOG_FRAME_WIDTH;
+        public static final int GAME_FRAME_POSITION_Y = 10;
         public static final int GAME_FRAME_WIDTH = 500;
-        public static final int GAME_FRAME_HEIGHT = 800;
+        public static final int GAME_FRAME_HEIGHT = 500;
     }
 }
