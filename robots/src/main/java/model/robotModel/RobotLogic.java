@@ -14,7 +14,7 @@ public class RobotLogic {
     private volatile double robotDirection = 0;
 
     @Getter
-    private volatile int targetPositionX = 150;
+    private volatile int targetPositionX = 100;
     @Getter
     private volatile int targetPositionY = 100;
 
