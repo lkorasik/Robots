@@ -1,7 +1,6 @@
 package view.exitDialoBuilder;
 
-import controller.LogController.LogWindowSource;
-import view.exitDialoBuilder.ExitDialogBuilder;
+import controller.logController.LogWindowSource;
 
 import javax.swing.event.InternalFrameAdapter;
 

@@ -1,6 +1,6 @@
 package view.logFrame;
 
-import controller.LogController.LogWindowSource;
+import controller.logController.LogWindowSource;
 import model.Constants;
 import model.logModel.LogChangeListener;
 import model.logModel.LogEntry;

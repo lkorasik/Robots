@@ -1,6 +1,6 @@
 package view;
 
-import controller.LogController.Logger;
+import controller.logController.Logger;
 import controller.robotController.RobotController;
 import model.Constants;
 import model.property.PropertyContainer;
@@ -26,8 +26,6 @@ public class MainAppFrame extends JFrame {
     private final LogFrame logFrame;
 
     public MainAppFrame(RobotController robotController, RobotLogic robotLogic) {
-        //Make the big window be indented 50 pixels from each edge
-        //of the screen.
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(Constants.MainApplicationFrame.INSET,
                 Constants.MainApplicationFrame.INSET,

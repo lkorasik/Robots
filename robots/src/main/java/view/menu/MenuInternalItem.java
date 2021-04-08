@@ -1,6 +1,6 @@
 package view.menu;
 
-import controller.LogController.Logger;
+import controller.logController.Logger;
 import model.Constants;
 import view.MainAppFrame;
 

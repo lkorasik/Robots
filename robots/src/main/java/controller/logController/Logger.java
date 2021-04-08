@@ -1,4 +1,4 @@
-package controller.LogController;
+package controller.logController;
 
 import lombok.Getter;
 import model.logModel.LogType;
