@@ -40,8 +40,8 @@ public class Constants {
     }
 
     public static class LoadPreviousSessionOptions{
-        public static final String TITLE = "Загрузить предыдущую сессеию?";
-        public static final String MESSAGE = "Вы хотите загрузить данные из предыдущей сессии?";
+        public static final String TITLE = "Загрузка настроек";
+        public static final String MESSAGE = "Загрузить настройки окон из предыдущей сессии?";
     }
 
     public static class GameWindow {
