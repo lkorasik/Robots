@@ -6,7 +6,6 @@ import model.Constants;
 import model.property.PropertyContainer;
 import model.property.PropertyWorker;
 import model.robotModel.RobotLogic;
-import view.exitDialoBuilder.ExitDialogBuilder;
 import view.logFrame.LogFrame;
 import view.menu.MenuInternalItem;
 import view.menu.MenuItem;
@@ -20,7 +19,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 
-public class MainAppFrame extends JFrame {
+public class MainAppFrame extends FrameClosing {
     private final JDesktopPane desktopPane = new JDesktopPane();
     private final GameFrame gameFrame;
     private final LogFrame logFrame;
@@ -75,7 +74,6 @@ public class MainAppFrame extends JFrame {
     private void setExitDialog(PropertyContainer propertyContainer) {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        addWindowListener(ExitDialogBuilder.getInstance(this).buildWindowAdapter());
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

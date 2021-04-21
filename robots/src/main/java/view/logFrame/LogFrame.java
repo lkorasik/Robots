@@ -4,12 +4,12 @@ import controller.logController.LogWindowSource;
 import model.Constants;
 import model.logModel.LogChangeListener;
 import model.logModel.LogEntry;
-import view.exitDialoBuilder.ExitDialogBuilder;
+import view.InternalFrameClosing;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class LogFrame extends JInternalFrame implements LogChangeListener {
+public class LogFrame extends InternalFrameClosing implements LogChangeListener {
     private LogWindowSource windowSource;
     private TextArea logContent;
 
@@ -19,7 +19,6 @@ public class LogFrame extends JInternalFrame implements LogChangeListener {
         this.windowSource.registerListener(this);
 
         logContent = new TextArea("");
-        //logContent.setSize(Constants.LogWindow.WIDTH, Constants.LogWindow.HEIGHT);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(logContent, BorderLayout.CENTER);
@@ -31,9 +30,10 @@ public class LogFrame extends JInternalFrame implements LogChangeListener {
     }
 
     private void setExitDialog() {
-        setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
-
-        addInternalFrameListener(ExitDialogBuilder.getInstance().setSource(windowSource).buildInternalFrameAdapter());
+        setActionExiting(() -> {
+            if (windowSource != null)
+                windowSource.unregisterListener(this);
+        });
     }
 
     private void updateLogContent() {
