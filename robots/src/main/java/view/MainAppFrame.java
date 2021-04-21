@@ -85,7 +85,7 @@ public class MainAppFrame extends FrameClosing {
     }
 
     private void updateConfiguration(PropertyContainer propertyContainer){
-        ObjectMapper mapper = new ObjectMapper();
+
 
 
 
