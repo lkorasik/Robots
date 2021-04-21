@@ -4,7 +4,7 @@ import controller.logController.LogWindowSource;
 import model.Constants;
 import model.logModel.LogChangeListener;
 import model.logModel.LogEntry;
-import view.InternalFrameClosing;
+import view.frameClosing.InternalFrameClosing;
 
 import javax.swing.*;
 import java.awt.*;

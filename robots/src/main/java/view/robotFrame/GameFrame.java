@@ -3,7 +3,7 @@ package view.robotFrame;
 import controller.robotController.RobotController;
 import model.Constants;
 import model.robotModel.RobotLogic;
-import view.InternalFrameClosing;
+import view.frameClosing.InternalFrameClosing;
 //import view.exitDialoBuilder.ExitDialogBuilder;
 
 import javax.swing.*;

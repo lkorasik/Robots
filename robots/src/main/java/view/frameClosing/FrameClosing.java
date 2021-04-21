@@ -1,4 +1,4 @@
-package view;
+package view.frameClosing;
 
 import model.Constants;
 
@@ -6,9 +6,9 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class FrameClosing extends JFrame{
+public class FrameClosing extends JFrame {
 
-    public FrameClosing(){
+    public FrameClosing() {
         super();
         addWindowListener(new WindowAdapter() {
             @Override
@@ -25,9 +25,12 @@ public class FrameClosing extends JFrame{
                                 options,
                                 options[0]);
                 if (decision == JOptionPane.YES_OPTION)
-                    FrameClosing.this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    FrameClosing.this.setDefaultCloseOperation(JInternalFrame.EXIT_ON_CLOSE);
+                else FrameClosing.this.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
             }
         });
     }
 }
+
+
 

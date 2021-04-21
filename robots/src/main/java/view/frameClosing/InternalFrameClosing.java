@@ -1,4 +1,4 @@
-package view;
+package view.frameClosing;
 
 import lombok.Setter;
 import model.Constants;
@@ -10,9 +10,10 @@ import javax.swing.event.InternalFrameEvent;
 public class InternalFrameClosing extends JInternalFrame {
 
     @Setter
-    private Runnable actionExiting = () -> {};
+    private Runnable actionExiting = () -> {
+    };
 
-    public InternalFrameClosing(String title, Boolean resizable , Boolean closable, Boolean maximizable, Boolean iconf) {
+    public InternalFrameClosing(String title, Boolean resizable, Boolean closable, Boolean maximizable, Boolean iconf) {
         super(title, resizable, closable, maximizable, iconf);
         addInternalFrameListener(new InternalFrameAdapter() {
             @Override
@@ -30,9 +31,10 @@ public class InternalFrameClosing extends JInternalFrame {
                                 options[0]);
                 if (decision == JOptionPane.YES_OPTION) {
                     actionExiting.run();
-                    e.getInternalFrame().dispose();
+                    InternalFrameClosing.this.setDefaultCloseOperation(JInternalFrame.HIDE_ON_CLOSE);
+                } else InternalFrameClosing.this.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
 
-                }
+
             }
         });
     }

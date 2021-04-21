@@ -6,6 +6,7 @@ import model.Constants;
 import model.property.PropertyContainer;
 import model.property.PropertyWorker;
 import model.robotModel.RobotLogic;
+import view.frameClosing.FrameClosing;
 import view.logFrame.LogFrame;
 import view.menu.MenuInternalItem;
 import view.menu.MenuItem;
@@ -84,6 +85,10 @@ public class MainAppFrame extends FrameClosing {
     }
 
     private void updateConfiguration(PropertyContainer propertyContainer){
+        ObjectMapper mapper = new ObjectMapper();
+
+
+
         propertyContainer.logFramePositionX = logFrame.getX();
         propertyContainer.logFramePositionY = logFrame.getY();
         propertyContainer.logFrameWidth = logFrame.getWidth();
