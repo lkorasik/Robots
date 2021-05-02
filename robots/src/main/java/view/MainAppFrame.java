@@ -1,12 +1,17 @@
 package view;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.logController.Logger;
 import controller.robotController.RobotController;
 import model.Constants;
 import model.property.PropertyContainer;
 import model.property.PropertyWorker;
 import model.robotModel.RobotLogic;
+import model.serialization.ConfigFieldName;
+import model.serialization.InternalFrameSerializer;
+import model.serialization.SerializeInfo;
 import view.frameClosing.FrameClosing;
+import view.frameClosing.InternalFrameClosing;
 import view.logFrame.LogFrame;
 import view.menu.MenuInternalItem;
 import view.menu.MenuItem;
@@ -18,11 +23,14 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 
 
 public class MainAppFrame extends FrameClosing {
     private final JDesktopPane desktopPane = new JDesktopPane();
-    private final GameFrame gameFrame;
+    private GameFrame gameFrame;
     private final LogFrame logFrame;
 
     public MainAppFrame(RobotController robotController, RobotLogic robotLogic) {
@@ -45,7 +53,7 @@ public class MainAppFrame extends FrameClosing {
         createLastSessionDialog(propertyContainer);
     }
 
-    private void createLastSessionDialog(PropertyContainer propertyContainer){
+    private void createLastSessionDialog(PropertyContainer propertyContainer) {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -60,11 +68,28 @@ public class MainAppFrame extends FrameClosing {
                                 null,
                                 options,
                                 options[0]);
-                if(decision == JOptionPane.YES_OPTION){
-                    createLogWindow(propertyContainer);
-                    createGameWindow(propertyContainer);
-                }
-                else {
+                if (decision == JOptionPane.YES_OPTION) {
+                    //createLogWindow(propertyContainer);
+                    //createGameWindow(propertyContainer);
+
+                    try {
+                        var frame  = new ObjectMapper().readValue(new File(SerializeInfo.GAME_FRAME_FILENAME), InternalFrameClosing.class);
+                        gameFrame.setSize(frame.getWidth(), frame.getHeight());
+                        gameFrame.setLocation(frame.getX(), frame.getY());
+                        addWindow(gameFrame);
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+
+                    try {
+                        var frame  = new ObjectMapper().readValue(new File(SerializeInfo.LOG_FRAME_FILENAME), InternalFrameClosing.class);
+                        logFrame.setSize(frame.getWidth(), frame.getHeight());
+                        logFrame.setLocation(frame.getX(), frame.getY());
+                        addWindow(logFrame);
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+                } else {
                     createLogWindow();
                     createGameWindow();
                 }
@@ -78,17 +103,26 @@ public class MainAppFrame extends FrameClosing {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                updateConfiguration(propertyContainer);
-                PropertyWorker.instance.save(propertyContainer);
+                //updateConfiguration(propertyContainer);
+                //PropertyWorker.instance.save(propertyContainer);
+
+
+                try {
+                    new ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(new File(SerializeInfo.GAME_FRAME_FILENAME), gameFrame);
+                } catch (IOException exception){
+                    exception.printStackTrace();
+                }
+
+                try{
+                    new ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(new File(SerializeInfo.LOG_FRAME_FILENAME), logFrame);
+                } catch (IOException exception){
+                    exception.printStackTrace();
+                }
             }
         });
     }
 
-    private void updateConfiguration(PropertyContainer propertyContainer){
-
-
-
-
+    private void updateConfiguration(PropertyContainer propertyContainer) {
         propertyContainer.logFramePositionX = logFrame.getX();
         propertyContainer.logFramePositionY = logFrame.getY();
         propertyContainer.logFrameWidth = logFrame.getWidth();
@@ -105,26 +139,26 @@ public class MainAppFrame extends FrameClosing {
         frame.setVisible(true);
     }
 
-    private void createGameWindow(PropertyContainer propertyContainer){
+    private void createGameWindow(PropertyContainer propertyContainer) {
         gameFrame.setSize(propertyContainer.gameFrameWidth, propertyContainer.gameFrameHeight);
         gameFrame.setLocation(propertyContainer.gameFramePositionX, propertyContainer.gameFramePositionY);
         addWindow(gameFrame);
     }
 
-    private void createLogWindow(PropertyContainer propertyContainer){
+    private void createLogWindow(PropertyContainer propertyContainer) {
         logFrame.setSize(propertyContainer.logFrameWidth, propertyContainer.logFrameHeight);
         logFrame.setLocation(propertyContainer.logFramePositionX, propertyContainer.logFramePositionY);
         addWindow(logFrame);
         Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
     }
 
-    private void createGameWindow(){
+    private void createGameWindow() {
         gameFrame.setSize(Constants.PropertyDefaultValues.GAME_FRAME_WIDTH, Constants.PropertyDefaultValues.GAME_FRAME_HEIGHT);
         gameFrame.setLocation(Constants.PropertyDefaultValues.GAME_FRAME_POSITION_X, Constants.PropertyDefaultValues.GAME_FRAME_POSITION_Y);
         addWindow(gameFrame);
     }
 
-    private void createLogWindow(){
+    private void createLogWindow() {
         logFrame.setSize(Constants.PropertyDefaultValues.LOG_FRAME_WIDTH, Constants.PropertyDefaultValues.LOG_FRAME_HEIGHT);
         logFrame.setLocation(Constants.PropertyDefaultValues.LOG_FRAME_POSITION_X, Constants.PropertyDefaultValues.LOG_FRAME_POSITION_Y);
         addWindow(logFrame);
