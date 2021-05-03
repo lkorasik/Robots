@@ -1,5 +1,6 @@
 package view;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.logController.Logger;
 import controller.robotController.RobotController;
@@ -10,6 +11,7 @@ import model.robotModel.RobotLogic;
 import model.serialization.ConfigFieldName;
 import model.serialization.InternalFrameSerializer;
 import model.serialization.SerializeInfo;
+import org.checkerframework.checker.signature.qual.IdentifierOrPrimitiveType;
 import view.frameClosing.FrameClosing;
 import view.frameClosing.InternalFrameClosing;
 import view.logFrame.LogFrame;
@@ -41,19 +43,21 @@ public class MainAppFrame extends FrameClosing {
                 screenSize.height - Constants.MainApplicationFrame.INSET * 2);
         setContentPane(desktopPane);
 
-        var propertyContainer = PropertyWorker.instance.load();
+        //var propertyContainer = PropertyWorker.instance.load();
 
         logFrame = new LogFrame(Logger.getDefaultLogSource());
         gameFrame = new GameFrame(robotController, robotLogic);
 
         setJMenuBar(createMenuBar());
 
-        setExitDialog(propertyContainer);
+        //setExitDialog(propertyContainer);
+        setExitDialog();
 
-        createLastSessionDialog(propertyContainer);
+        //createLastSessionDialog(propertyContainer);
+        createLastSessionDialog();
     }
 
-    private void createLastSessionDialog(PropertyContainer propertyContainer) {
+    private void createLastSessionDialog(/*PropertyContainer propertyContainer*/) {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -72,6 +76,7 @@ public class MainAppFrame extends FrameClosing {
                     //createLogWindow(propertyContainer);
                     //createGameWindow(propertyContainer);
 
+                    /*
                     try {
                         var frame  = new ObjectMapper().readValue(new File(SerializeInfo.GAME_FRAME_FILENAME), InternalFrameClosing.class);
                         gameFrame.setSize(frame.getWidth(), frame.getHeight());
@@ -89,6 +94,23 @@ public class MainAppFrame extends FrameClosing {
                     } catch (IOException exception) {
                         exception.printStackTrace();
                     }
+                     */
+
+                    try{
+                        HashMap<String, InternalFrameClosing> map = new ObjectMapper().readValue(new File(SerializeInfo.CONFIG), new TypeReference<HashMap<String, InternalFrameClosing>>() {});
+
+                        var frame = map.get(GameFrame.class.getName());
+                        gameFrame.setSize(frame.getSize());
+                        gameFrame.setLocation(frame.getLocation());
+                        addWindow(gameFrame);
+
+                        frame = map.get(LogFrame.class.getName());
+                        logFrame.setSize(frame.getSize());
+                        logFrame.setLocation(frame.getLocation());
+                        addWindow(logFrame);
+                    } catch (IOException exception){
+                        exception.printStackTrace();
+                    }
                 } else {
                     createLogWindow();
                     createGameWindow();
@@ -97,7 +119,7 @@ public class MainAppFrame extends FrameClosing {
         });
     }
 
-    private void setExitDialog(PropertyContainer propertyContainer) {
+    private void setExitDialog(/*PropertyContainer propertyContainer*/) {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         addWindowListener(new WindowAdapter() {
@@ -106,7 +128,7 @@ public class MainAppFrame extends FrameClosing {
                 //updateConfiguration(propertyContainer);
                 //PropertyWorker.instance.save(propertyContainer);
 
-
+                /*
                 try {
                     new ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(new File(SerializeInfo.GAME_FRAME_FILENAME), gameFrame);
                 } catch (IOException exception){
@@ -115,6 +137,17 @@ public class MainAppFrame extends FrameClosing {
 
                 try{
                     new ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(new File(SerializeInfo.LOG_FRAME_FILENAME), logFrame);
+                } catch (IOException exception){
+                    exception.printStackTrace();
+                }
+                 */
+
+                var map = new HashMap<String, InternalFrameClosing>();
+                map.put(GameFrame.class.getName(), gameFrame);
+                map.put(LogFrame.class.getName(), logFrame);
+
+                try{
+                    new ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(new File(SerializeInfo.CONFIG), map);
                 } catch (IOException exception){
                     exception.printStackTrace();
                 }
