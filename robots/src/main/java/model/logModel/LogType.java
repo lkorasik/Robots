@@ -11,7 +11,7 @@ public enum LogType {
     Fatal(5);
 
     @Getter
-    private int type;
+    private final int type;
 
     LogType(int type) {       // конструктор для энума? -> зачем? и почему он private
         this.type = type;

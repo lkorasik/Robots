@@ -4,9 +4,9 @@ import lombok.Getter;
 
 public class LogEntry {
     @Getter
-    private LogType logType;
+    private final LogType logType;
     @Getter
-    private String message;
+    private final String message;
 
     public LogEntry(LogType logType, String message) {
         this.message = message;

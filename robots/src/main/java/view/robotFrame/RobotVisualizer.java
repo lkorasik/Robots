@@ -8,8 +8,8 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 public class RobotVisualizer extends JPanel {
-    private RobotController robotController;
-    private RobotLogic robotLogic;
+    private final RobotController robotController;
+    private final RobotLogic robotLogic;
 
     public RobotVisualizer(RobotController robotController, RobotLogic robotLogic) {
         this.robotController = robotController;
