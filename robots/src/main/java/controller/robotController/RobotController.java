@@ -11,7 +11,7 @@ import java.util.TimerTask;
 public class RobotController {
     private Timer timer;
     private RobotVisualizer robotVisualizer;
-    private RobotLogic robotLogic;
+    private final RobotLogic robotLogic;
 
     public RobotController(RobotLogic robotLogic) {
         this.robotLogic = robotLogic;

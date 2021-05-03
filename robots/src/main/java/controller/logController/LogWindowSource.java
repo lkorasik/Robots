@@ -20,10 +20,10 @@ import java.util.List;
  */
 public class LogWindowSource {
     @Getter
-    private List<LogEntry> logEntries;
+    private final List<LogEntry> logEntries;
     private final List<LogChangeListener> listeners;
     private volatile LogChangeListener[] activeListeners;
-    private int queueLength;
+    private final int queueLength;
 
     public LogWindowSource(int queueLength) {
         this.queueLength = queueLength;

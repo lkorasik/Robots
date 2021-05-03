@@ -10,10 +10,16 @@ import model.serialization.InternalFrameSerializer;
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+import java.awt.*;
 
 @JsonSerialize(using = InternalFrameSerializer.class)
 @JsonDeserialize(using = InternalFrameDeserializer.class)
 public class InternalFrameClosing extends JInternalFrame {
+
+    public void setMainParams(Dimension size, Point location){
+        this.setSize(size);
+        this.setLocation(location);
+    }
 
     @Setter
     private Runnable actionExiting = () -> {

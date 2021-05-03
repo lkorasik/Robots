@@ -16,7 +16,7 @@ public class InternalFrameDeserializer extends StdDeserializer<InternalFrameClos
     }
 
     @Override
-    public InternalFrameClosing deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public InternalFrameClosing deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         JsonNode xNode = node.get(ConfigFieldName.POSITION_X);
         JsonNode yNode = node.get(ConfigFieldName.POSITION_Y);

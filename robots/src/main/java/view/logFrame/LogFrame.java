@@ -10,8 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LogFrame extends InternalFrameClosing implements LogChangeListener {
-    private LogWindowSource windowSource;
-    private TextArea logContent;
+    private final LogWindowSource windowSource;
+    private final TextArea logContent;
 
     public LogFrame(LogWindowSource windowSource) {
         super(Constants.LogWindow.WINDOW_TITLE, true, true, true, true);
