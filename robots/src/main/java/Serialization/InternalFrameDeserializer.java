@@ -1,13 +1,11 @@
-package model.serialization;
+package Serialization;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import view.frameClosing.InternalFrameClosing;
 
-import javax.swing.*;
 import java.io.IOException;
 
 public class InternalFrameDeserializer extends StdDeserializer<InternalFrameClosing> {

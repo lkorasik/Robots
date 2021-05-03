@@ -6,7 +6,7 @@ import controller.logController.Logger;
 import controller.robotController.RobotController;
 import model.Constants;
 import model.robotModel.RobotLogic;
-import model.serialization.SerializeInfo;
+import Serialization.SerializeInfo;
 import view.frameClosing.FrameClosing;
 import view.frameClosing.InternalFrameClosing;
 import view.logFrame.LogFrame;

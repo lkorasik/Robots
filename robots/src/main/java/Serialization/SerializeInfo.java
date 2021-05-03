@@ -1,4 +1,4 @@
-package model.serialization;
+package Serialization;
 
 public class SerializeInfo {
     public static final String GAME_FRAME_FILENAME = "gameFrameConfig.json";

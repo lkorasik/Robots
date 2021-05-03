@@ -1,4 +1,4 @@
-package model.serialization;
+package Serialization;
 
 public class ConfigFieldName {
     public static final String POSITION_X = "positionX";
