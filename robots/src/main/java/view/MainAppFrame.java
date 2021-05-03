@@ -87,19 +87,15 @@ public class MainAppFrame extends FrameClosing {
         try {
             HashMap<String, InternalFrameClosing> map = new ObjectMapper().readValue(new File(SerializeInfo.CONFIG), new TypeReference<HashMap<String, InternalFrameClosing>>() {});
 
-            var key = GameFrame.class.getName();
-            updateFrame(map.get(key), gameFrame);
+            var sourceFrame = map.get(GameFrame.class.getName());
+            updateFrame(sourceFrame.getSize(), sourceFrame.getLocation(), gameFrame);
 
-            key = LogFrame.class.getName();
-            updateFrame(map.get(key), logFrame);
+            sourceFrame = map.get(LogFrame.class.getName());
+            updateFrame(sourceFrame.getSize(), sourceFrame.getLocation(), logFrame);
             Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-    }
-
-    private void updateFrame(InternalFrameClosing source, InternalFrameClosing target){
-        updateFrame(source.getSize(), source.getLocation(), target);
     }
 
     private void updateFrame(Dimension size, Point location, InternalFrameClosing target){
