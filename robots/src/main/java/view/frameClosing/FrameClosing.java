@@ -26,7 +26,8 @@ public class FrameClosing extends JFrame {
                                 options[0]);
                 if (decision == JOptionPane.YES_OPTION)
                     FrameClosing.this.setDefaultCloseOperation(JInternalFrame.EXIT_ON_CLOSE);
-                else FrameClosing.this.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
+                else
+                    FrameClosing.this.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
             }
         });
     }

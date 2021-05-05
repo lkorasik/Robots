@@ -7,6 +7,8 @@ import view.frameClosing.InternalFrameClosing;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GameFrame extends InternalFrameClosing {
     private final RobotVisualizer robotVisualizer;

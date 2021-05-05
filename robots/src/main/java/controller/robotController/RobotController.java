@@ -3,6 +3,7 @@ package controller.robotController;
 import model.robotModel.RobotLogic;
 import view.robotFrame.RobotVisualizer;
 
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Timer;
@@ -24,7 +25,6 @@ public class RobotController {
     public void initEventTimer() {
         timer = new Timer("events generator", true);
 
-
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -38,14 +38,19 @@ public class RobotController {
             }
         }, 0, 10);
 
-        robotVisualizer.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                robotLogic.setTargetPosition(e.getPoint());
-                robotVisualizer.repaint();
-            }
-        });
         robotVisualizer.setDoubleBuffered(true);
+    }
 
+    public Point getRobotPosition(){
+        return new Point((int)robotLogic.getRobotPositionX(), (int)robotLogic.getRobotPositionY());
+    }
+
+    public void setTargetPosition(Point moveTarget, Point seeTarget){
+        robotLogic.setMovePosition(moveTarget);
+        robotLogic.setSeePosition(seeTarget);
+    }
+
+    public void setSeePosition(Point seeTarget){
+        robotLogic.setSeePosition(seeTarget);
     }
 }
