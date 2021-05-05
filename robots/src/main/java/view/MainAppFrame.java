@@ -42,7 +42,7 @@ public class MainAppFrame extends FrameClosing {
         logFrame = new LogFrame(Logger.getDefaultLogSource());
         gameFrame = new GameFrame(robotController, robotLogic);
 
-        var split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, gameFrame, logFrame);
+        var split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, logFrame.getView(), gameFrame.getView());
         setContentPane(split);
 
         setJMenuBar(createMenuBar());

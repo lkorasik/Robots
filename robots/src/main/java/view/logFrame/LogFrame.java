@@ -4,6 +4,7 @@ import controller.logController.LogWindowSource;
 import model.Constants;
 import model.logModel.LogChangeListener;
 import model.logModel.LogEntry;
+import model.logModel.LogType;
 import view.frameClosing.InternalFrameClosing;
 
 import javax.swing.*;
@@ -11,14 +12,16 @@ import java.awt.*;
 
 public class LogFrame extends InternalFrameClosing implements LogChangeListener {
     private final LogWindowSource windowSource;
-    private final TextArea logContent;
+    private final JTextArea logContent;
 
     public LogFrame(LogWindowSource windowSource) {
         super(Constants.LogWindow.WINDOW_TITLE, true, true, true, true);
         this.windowSource = windowSource;
         this.windowSource.registerListener(this);
 
-        logContent = new TextArea("");
+        logContent = new JTextArea("");
+        logContent.setEditable(false);
+        logContent.setFocusable(false);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(logContent, BorderLayout.CENTER);
@@ -48,5 +51,9 @@ public class LogFrame extends InternalFrameClosing implements LogChangeListener 
     @Override
     public void onLogChanged() {
         EventQueue.invokeLater(this::updateLogContent);
+    }
+
+    public JTextArea getView(){
+        return logContent;
     }
 }
