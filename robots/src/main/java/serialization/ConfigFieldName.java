@@ -1,4 +1,4 @@
-package Serialization;
+package serialization;
 
 public class ConfigFieldName {
     public static final String POSITION_X = "positionX";

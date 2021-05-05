@@ -1,4 +1,4 @@
-package Serialization;
+package serialization;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -8,7 +8,7 @@ import view.frameClosing.InternalFrameClosing;
 import java.io.IOException;
 
 public class InternalFrameSerializer extends StdSerializer<InternalFrameClosing> {
-    public InternalFrameSerializer(){
+    public InternalFrameSerializer() {
         super(InternalFrameClosing.class);
     }
 

@@ -1,12 +1,12 @@
 package view;
 
+import serialization.SerializeInfo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.logController.Logger;
 import controller.robotController.RobotController;
 import model.Constants;
 import model.robotModel.RobotLogic;
-import Serialization.SerializeInfo;
 import view.frameClosing.FrameClosing;
 import view.frameClosing.InternalFrameClosing;
 import view.logFrame.LogFrame;
@@ -72,7 +72,7 @@ public class MainAppFrame extends FrameClosing {
         });
     }
 
-    private void loadFrameDefaultValues(){
+    private void loadFrameDefaultValues() {
         var size = new Dimension(Constants.PropertyDefaultValues.LOG_FRAME_WIDTH, Constants.PropertyDefaultValues.LOG_FRAME_HEIGHT);
         var location = new Point(Constants.PropertyDefaultValues.LOG_FRAME_POSITION_X, Constants.PropertyDefaultValues.LOG_FRAME_POSITION_Y);
         Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
@@ -83,9 +83,10 @@ public class MainAppFrame extends FrameClosing {
         updateFrame(size, location, gameFrame);
     }
 
-    private void loadFramesUsingJson(){
+    private void loadFramesUsingJson() {
         try {
-            HashMap<String, InternalFrameClosing> map = new ObjectMapper().readValue(new File(SerializeInfo.CONFIG), new TypeReference<HashMap<String, InternalFrameClosing>>() {});
+            HashMap<String, InternalFrameClosing> map = new ObjectMapper().readValue(new File(SerializeInfo.CONFIG), new TypeReference<HashMap<String, InternalFrameClosing>>() {
+            });
 
             var sourceFrame = map.get(GameFrame.class.getName());
             updateFrame(sourceFrame.getSize(), sourceFrame.getLocation(), gameFrame);
@@ -98,7 +99,7 @@ public class MainAppFrame extends FrameClosing {
         }
     }
 
-    private void updateFrame(Dimension size, Point location, InternalFrameClosing target){
+    private void updateFrame(Dimension size, Point location, InternalFrameClosing target) {
         target.setMainParams(size, location);
         addWindow(target);
     }

@@ -1,7 +1,6 @@
 package model;
 
 
-
 public class Constants {
     public static class MainApplicationFrame {
         public static final int WIDTH = 400;
@@ -16,7 +15,7 @@ public class Constants {
         public static final String LOG_MESSAGE = "Новая строка";
 
         public static final String DISPLAY_MODE_MENU = "Режим отображения";
-        public static final String  DISPLAY_MODE_MENU_DESCRIPTION = "Управление режимом отображения приложения";
+        public static final String DISPLAY_MODE_MENU_DESCRIPTION = "Управление режимом отображения приложения";
         public static final String UNIVERSAL_SCHEME = "Универсальная схема";
         public static final String SYSTEM_SCHEME = "Системная схема";
 
@@ -39,7 +38,7 @@ public class Constants {
         public static final String WINDOW_MESSAGE = "Вы действительно хотите закрыть окно?";
     }
 
-    public static class LoadPreviousSessionOptions{
+    public static class LoadPreviousSessionOptions {
         public static final String TITLE = "Загрузка настроек";
         public static final String MESSAGE = "Загрузить настройки окон из предыдущей сессии?";
     }
@@ -54,7 +53,7 @@ public class Constants {
         public static final double DEFAULT_DURATION = 10d;
     }
 
-    public static class PropertyDefaultValues{
+    public static class PropertyDefaultValues {
         public static final int LOG_FRAME_POSITION_X = 10;
         public static final int LOG_FRAME_POSITION_Y = 10;
         public static final int LOG_FRAME_WIDTH = 200;

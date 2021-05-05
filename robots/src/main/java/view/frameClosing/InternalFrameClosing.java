@@ -1,11 +1,11 @@
 package view.frameClosing;
 
+import serialization.InternalFrameDeserializer;
+import serialization.InternalFrameSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Setter;
 import model.Constants;
-import Serialization.InternalFrameDeserializer;
-import Serialization.InternalFrameSerializer;
 
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
@@ -16,7 +16,7 @@ import java.awt.*;
 @JsonDeserialize(using = InternalFrameDeserializer.class)
 public class InternalFrameClosing extends JInternalFrame {
 
-    public void setMainParams(Dimension size, Point location){
+    public void setMainParams(Dimension size, Point location) {
         this.setSize(size);
         this.setLocation(location);
     }
