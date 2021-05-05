@@ -45,8 +45,13 @@ public class RobotVisualizer extends JPanel {
             public void mouseMoved(MouseEvent e) {
                 mouseMoveAction(e);
             }
-        });
 
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                mouseMoveAction(e);
+            }
+        });
+        
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
