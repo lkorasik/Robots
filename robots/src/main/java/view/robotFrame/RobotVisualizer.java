@@ -1,6 +1,7 @@
 package view.robotFrame;
 
 import controller.robotController.RobotController;
+import lombok.SneakyThrows;
 import model.robotModel.RobotLogic;
 
 import javax.swing.*;
@@ -63,7 +64,7 @@ public class RobotVisualizer extends JPanel {
         mouseX.set(event.getX());
         mouseY.set(event.getY());
 
-        updatePlayerDirection(mouseX.get(), mouseY.get());
+        robotController.setSeePosition(new Point(mouseX.get(), mouseY.get()));
     }
 
     private void keyReleaseAction(KeyEvent event) {
@@ -99,10 +100,12 @@ public class RobotVisualizer extends JPanel {
             @Override
             public void run() {
                 super.run();
-
                 while (true) {
-                    updatePlayerDirection(mouseX.get(), mouseY.get());
-
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     if (isDown.get() && isRight.get())
                         movePlayer(DX, DY, mouseX.get(), mouseY.get());
                     else if (isDown.get() && isLeft.get())
@@ -122,10 +125,6 @@ public class RobotVisualizer extends JPanel {
                 }
             }
         }.start();
-    }
-
-    private void updatePlayerDirection(int mouseX, int mouseY) {
-        robotController.setSeePosition(new Point(mouseX, mouseY));
     }
 
     private void movePlayer(int dx, int dy, int mouseX, int mouseY) {
@@ -159,23 +158,13 @@ public class RobotVisualizer extends JPanel {
         drawOval(graphics2D, x + 10, y, 5, 5);
     }
 
-    public void drawTarget(Graphics2D graphics2D, int x, int y) {
-        AffineTransform t = AffineTransform.getRotateInstance(0, 0, 0);
-        graphics2D.setTransform(t);
-        graphics2D.setColor(Color.GREEN);
-        fillOval(graphics2D, x, y, 5, 5);
-        graphics2D.setColor(Color.BLACK);
-        drawOval(graphics2D, x, y, 5, 5);
-    }
-
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
         Graphics2D g2d = (Graphics2D) graphics;
         drawRobot(g2d,
-                RobotLogic.round(robotLogic.getRobotPositionX()),
-                RobotLogic.round(robotLogic.getRobotPositionY()),
-                robotLogic.getRobotDirection());
-        drawTarget(g2d, robotLogic.getTargetPositionX(), robotLogic.getTargetPositionY());
+                RobotLogic.round(robotLogic.getPositionX()),
+                RobotLogic.round(robotLogic.getPositionY()),
+               robotLogic.getRobotDirection());
     }
 }
