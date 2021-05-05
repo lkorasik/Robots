@@ -38,25 +38,19 @@ public class RobotController {
             }
         }, 0, 10);
 
-        robotVisualizer.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                robotLogic.setMovePosition(e.getPoint());
-                robotLogic.setSeePosition(e.getPoint());
-                robotVisualizer.repaint();
-            }
-        });
-
         robotVisualizer.setDoubleBuffered(true);
-
     }
 
     public Point getRobotPosition(){
         return new Point((int)robotLogic.getRobotPositionX(), (int)robotLogic.getRobotPositionY());
     }
 
-    public void setTargetPosition(Point point){
-        robotLogic.setMovePosition(point);
-        robotLogic.setSeePosition(point);
+    public void setTargetPosition(Point moveTarget, Point seeTarget){
+        robotLogic.setMovePosition(moveTarget);
+        robotLogic.setSeePosition(seeTarget);
+    }
+
+    public void setSeePosition(Point seeTarget){
+        robotLogic.setSeePosition(seeTarget);
     }
 }

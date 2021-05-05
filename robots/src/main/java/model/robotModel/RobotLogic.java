@@ -58,7 +58,7 @@ public class RobotLogic {
     }
 
     private void moveRobot() {
-        robotDirection = angleTo(robotPositionX, robotPositionY, seePoint.x, seePoint.y);
+        robotDirection = angleTo(movePoint.x, movePoint.y, seePoint.x, seePoint.y);
         robotPositionX = movePoint.x;
         robotPositionY = movePoint.y;
         //robotDirection = asNormalizedRadians(correctDirection(angularVelocity, width, height));
@@ -94,6 +94,7 @@ public class RobotLogic {
     public void setSeePosition(Point point){
         seePoint.x = point.x;
         seePoint.y = point.y;
+        robotDirection = angleTo(movePoint.x, movePoint.y, seePoint.x, seePoint.y);
     }
 
     private double getAngularVelocity() {
@@ -148,7 +149,7 @@ public class RobotLogic {
             robotPositionY = 0;
         else if (robotPositionY > height)
             robotPositionY = height;
-        else
+        //else
             //moveRobot(getAngularVelocity(), width, height);
             moveRobot();
     }

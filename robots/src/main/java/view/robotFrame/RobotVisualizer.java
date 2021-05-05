@@ -5,16 +5,17 @@ import model.robotModel.RobotLogic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RobotVisualizer extends JPanel {
     private final RobotController robotController;
     private final RobotLogic robotLogic;
+
+    AtomicInteger mouseX = new AtomicInteger();
+    AtomicInteger mouseY = new AtomicInteger();
 
     AtomicBoolean isUp = new AtomicBoolean(false);
     AtomicBoolean isDown = new AtomicBoolean(false);
@@ -39,25 +40,39 @@ public class RobotVisualizer extends JPanel {
                 super.run();
 
                 while (true) {
+                    updatePlayerDirection(mouseX.get(), mouseY.get());
+
                     if (isDown.get() && isRight.get())
-                        movePlayer(DX, DY);
+                        movePlayer(DX, DY, mouseX.get(), mouseY.get());
                     else if (isDown.get() && isLeft.get())
-                        movePlayer(-DX, DY);
+                        movePlayer(-DX, DY, mouseX.get(), mouseY.get());
                     else if (isUp.get() && isRight.get())
-                        movePlayer(DX, -DY);
+                        movePlayer(DX, -DY, mouseX.get(), mouseY.get());
                     else if (isUp.get() && isLeft.get())
-                        movePlayer(-DX, -DY);
+                        movePlayer(-DX, -DY, mouseX.get(), mouseY.get());
                     else if (isDown.get())
-                        movePlayer(0, DY);
+                        movePlayer(0, DY, mouseX.get(), mouseY.get());
                     else if (isUp.get())
-                        movePlayer(0, -DY);
+                        movePlayer(0, -DY, mouseX.get(), mouseY.get());
                     else if (isRight.get())
-                        movePlayer(DX, 0);
+                        movePlayer(DX, 0, mouseX.get(), mouseY.get());
                     else if (isLeft.get())
-                        movePlayer(-DX, 0);
+                        movePlayer(-DX, 0, mouseX.get(), mouseY.get());
                 }
             }
         }.start();
+
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+
+                mouseX.set(e.getX());
+                mouseY.set(e.getY());
+
+                updatePlayerDirection(mouseX.get(), mouseY.get());
+            }
+        });
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -92,21 +107,16 @@ public class RobotVisualizer extends JPanel {
                 }
             }
         });
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                super.mouseMoved(e);
-
-                robotLogic.setSeePosition(e.getPoint());
-            }
-        });
     }
 
-    private void movePlayer(int dx, int dy) {
+    private void updatePlayerDirection(int mouseX, int mouseY){
+        robotController.setSeePosition(new Point(mouseX, mouseY));
+    }
+
+    private void movePlayer(int dx, int dy, int mouseX, int mouseY) {
         var position = robotController.getRobotPosition();
         position = new Point(position.x + dx, position.y + dy);
-        robotController.setTargetPosition(position);
+        robotController.setTargetPosition(position, new Point(mouseX, mouseY));
     }
 
     private static void fillOval(Graphics graphics, int centerX, int centerY, int diam1, int diam2) {
