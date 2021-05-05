@@ -100,8 +100,6 @@ public class RobotVisualizer extends JPanel {
             @Override
             public void run() {
                 super.run();
-
-
                 while (true) {
                     try {
                         Thread.sleep(10);
@@ -160,23 +158,13 @@ public class RobotVisualizer extends JPanel {
         drawOval(graphics2D, x + 10, y, 5, 5);
     }
 
-    public void drawTarget(Graphics2D graphics2D, int x, int y) {
-        AffineTransform t = AffineTransform.getRotateInstance(0, 0, 0);
-        graphics2D.setTransform(t);
-        graphics2D.setColor(Color.GREEN);
-        fillOval(graphics2D, x, y, 5, 5);
-        graphics2D.setColor(Color.BLACK);
-        drawOval(graphics2D, x, y, 5, 5);
-    }
-
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
         Graphics2D g2d = (Graphics2D) graphics;
         drawRobot(g2d,
-                robotLogic.getPositionX(),
-                robotLogic.getPositionY(),
-                robotLogic.getRobotDirection());
-//        drawTarget(g2d, robotLogic.getPositionX(), robotLogic.getPositionY());
+                RobotLogic.round(robotLogic.getPositionX()),
+                RobotLogic.round(robotLogic.getPositionY()),
+               robotLogic.getRobotDirection());
     }
 }

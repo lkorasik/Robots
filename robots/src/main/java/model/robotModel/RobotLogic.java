@@ -14,12 +14,6 @@ public class RobotLogic {
     private final Point seePoint = new Point(100, 100);
     private final Point predPosition = new Point(100, 100);
 
-    private static double distance(double x1, double y1, double x2, double y2) {
-        double diffX = x1 - x2;
-        double diffY = y1 - y2;
-        return Math.sqrt(diffX * diffX + diffY * diffY);
-    }
-
     private static double angleTo(double fromX, double fromY, double toX, double toY) {
         double diffX = toX - fromX;
         double diffY = toY - fromY;
@@ -70,7 +64,7 @@ public class RobotLogic {
         robotDirection = angleTo(position.x, position.y, seePoint.x, seePoint.y);
     }
 
-    private void keepTargetInRectangle(int width, int height) {
+    public void onModelUpdateEvent(int width, int height) {
         if (predPosition.x > width)
             predPosition.x = width;
         else if (predPosition.x < 0)
@@ -81,19 +75,6 @@ public class RobotLogic {
             predPosition.y = height;
         else
             moveRobot();
-    }
-
-    public void onModelUpdateEvent(int width, int height) {
-        keepTargetInRectangle(width, height);
-
-//        if (position.x > width)
-//            position.x  = width;
-//        else if (position.x  < 0)
-//            position.x  = 0;
-//        else if (position.y < 0)
-//            position.y = 0;
-//        else if (position.y > height)
-//            position.y = height;
 
     }
 }
