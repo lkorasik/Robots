@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 
 public class FileWorker {
     public static boolean existsFile(String fileName) {
-        File f = new File(fileName);
-        return f.exists();
+        File file = new File(fileName);
+        return file.exists();
     }
 
     public static void createFile(String fileName) {
