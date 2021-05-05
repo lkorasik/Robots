@@ -12,6 +12,7 @@ public class RobotLogic {
 
     private final Point position = new Point(100, 100);
     private final Point seePoint = new Point(100, 100);
+    private final Point predPosition = new Point(100, 100);
 
     private static double distance(double x1, double y1, double x2, double y2) {
         double diffX = x1 - x2;
@@ -40,8 +41,8 @@ public class RobotLogic {
 
     private void moveRobot() {
         robotDirection = angleTo(position.x, position.y, seePoint.x, seePoint.y);
-//        robotPositionX = positionPoint.x;
-//        robotPositionY = positionPoint.y;
+        position.x = predPosition.x;
+        position.y = predPosition.y;
     }
 
     private static double asNormalizedRadians(double angle) {
@@ -59,8 +60,8 @@ public class RobotLogic {
     }
 
     public void setMovePosition(Point point) {
-        position.x = point.x;
-        position.y = point.y;
+        predPosition.x = point.x;
+        predPosition.y = point.y;
     }
 
     public void setSeePosition(Point point){
@@ -70,14 +71,14 @@ public class RobotLogic {
     }
 
     private void keepTargetInRectangle(int width, int height) {
-        if (position.x > width)
-            position.x = width;
-        else if (position.x < 0)
-            position.x = 0;
-        else if (position.y < 0)
-            position.y = 0;
-        else if (position.y > height)
-            position.y = height;
+        if (predPosition.x > width)
+            predPosition.x = width;
+        else if (predPosition.x < 0)
+            predPosition.x = 0;
+        else if (predPosition.y < 0)
+            predPosition.y = 0;
+        else if (predPosition.y > height)
+            predPosition.y = height;
         else
             moveRobot();
     }

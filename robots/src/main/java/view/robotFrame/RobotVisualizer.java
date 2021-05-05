@@ -165,6 +165,7 @@ public class RobotVisualizer extends JPanel {
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
+        System.out.println(robotLogic.getPositionX() + " " + robotLogic.getPositionY());
         Graphics2D g2d = (Graphics2D) graphics;
         drawRobot(g2d,
                 robotLogic.getPositionX(),
