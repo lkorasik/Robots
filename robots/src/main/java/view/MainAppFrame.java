@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 
 public class MainAppFrame extends FrameClosing {
-    private final JDesktopPane desktopPane = new JDesktopPane();
+    //private final JDesktopPane desktopPane = new JDesktopPane();
     private final GameFrame gameFrame;
     private final LogFrame logFrame;
 
@@ -35,12 +35,15 @@ public class MainAppFrame extends FrameClosing {
                 Constants.MainApplicationFrame.INSET,
                 screenSize.width - Constants.MainApplicationFrame.INSET * 2,
                 screenSize.height - Constants.MainApplicationFrame.INSET * 2);
-        setContentPane(desktopPane);
+        //setContentPane(desktopPane);
 
         setMinimumSize(new Dimension(1200, 600));
 
         logFrame = new LogFrame(Logger.getDefaultLogSource());
         gameFrame = new GameFrame(robotController, robotLogic);
+
+        var split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, gameFrame, logFrame);
+        setContentPane(split);
 
         setJMenuBar(createMenuBar());
 
@@ -134,7 +137,7 @@ public class MainAppFrame extends FrameClosing {
     }
 
     protected void addWindow(JInternalFrame frame) {
-        desktopPane.add(frame);
+        //desktopPane.add(frame);
         frame.setVisible(true);
     }
 
