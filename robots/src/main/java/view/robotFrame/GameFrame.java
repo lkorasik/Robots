@@ -28,4 +28,8 @@ public class GameFrame extends InternalFrameClosing {
     private void setCloseDialog() {
         setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
     }
+
+    public RobotVisualizer getView() {
+        return robotVisualizer;
+    }
 }
