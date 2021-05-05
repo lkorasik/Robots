@@ -42,14 +42,13 @@ public class RobotController {
     }
 
     public Point getRobotPosition(){
-        return new Point((int)robotLogic.getRobotPositionX(), (int)robotLogic.getRobotPositionY());
+        return robotLogic.getPositionPoint();
     }
 
     public void setTargetPosition(Point moveTarget, Point seeTarget){
         robotLogic.setMovePosition(moveTarget);
         robotLogic.setSeePosition(seeTarget);
     }
-
     public void setSeePosition(Point seeTarget){
         robotLogic.setSeePosition(seeTarget);
     }

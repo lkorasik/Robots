@@ -63,7 +63,7 @@ public class RobotVisualizer extends JPanel {
         mouseX.set(event.getX());
         mouseY.set(event.getY());
 
-        updatePlayerDirection(mouseX.get(), mouseY.get());
+        robotController.setSeePosition(new Point(mouseX.get(), mouseY.get()));
     }
 
     private void keyReleaseAction(KeyEvent event) {
@@ -101,8 +101,6 @@ public class RobotVisualizer extends JPanel {
                 super.run();
 
                 while (true) {
-                    updatePlayerDirection(mouseX.get(), mouseY.get());
-
                     if (isDown.get() && isRight.get())
                         movePlayer(DX, DY, mouseX.get(), mouseY.get());
                     else if (isDown.get() && isLeft.get())
@@ -122,10 +120,6 @@ public class RobotVisualizer extends JPanel {
                 }
             }
         }.start();
-    }
-
-    private void updatePlayerDirection(int mouseX, int mouseY) {
-        robotController.setSeePosition(new Point(mouseX, mouseY));
     }
 
     private void movePlayer(int dx, int dy, int mouseX, int mouseY) {
@@ -173,9 +167,9 @@ public class RobotVisualizer extends JPanel {
         super.paint(graphics);
         Graphics2D g2d = (Graphics2D) graphics;
         drawRobot(g2d,
-                RobotLogic.round(robotLogic.getRobotPositionX()),
-                RobotLogic.round(robotLogic.getRobotPositionY()),
+                robotLogic.getPositionX(),
+                robotLogic.getPositionY(),
                 robotLogic.getRobotDirection());
-        drawTarget(g2d, robotLogic.getTargetPositionX(), robotLogic.getTargetPositionY());
+//        drawTarget(g2d, robotLogic.getPositionX(), robotLogic.getPositionY());
     }
 }

@@ -1,19 +1,16 @@
 package model.robotModel;
 
 import lombok.Getter;
-import model.Constants;
 
 import java.awt.*;
 
 public class RobotLogic {
-    @Getter
-    private volatile double robotPositionX = 100;
-    @Getter
-    private volatile double robotPositionY = 100;
+
+
     @Getter
     private volatile double robotDirection = 0;
 
-    private final Point movePoint = new Point(100, 100);
+    private final Point position = new Point(100, 100);
     private final Point seePoint = new Point(100, 100);
 
     private static double distance(double x1, double y1, double x2, double y2) {
@@ -29,18 +26,22 @@ public class RobotLogic {
         return asNormalizedRadians(Math.atan2(diffY, diffX));
     }
 
-    public int getTargetPositionY(){
-        return movePoint.y;
+    public int getPositionY(){
+        return position.y;
     }
 
-    public int getTargetPositionX(){
-        return movePoint.x;
+    public int getPositionX(){
+        return position.x;
+    }
+
+    public Point getPositionPoint(){
+        return position;
     }
 
     private void moveRobot() {
-        robotDirection = angleTo(movePoint.x, movePoint.y, seePoint.x, seePoint.y);
-        robotPositionX = movePoint.x;
-        robotPositionY = movePoint.y;
+        robotDirection = angleTo(position.x, position.y, seePoint.x, seePoint.y);
+//        robotPositionX = positionPoint.x;
+//        robotPositionY = positionPoint.y;
     }
 
     private static double asNormalizedRadians(double angle) {
@@ -58,42 +59,40 @@ public class RobotLogic {
     }
 
     public void setMovePosition(Point point) {
-        movePoint.x = point.x;
-        movePoint.y = point.y;
+        position.x = point.x;
+        position.y = point.y;
     }
 
     public void setSeePosition(Point point){
         seePoint.x = point.x;
         seePoint.y = point.y;
-        robotDirection = angleTo(movePoint.x, movePoint.y, seePoint.x, seePoint.y);
+        robotDirection = angleTo(position.x, position.y, seePoint.x, seePoint.y);
     }
 
     private void keepTargetInRectangle(int width, int height) {
-        if (movePoint.x > width)
-            movePoint.x = width;
-        else if (movePoint.x < 0)
-            movePoint.x = 0;
-        else if (movePoint.y < 0)
-            movePoint.y = 0;
-        else if (movePoint.y > height)
-            movePoint.y = height;
+        if (position.x > width)
+            position.x = width;
+        else if (position.x < 0)
+            position.x = 0;
+        else if (position.y < 0)
+            position.y = 0;
+        else if (position.y > height)
+            position.y = height;
+        else
+            moveRobot();
     }
 
     public void onModelUpdateEvent(int width, int height) {
         keepTargetInRectangle(width, height);
 
-        double distance = distance(movePoint.x, movePoint.y, robotPositionX, robotPositionY);
-        if (distance < 0.5)
-            return;
-        if (robotPositionX > width)
-            robotPositionX = width;
-        else if (robotPositionX < 0)
-            robotPositionX = 0;
-        else if (robotPositionY < 0)
-            robotPositionY = 0;
-        else if (robotPositionY > height)
-            robotPositionY = height;
-        else
-            moveRobot();
+//        if (position.x > width)
+//            position.x  = width;
+//        else if (position.x  < 0)
+//            position.x  = 0;
+//        else if (position.y < 0)
+//            position.y = 0;
+//        else if (position.y > height)
+//            position.y = height;
+
     }
 }
