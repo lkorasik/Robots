@@ -6,10 +6,7 @@ import model.robotModel.RobotLogic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -100,36 +97,28 @@ public class RobotVisualizer extends JPanel {
         }
     }
 
-    private void startLiveUpdatePlayersState() {
-        new Thread() {
+    private void startLiveUpdatePlayersState(){
+        new Timer(10, new ActionListener() {
             @Override
-            public void run() {
-                super.run();
-                while (true) {
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if (isDown.get() && isRight.get())
-                        movePlayer(DX, DY, mouseX.get(), mouseY.get());
-                    else if (isDown.get() && isLeft.get())
-                        movePlayer(-DX, DY, mouseX.get(), mouseY.get());
-                    else if (isUp.get() && isRight.get())
-                        movePlayer(DX, -DY, mouseX.get(), mouseY.get());
-                    else if (isUp.get() && isLeft.get())
-                        movePlayer(-DX, -DY, mouseX.get(), mouseY.get());
-                    else if (isDown.get())
-                        movePlayer(0, DY, mouseX.get(), mouseY.get());
-                    else if (isUp.get())
-                        movePlayer(0, -DY, mouseX.get(), mouseY.get());
-                    else if (isRight.get())
-                        movePlayer(DX, 0, mouseX.get(), mouseY.get());
-                    else if (isLeft.get())
-                        movePlayer(-DX, 0, mouseX.get(), mouseY.get());
-                }
+            public void actionPerformed(ActionEvent e) {
+                if (isDown.get() && isRight.get())
+                    movePlayer(DX, DY, mouseX.get(), mouseY.get());
+                else if (isDown.get() && isLeft.get())
+                    movePlayer(-DX, DY, mouseX.get(), mouseY.get());
+                else if (isUp.get() && isRight.get())
+                    movePlayer(DX, -DY, mouseX.get(), mouseY.get());
+                else if (isUp.get() && isLeft.get())
+                    movePlayer(-DX, -DY, mouseX.get(), mouseY.get());
+                else if (isDown.get())
+                    movePlayer(0, DY, mouseX.get(), mouseY.get());
+                else if (isUp.get())
+                    movePlayer(0, -DY, mouseX.get(), mouseY.get());
+                else if (isRight.get())
+                    movePlayer(DX, 0, mouseX.get(), mouseY.get());
+                else if (isLeft.get())
+                    movePlayer(-DX, 0, mouseX.get(), mouseY.get());
             }
-        }.start();
+        }).start();
     }
 
     private void movePlayer(int dx, int dy, int mouseX, int mouseY) {
