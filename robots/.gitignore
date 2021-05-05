@@ -108,5 +108,4 @@ buildNumber.properties
 # Info about last session
 
 .session
-conf.json
-configuration.json
+/src/main/resources/configuration.json

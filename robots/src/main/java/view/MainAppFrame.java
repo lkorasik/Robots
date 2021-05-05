@@ -1,5 +1,6 @@
 package view;
 
+import fileWorker.FileWorker;
 import serialization.SerializeInfo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,20 +53,25 @@ public class MainAppFrame extends FrameClosing {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
-                Object[] options = {Constants.ExitPaneOptions.YES, Constants.ExitPaneOptions.NO};
-                var decision = JOptionPane
-                        .showOptionDialog(
-                                e.getWindow(),
-                                Constants.LoadPreviousSessionOptions.MESSAGE,
-                                Constants.LoadPreviousSessionOptions.TITLE,
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.QUESTION_MESSAGE,
-                                null,
-                                options,
-                                options[0]);
-                if (decision == JOptionPane.YES_OPTION) {
-                    loadFramesUsingJson();
-                } else {
+                if (FileWorker.existsFile(SerializeInfo.CONFIG_FRAME_FILE)) {
+                    Object[] options = {Constants.ExitPaneOptions.YES, Constants.ExitPaneOptions.NO};
+                    var decision = JOptionPane
+                            .showOptionDialog(
+                                    e.getWindow(),
+                                    Constants.PreviousSessionOptions.MESSAGE,
+                                    Constants.PreviousSessionOptions.TITLE,
+                                    JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE,
+                                    null,
+                                    options,
+                                    options[0]);
+                    if (decision == JOptionPane.YES_OPTION) {
+                        loadFramesUsingJson();
+                    } else {
+                        loadFrameDefaultValues();
+                    }
+                }
+                else{
                     loadFrameDefaultValues();
                 }
             }
@@ -73,35 +79,38 @@ public class MainAppFrame extends FrameClosing {
     }
 
     private void loadFrameDefaultValues() {
-        var size = new Dimension(Constants.PropertyDefaultValues.LOG_FRAME_WIDTH, Constants.PropertyDefaultValues.LOG_FRAME_HEIGHT);
-        var location = new Point(Constants.PropertyDefaultValues.LOG_FRAME_POSITION_X, Constants.PropertyDefaultValues.LOG_FRAME_POSITION_Y);
-        Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
+        var size = new Dimension(Constants.PropertyFrame.LOG_FRAME_WIDTH, Constants.PropertyFrame.LOG_FRAME_HEIGHT);
+        var location = new Point(Constants.PropertyFrame.LOG_FRAME_POS_X, Constants.PropertyFrame.LOG_FRAME_POS_Y);
         updateFrame(size, location, logFrame);
 
-        size = new Dimension(Constants.PropertyDefaultValues.GAME_FRAME_WIDTH, Constants.PropertyDefaultValues.GAME_FRAME_HEIGHT);
-        location = new Point(Constants.PropertyDefaultValues.GAME_FRAME_POSITION_X, Constants.PropertyDefaultValues.GAME_FRAME_POSITION_Y);
+        size = new Dimension(Constants.PropertyFrame.GAME_FRAME_WIDTH, Constants.PropertyFrame.GAME_FRAME_HEIGHT);
+        location = new Point(Constants.PropertyFrame.GAME_FRAME_POS_X, Constants.PropertyFrame.GAME_FRAME_POS_Y);
         updateFrame(size, location, gameFrame);
     }
 
     private void loadFramesUsingJson() {
-        try {
-            HashMap<String, InternalFrameClosing> map = new ObjectMapper().readValue(new File(SerializeInfo.CONFIGURATION_FILENAME), new TypeReference<HashMap<String, InternalFrameClosing>>() {
-            });
+        if (FileWorker.existsFile(SerializeInfo.CONFIG_FRAME_FILE))
+            try {
+                HashMap<String, InternalFrameClosing> map = new ObjectMapper().readValue(
+                        new File(SerializeInfo.CONFIG_FRAME_FILE),
+                        new TypeReference<>() {});
 
-            var sourceFrame = map.get(GameFrame.class.getName());
-            updateFrame(sourceFrame.getSize(), sourceFrame.getLocation(), gameFrame);
+                var sourceFrame = map.get(GameFrame.class.getName());
+                updateFrame(sourceFrame.getSize(), sourceFrame.getLocation(), gameFrame);
 
-            sourceFrame = map.get(LogFrame.class.getName());
-            updateFrame(sourceFrame.getSize(), sourceFrame.getLocation(), logFrame);
-            Logger.debug(Constants.MainApplicationFrame.PROTOCOL_WORKING);
-        } catch (IOException exception) {
-            exception.printStackTrace();
+                sourceFrame = map.get(LogFrame.class.getName());
+                updateFrame(sourceFrame.getSize(), sourceFrame.getLocation(), logFrame);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        else {
+            loadFrameDefaultValues();
         }
     }
 
-    private void updateFrame(Dimension size, Point location, InternalFrameClosing target) {
-        target.setMainParams(size, location);
-        addWindow(target);
+    private void updateFrame(Dimension size, Point location, InternalFrameClosing internalFrame) {
+        internalFrame.setMainParams(size, location);
+        addWindow(internalFrame);
     }
 
     private void setExitDialog() {
@@ -115,7 +124,8 @@ public class MainAppFrame extends FrameClosing {
                 map.put(LogFrame.class.getName(), logFrame);
 
                 try {
-                    new ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(new File(SerializeInfo.CONFIGURATION_FILENAME), map);
+                    new ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(
+                            new File(SerializeInfo.CONFIG_FRAME_FILE), map);
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 }
@@ -180,35 +190,4 @@ public class MainAppFrame extends FrameClosing {
                 this));
         return programMenuItem;
     }
-
-    /*
-    protected JMenuBar createMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-
-        //Set up the lone menu.
-        JMenu menu = new JMenu("Document");
-        menu.setMnemonic(KeyEvent.VK_D);
-        menuBar.add(menu);
-
-        //Set up the first menu item.
-        JMenuItem menuItem = new JMenuItem("New");
-        menuItem.setMnemonic(KeyEvent.VK_N);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_N, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("new");
-//        menuItem.addActionListener(this);
-        menu.add(menuItem);
-
-        //Set up the second menu item.
-        menuItem = new JMenuItem("Quit");
-        menuItem.setMnemonic(KeyEvent.VK_Q);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_Q, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("quit");
-//        menuItem.addActionListener(this);
-        menu.add(menuItem);
-
-        return menuBar;
-    }
-     */
 }

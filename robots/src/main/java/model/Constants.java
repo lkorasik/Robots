@@ -38,7 +38,7 @@ public class Constants {
         public static final String WINDOW_MESSAGE = "Вы действительно хотите закрыть окно?";
     }
 
-    public static class LoadPreviousSessionOptions {
+    public static class PreviousSessionOptions {
         public static final String TITLE = "Загрузка настроек";
         public static final String MESSAGE = "Загрузить настройки окон из предыдущей сессии?";
     }
@@ -53,14 +53,14 @@ public class Constants {
         public static final double DEFAULT_DURATION = 10d;
     }
 
-    public static class PropertyDefaultValues {
-        public static final int LOG_FRAME_POSITION_X = 10;
-        public static final int LOG_FRAME_POSITION_Y = 10;
+    public static class PropertyFrame {
+        public static final int LOG_FRAME_POS_X = 10;
+        public static final int LOG_FRAME_POS_Y = 10;
         public static final int LOG_FRAME_WIDTH = 200;
         public static final int LOG_FRAME_HEIGHT = 500;
 
-        public static final int GAME_FRAME_POSITION_X = 2 * LOG_FRAME_POSITION_X + LOG_FRAME_WIDTH;
-        public static final int GAME_FRAME_POSITION_Y = 10;
+        public static final int GAME_FRAME_POS_X = 2 * LOG_FRAME_POS_X + LOG_FRAME_WIDTH;
+        public static final int GAME_FRAME_POS_Y = 10;
         public static final int GAME_FRAME_WIDTH = 500;
         public static final int GAME_FRAME_HEIGHT = 500;
     }
