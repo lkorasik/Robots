@@ -17,9 +17,7 @@ import view.robotFrame.GameFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,6 +35,8 @@ public class MainAppFrame extends FrameClosing {
                 screenSize.width - Constants.MainApplicationFrame.INSET * 2,
                 screenSize.height - Constants.MainApplicationFrame.INSET * 2);
         setContentPane(desktopPane);
+
+        setMinimumSize(new Dimension(1200, 600));
 
         logFrame = new LogFrame(Logger.getDefaultLogSource());
         gameFrame = new GameFrame(robotController, robotLogic);

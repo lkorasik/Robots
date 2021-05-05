@@ -22,7 +22,7 @@ public class RobotsProgram {
             MainAppFrame mainAppFrame = new MainAppFrame(new RobotController(robotLogic), robotLogic);
             mainAppFrame.pack();
             mainAppFrame.setVisible(true);
-            mainAppFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+            //mainAppFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
         });
     }
 }

@@ -5,11 +5,24 @@ import model.robotModel.RobotLogic;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RobotVisualizer extends JPanel {
     private final RobotController robotController;
     private final RobotLogic robotLogic;
+
+    AtomicBoolean isUp = new AtomicBoolean(false);
+    AtomicBoolean isDown = new AtomicBoolean(false);
+    AtomicBoolean isRight = new AtomicBoolean(false);
+    AtomicBoolean isLeft = new AtomicBoolean(false);
+
+    private static final int DX = 2;
+    private static final int DY = 2;
 
     public RobotVisualizer(RobotController robotController, RobotLogic robotLogic) {
         this.robotController = robotController;
@@ -17,6 +30,83 @@ public class RobotVisualizer extends JPanel {
 
         this.robotController.setRobotVisualizer(this);
         this.robotController.initEventTimer();
+
+        setFocusable(true);
+
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                while (true) {
+                    if (isDown.get() && isRight.get())
+                        movePlayer(DX, DY);
+                    else if (isDown.get() && isLeft.get())
+                        movePlayer(-DX, DY);
+                    else if (isUp.get() && isRight.get())
+                        movePlayer(DX, -DY);
+                    else if (isUp.get() && isLeft.get())
+                        movePlayer(-DX, -DY);
+                    else if (isDown.get())
+                        movePlayer(0, DY);
+                    else if (isUp.get())
+                        movePlayer(0, -DY);
+                    else if (isRight.get())
+                        movePlayer(DX, 0);
+                    else if (isLeft.get())
+                        movePlayer(-DX, 0);
+                }
+            }
+        }.start();
+
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                var code = e.getExtendedKeyCode();
+
+                if (code == KeyEvent.VK_RIGHT) {
+                    isRight.compareAndSet(false, true);
+                } else if (code == KeyEvent.VK_LEFT) {
+                    isLeft.compareAndSet(false, true);
+                } else if (code == KeyEvent.VK_DOWN) {
+                    isDown.compareAndSet(false, true);
+                } else if (code == KeyEvent.VK_UP) {
+                    isUp.compareAndSet(false, true);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                var code = e.getExtendedKeyCode();
+
+                if (code == KeyEvent.VK_RIGHT) {
+                    isRight.compareAndSet(true, false);
+                } else if (code == KeyEvent.VK_LEFT) {
+                    isLeft.compareAndSet(true, false);
+                } else if (code == KeyEvent.VK_DOWN) {
+                    isDown.compareAndSet(true, false);
+                } else if (code == KeyEvent.VK_UP) {
+                    isUp.compareAndSet(true, false);
+                }
+            }
+        });
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+
+                robotLogic.setSeePosition(e.getPoint());
+            }
+        });
+    }
+
+    private void movePlayer(int dx, int dy) {
+        var position = robotController.getRobotPosition();
+        position = new Point(position.x + dx, position.y + dy);
+        robotController.setTargetPosition(position);
     }
 
     private static void fillOval(Graphics graphics, int centerX, int centerY, int diam1, int diam2) {
