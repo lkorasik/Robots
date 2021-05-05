@@ -1,6 +1,7 @@
 package view.robotFrame;
 
 import controller.robotController.RobotController;
+import lombok.SneakyThrows;
 import model.robotModel.RobotLogic;
 
 import javax.swing.*;
@@ -100,7 +101,13 @@ public class RobotVisualizer extends JPanel {
             public void run() {
                 super.run();
 
+
                 while (true) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     if (isDown.get() && isRight.get())
                         movePlayer(DX, DY, mouseX.get(), mouseY.get());
                     else if (isDown.get() && isLeft.get())
