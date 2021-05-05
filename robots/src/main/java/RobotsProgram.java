@@ -15,14 +15,13 @@ public class RobotsProgram {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
+        
         SwingUtilities.invokeLater(() -> {
             RobotLogic robotLogic = new RobotLogic();
             MainAppFrame mainAppFrame = new MainAppFrame(new RobotController(robotLogic), robotLogic);
             mainAppFrame.pack();
             mainAppFrame.setVisible(true);
-            //mainAppFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+            mainAppFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
         });
     }
 }
