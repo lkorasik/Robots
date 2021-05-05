@@ -85,7 +85,7 @@ public class MainAppFrame extends FrameClosing {
 
     private void loadFramesUsingJson() {
         try {
-            HashMap<String, InternalFrameClosing> map = new ObjectMapper().readValue(new File(SerializeInfo.CONFIG), new TypeReference<HashMap<String, InternalFrameClosing>>() {
+            HashMap<String, InternalFrameClosing> map = new ObjectMapper().readValue(new File(SerializeInfo.CONFIGURATION_FILENAME), new TypeReference<HashMap<String, InternalFrameClosing>>() {
             });
 
             var sourceFrame = map.get(GameFrame.class.getName());
@@ -115,7 +115,7 @@ public class MainAppFrame extends FrameClosing {
                 map.put(LogFrame.class.getName(), logFrame);
 
                 try {
-                    new ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(new File(SerializeInfo.CONFIG), map);
+                    new ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(new File(SerializeInfo.CONFIGURATION_FILENAME), map);
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 }
