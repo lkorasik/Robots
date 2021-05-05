@@ -5,7 +5,10 @@ import model.robotModel.RobotLogic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,13 +17,13 @@ public class RobotVisualizer extends JPanel {
     private final RobotController robotController;
     private final RobotLogic robotLogic;
 
-    AtomicInteger mouseX = new AtomicInteger();
-    AtomicInteger mouseY = new AtomicInteger();
+    private final AtomicInteger mouseX = new AtomicInteger();
+    private final AtomicInteger mouseY = new AtomicInteger();
 
-    AtomicBoolean isUp = new AtomicBoolean(false);
-    AtomicBoolean isDown = new AtomicBoolean(false);
-    AtomicBoolean isRight = new AtomicBoolean(false);
-    AtomicBoolean isLeft = new AtomicBoolean(false);
+    private final AtomicBoolean isUp = new AtomicBoolean(false);
+    private final AtomicBoolean isDown = new AtomicBoolean(false);
+    private final AtomicBoolean isRight = new AtomicBoolean(false);
+    private final AtomicBoolean isLeft = new AtomicBoolean(false);
 
     private static final int DX = 2;
     private static final int DY = 2;
@@ -34,6 +37,64 @@ public class RobotVisualizer extends JPanel {
 
         setFocusable(true);
 
+        startLiveUpdatePlayersState();
+
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                mouseMoveAction(e);
+            }
+        });
+
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                keyPressAction(e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                keyReleaseAction(e);
+            }
+        });
+    }
+
+    private void mouseMoveAction(MouseEvent event) {
+        mouseX.set(event.getX());
+        mouseY.set(event.getY());
+
+        updatePlayerDirection(mouseX.get(), mouseY.get());
+    }
+
+    private void keyReleaseAction(KeyEvent event) {
+        var code = event.getExtendedKeyCode();
+
+        if (code == KeyEvent.VK_RIGHT) {
+            isRight.compareAndSet(true, false);
+        } else if (code == KeyEvent.VK_LEFT) {
+            isLeft.compareAndSet(true, false);
+        } else if (code == KeyEvent.VK_DOWN) {
+            isDown.compareAndSet(true, false);
+        } else if (code == KeyEvent.VK_UP) {
+            isUp.compareAndSet(true, false);
+        }
+    }
+
+    private void keyPressAction(KeyEvent event) {
+        var code = event.getExtendedKeyCode();
+
+        if (code == KeyEvent.VK_RIGHT) {
+            isRight.compareAndSet(false, true);
+        } else if (code == KeyEvent.VK_LEFT) {
+            isLeft.compareAndSet(false, true);
+        } else if (code == KeyEvent.VK_DOWN) {
+            isDown.compareAndSet(false, true);
+        } else if (code == KeyEvent.VK_UP) {
+            isUp.compareAndSet(false, true);
+        }
+    }
+
+    private void startLiveUpdatePlayersState() {
         new Thread() {
             @Override
             public void run() {
@@ -61,55 +122,9 @@ public class RobotVisualizer extends JPanel {
                 }
             }
         }.start();
-
-        addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                super.mouseMoved(e);
-
-                mouseX.set(e.getX());
-                mouseY.set(e.getY());
-
-                updatePlayerDirection(mouseX.get(), mouseY.get());
-            }
-        });
-
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
-                var code = e.getExtendedKeyCode();
-
-                if (code == KeyEvent.VK_RIGHT) {
-                    isRight.compareAndSet(false, true);
-                } else if (code == KeyEvent.VK_LEFT) {
-                    isLeft.compareAndSet(false, true);
-                } else if (code == KeyEvent.VK_DOWN) {
-                    isDown.compareAndSet(false, true);
-                } else if (code == KeyEvent.VK_UP) {
-                    isUp.compareAndSet(false, true);
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-                var code = e.getExtendedKeyCode();
-
-                if (code == KeyEvent.VK_RIGHT) {
-                    isRight.compareAndSet(true, false);
-                } else if (code == KeyEvent.VK_LEFT) {
-                    isLeft.compareAndSet(true, false);
-                } else if (code == KeyEvent.VK_DOWN) {
-                    isDown.compareAndSet(true, false);
-                } else if (code == KeyEvent.VK_UP) {
-                    isUp.compareAndSet(true, false);
-                }
-            }
-        });
     }
 
-    private void updatePlayerDirection(int mouseX, int mouseY){
+    private void updatePlayerDirection(int mouseX, int mouseY) {
         robotController.setSeePosition(new Point(mouseX, mouseY));
     }
 
@@ -157,8 +172,8 @@ public class RobotVisualizer extends JPanel {
     public void paint(Graphics graphics) {
         super.paint(graphics);
         Graphics2D g2d = (Graphics2D) graphics;
-        drawRobot(g2d, RobotLogic.round(
-                robotLogic.getRobotPositionX()),
+        drawRobot(g2d,
+                RobotLogic.round(robotLogic.getRobotPositionX()),
                 RobotLogic.round(robotLogic.getRobotPositionY()),
                 robotLogic.getRobotDirection());
         drawTarget(g2d, robotLogic.getTargetPositionX(), robotLogic.getTargetPositionY());
