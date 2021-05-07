@@ -161,7 +161,7 @@ public class MainAppFrame extends FrameClosing {
     private MenuItem createProgramMenuItem() {
         var programMenuItem = new MenuItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_PROGRAM),
-                Constants.MainApplicationFrame.PROGRAM_MENU_DESCRIPTION,
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_MENU_DESCRIPTION),
                 KeyEvent.VK_P);
         programMenuItem.add(new MenuInternalItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_EXIT),
@@ -174,7 +174,7 @@ public class MainAppFrame extends FrameClosing {
     private MenuItem createThemeMenuItem() {
         var menuItem = new MenuItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_VIEW_MODE),
-                Constants.MainApplicationFrame.DISPLAY_MODE_MENU_DESCRIPTION,
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_MENU_DESCRIPTION),
                 KeyEvent.VK_T);
         //TODO: In MainAppFrame display mode, In LocalizationTextKeys view mode
         menuItem.add(new MenuInternalItem(
@@ -193,7 +193,7 @@ public class MainAppFrame extends FrameClosing {
     private MenuItem createLogMenuItem() {
         var logMenuItem = new MenuItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_TESTS),
-                Constants.MainApplicationFrame.TEST_MENU_DESCRIPTION,
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MENU_DESCRIPTION),
                 KeyEvent.VK_L);
         logMenuItem.add(new MenuInternalItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MESSAGE_TO_LOG),
@@ -206,7 +206,7 @@ public class MainAppFrame extends FrameClosing {
     private MenuItem createLanguageMenuItem() {
         var menuItem = new MenuItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_LANGUAGE),
-                null,
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_MENU_DESCRIPTION),
                 KeyEvent.VK_A);
         menuItem.add(new MenuInternalItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_ENGLISH),

@@ -12,12 +12,16 @@ public class LocalizationTextKeys {
     public static final String TOOLBAR_LANGUAGE = "toolbar_language";
 
     public static final String PROGRAM_EXIT = "program_exit";
+    public static final String PROGRAM_MENU_DESCRIPTION = "program_menu_description";
 
+    public static final String VIEW_MODE_MENU_DESCRIPTION = "view_mode_menu_description";
     public static final String VIEW_MODE_SYSTEM_SCHEME = "view_mode_system_scheme";
     public static final String VIEW_MODE_UNIVERSAL_SCHEME = "view_mode_universal_scheme";
 
+    public static final String TESTS_MENU_DESCRIPTION = "tests_menu_description";
     public static final String TESTS_MESSAGE_TO_LOG = "tests_message_to_log";
 
+    public static final String LANGUAGE_MENU_DESCRIPTION = "language_menu_description";
     public static final String LANGUAGE_RUSSIAN = "language_russian";
     public static final String LANGUAGE_ENGLISH = "language_english";
     public static final String LANGUAGE_CZECH = "language_czech";
