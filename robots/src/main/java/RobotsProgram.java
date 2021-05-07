@@ -1,6 +1,7 @@
 import controller.robotController.RobotController;
 import model.robotModel.RobotLogic;
 import translation.LanguageBundle;
+import translation.Locales;
 import view.MainAppFrame;
 
 import javax.swing.*;
@@ -16,7 +17,9 @@ public class RobotsProgram {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
+        LanguageBundle.create(Locales.EN);
+
         SwingUtilities.invokeLater(() -> {
             RobotLogic robotLogic = new RobotLogic();
             MainAppFrame mainAppFrame = new MainAppFrame(new RobotController(robotLogic), robotLogic);

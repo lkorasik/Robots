@@ -20,4 +20,5 @@ public class LocalizationTextKeys {
 
     public static final String LANGUAGE_RUSSIAN = "language_russian";
     public static final String LANGUAGE_ENGLISH = "language_english";
+    public static final String LANGUAGE_CZECH = "language_czech";
 }

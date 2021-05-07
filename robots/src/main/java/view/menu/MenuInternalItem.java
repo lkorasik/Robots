@@ -2,6 +2,8 @@ package view.menu;
 
 import controller.logController.Logger;
 import model.Constants;
+import translation.LanguageBundle;
+import translation.Locales;
 import view.MainAppFrame;
 
 import javax.swing.*;
@@ -21,6 +23,18 @@ public class MenuInternalItem extends JMenuItem {
             });
             case THEME_UNIVERSAL -> addActionListener(event -> {
                 setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName(), mainAppFrame);
+                mainAppFrame.invalidate();
+            });
+            case LANGUAGE -> addActionListener(event -> {
+                var lang = event.getActionCommand();
+
+                if(lang.equals(Locales.RU.getFullName()))
+                    LanguageBundle.getInstance().changeLanguage(Locales.RU);
+                else if(lang.equals(Locales.CZ.getFullName()))
+                    LanguageBundle.getInstance().changeLanguage(Locales.CZ);
+                else
+                    LanguageBundle.getInstance().changeLanguage(Locales.EN);
+
                 mainAppFrame.invalidate();
             });
         }
