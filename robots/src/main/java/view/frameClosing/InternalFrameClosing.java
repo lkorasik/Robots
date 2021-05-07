@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Setter;
 import model.Constants;
+import translation.LanguageBundle;
 
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;

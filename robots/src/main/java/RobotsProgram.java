@@ -1,5 +1,6 @@
 import controller.robotController.RobotController;
 import model.robotModel.RobotLogic;
+import translation.LanguageBundle;
 import view.MainAppFrame;
 
 import javax.swing.*;
