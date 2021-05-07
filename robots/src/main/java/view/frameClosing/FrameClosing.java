@@ -1,6 +1,8 @@
 package view.frameClosing;
 
 import model.Constants;
+import translation.LanguageBundle;
+import translation.LocalizationTextKeys;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -12,12 +14,13 @@ public class FrameClosing extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                Object[] options = {Constants.ExitPaneOptions.YES, Constants.ExitPaneOptions.NO};
+                var languageBundle = LanguageBundle.getInstance();
+                Object[] options = {languageBundle.getString(LocalizationTextKeys.EXIT_DIALOG_YES), languageBundle.getString(LocalizationTextKeys.EXIT_DIALOG_NO)};
                 var decision = JOptionPane
                         .showOptionDialog(
                                 e.getWindow(),
-                                Constants.ExitPaneOptions.WINDOW_MESSAGE,
-                                Constants.ExitPaneOptions.WINDOW_TITLE,
+                                languageBundle.getString(LocalizationTextKeys.EXIT_DIALOG_MESSAGE),
+                                languageBundle.getString(LocalizationTextKeys.EXIT_DIALOG_TITLE),
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.QUESTION_MESSAGE,
                                 null,

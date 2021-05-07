@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Setter;
 import model.Constants;
+import translation.LanguageBundle;
 import serialization.InternalFrameDeserializer;
 import serialization.InternalFrameSerializer;
-
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;

@@ -5,4 +5,5 @@ public enum TypeMenuItem {
     LOG,
     THEME_UNIVERSAL,
     THEME_SYSTEM,
+    LANGUAGE
 }

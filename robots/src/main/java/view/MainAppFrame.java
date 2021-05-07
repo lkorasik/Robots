@@ -8,6 +8,10 @@ import fileWorker.FileWorker;
 import model.Constants;
 import model.robotModel.RobotLogic;
 import serialization.SerializeInfo;
+import translation.LanguageBundle;
+import translation.LanguageChangeListener;
+import translation.Locales;
+import translation.LocalizationTextKeys;
 import view.frameClosing.FrameClosing;
 import view.frameClosing.InternalFrameClosing;
 import view.logFrame.LogFrame;
@@ -31,6 +35,7 @@ public class MainAppFrame extends FrameClosing {
     private final LogFrame logFrame;
 
     public MainAppFrame(RobotController robotController, RobotLogic robotLogic) {
+        super();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(Constants.MainApplicationFrame.INSET,
                 Constants.MainApplicationFrame.INSET,
@@ -38,6 +43,8 @@ public class MainAppFrame extends FrameClosing {
                 screenSize.height - Constants.MainApplicationFrame.INSET * 2);
 
         setMinimumSize(new Dimension(1200, 600));
+
+        LanguageBundle.getInstance().addLanguageChangeListener(() -> setJMenuBar(createMenuBar()));
 
         logFrame = new LogFrame(Logger.getDefaultLogSource());
         gameFrame = new GameFrame(robotController, robotLogic);
@@ -146,22 +153,37 @@ public class MainAppFrame extends FrameClosing {
         menuBar.add(createProgramMenuItem());
         menuBar.add(createThemeMenuItem());
         menuBar.add(createLogMenuItem());
+        menuBar.add(createLanguageMenuItem());
 
         return menuBar;
     }
 
+    private MenuItem createProgramMenuItem() {
+        var programMenuItem = new MenuItem(
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_PROGRAM),
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_MENU_DESCRIPTION),
+                KeyEvent.VK_P);
+        programMenuItem.add(new MenuInternalItem(
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_EXIT),
+                KeyEvent.VK_S,
+                TypeMenuItem.EXIT,
+                this));
+        return programMenuItem;
+    }
+
     private MenuItem createThemeMenuItem() {
         var menuItem = new MenuItem(
-                Constants.MainApplicationFrame.DISPLAY_MODE_MENU,
-                Constants.MainApplicationFrame.DISPLAY_MODE_MENU_DESCRIPTION,
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_VIEW_MODE),
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_MENU_DESCRIPTION),
                 KeyEvent.VK_T);
+        //TODO: In MainAppFrame display mode, In LocalizationTextKeys view mode
         menuItem.add(new MenuInternalItem(
-                Constants.MainApplicationFrame.SYSTEM_SCHEME,
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_SYSTEM_SCHEME),
                 KeyEvent.VK_S,
                 TypeMenuItem.THEME_SYSTEM,
                 this));
         menuItem.add(new MenuInternalItem(
-                Constants.MainApplicationFrame.UNIVERSAL_SCHEME,
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_UNIVERSAL_SCHEME),
                 KeyEvent.VK_S,
                 TypeMenuItem.THEME_UNIVERSAL,
                 this));
@@ -170,27 +192,41 @@ public class MainAppFrame extends FrameClosing {
 
     private MenuItem createLogMenuItem() {
         var logMenuItem = new MenuItem(
-                Constants.MainApplicationFrame.TEST_MENU,
-                Constants.MainApplicationFrame.TEST_MENU_DESCRIPTION,
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_TESTS),
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MENU_DESCRIPTION),
                 KeyEvent.VK_L);
         logMenuItem.add(new MenuInternalItem(
-                Constants.MainApplicationFrame.TESTS_MESSAGE_TO_LOG,
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MESSAGE_TO_LOG),
                 KeyEvent.VK_S,
                 TypeMenuItem.LOG,
                 this));
         return logMenuItem;
     }
 
-    private MenuItem createProgramMenuItem() {
-        var programMenuItem = new MenuItem(
-                Constants.MainApplicationFrame.PROGRAM_MENU,
-                Constants.MainApplicationFrame.PROGRAM_MENU_DESCRIPTION,
-                KeyEvent.VK_P);
-        programMenuItem.add(new MenuInternalItem(
-                Constants.MainApplicationFrame.EXIT_MENU,
-                KeyEvent.VK_S,
-                TypeMenuItem.EXIT,
-                this));
-        return programMenuItem;
+    private MenuItem createLanguageMenuItem() {
+        var menuItem = new MenuItem(
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_LANGUAGE),
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_MENU_DESCRIPTION),
+                KeyEvent.VK_A);
+        menuItem.add(new MenuInternalItem(
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_ENGLISH),
+                KeyEvent.VK_E,
+                TypeMenuItem.LANGUAGE,
+                this
+        ));
+        menuItem.add(new MenuInternalItem(
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_RUSSIAN),
+                KeyEvent.VK_R,
+                TypeMenuItem.LANGUAGE,
+                this
+        ));
+        menuItem.add(new MenuInternalItem(
+                LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_CZECH),
+                KeyEvent.VK_C,
+                TypeMenuItem.LANGUAGE,
+                this
+        ));
+
+        return menuItem;
     }
 }
