@@ -11,7 +11,8 @@ public class LanguageBundle {
     private static LanguageBundle instance;
 
     public static void create(Locales locale){
-        instance = new LanguageBundle(locale);
+        if(instance == null)
+            instance = new LanguageBundle(locale);
     }
 
     public static LanguageBundle getInstance(){
