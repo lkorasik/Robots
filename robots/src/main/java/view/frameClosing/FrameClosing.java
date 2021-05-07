@@ -7,7 +7,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class FrameClosing extends JFrame {
-
     public FrameClosing() {
         super();
         addWindowListener(new WindowAdapter() {
@@ -32,6 +31,3 @@ public class FrameClosing extends JFrame {
         });
     }
 }
-
-
-

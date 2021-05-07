@@ -7,8 +7,6 @@ import view.frameClosing.InternalFrameClosing;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class GameFrame extends InternalFrameClosing {
     private final RobotVisualizer robotVisualizer;
@@ -25,11 +23,11 @@ public class GameFrame extends InternalFrameClosing {
         setCloseDialog();
     }
 
-    private void setCloseDialog() {
-        setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
-    }
-
     public RobotVisualizer getView() {
         return robotVisualizer;
+    }
+
+    private void setCloseDialog() {
+        setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
     }
 }

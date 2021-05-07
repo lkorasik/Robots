@@ -1,13 +1,13 @@
 package view;
 
-import fileWorker.FileWorker;
-import serialization.SerializeInfo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.logController.Logger;
 import controller.robotController.RobotController;
+import fileWorker.FileWorker;
 import model.Constants;
 import model.robotModel.RobotLogic;
+import serialization.SerializeInfo;
 import view.frameClosing.FrameClosing;
 import view.frameClosing.InternalFrameClosing;
 import view.logFrame.LogFrame;
@@ -18,14 +18,15 @@ import view.robotFrame.GameFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
 
 public class MainAppFrame extends FrameClosing {
-    //private final JDesktopPane desktopPane = new JDesktopPane();
     private final GameFrame gameFrame;
     private final LogFrame logFrame;
 
@@ -35,7 +36,6 @@ public class MainAppFrame extends FrameClosing {
                 Constants.MainApplicationFrame.INSET,
                 screenSize.width - Constants.MainApplicationFrame.INSET * 2,
                 screenSize.height - Constants.MainApplicationFrame.INSET * 2);
-        //setContentPane(desktopPane);
 
         setMinimumSize(new Dimension(1200, 600));
 
@@ -50,6 +50,11 @@ public class MainAppFrame extends FrameClosing {
         setExitDialog();
 
         createLastSessionDialog();
+    }
+
+    protected void addWindow(JInternalFrame frame) {
+        //desktopPane.add(frame);
+        frame.setVisible(true);
     }
 
     private void createLastSessionDialog() {
@@ -73,8 +78,7 @@ public class MainAppFrame extends FrameClosing {
                     } else {
                         loadFrameDefaultValues();
                     }
-                }
-                else{
+                } else {
                     loadFrameDefaultValues();
                 }
             }
@@ -96,7 +100,8 @@ public class MainAppFrame extends FrameClosing {
             try {
                 HashMap<String, InternalFrameClosing> map = new ObjectMapper().readValue(
                         new File(SerializeInfo.CONFIG_FRAME_FILE),
-                        new TypeReference<>() {});
+                        new TypeReference<>() {
+                        });
 
                 var sourceFrame = map.get(GameFrame.class.getName());
                 updateFrame(sourceFrame.getSize(), sourceFrame.getLocation(), gameFrame);
@@ -134,11 +139,6 @@ public class MainAppFrame extends FrameClosing {
                 }
             }
         });
-    }
-
-    protected void addWindow(JInternalFrame frame) {
-        //desktopPane.add(frame);
-        frame.setVisible(true);
     }
 
     private JMenuBar createMenuBar() {

@@ -1,11 +1,11 @@
 package view.frameClosing;
 
-import serialization.InternalFrameDeserializer;
-import serialization.InternalFrameSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Setter;
 import model.Constants;
+import serialization.InternalFrameDeserializer;
+import serialization.InternalFrameSerializer;
 
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
