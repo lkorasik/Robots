@@ -4,8 +4,6 @@ import model.robotModel.RobotLogic;
 import view.robotFrame.RobotVisualizer;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -41,15 +39,16 @@ public class RobotController {
         robotVisualizer.setDoubleBuffered(true);
     }
 
-    public Point getRobotPosition(){
+    public Point getRobotPosition() {
         return robotLogic.getPositionPoint();
     }
 
-    public void setTargetPosition(Point moveTarget, Point seeTarget){
+    public void setTargetPosition(Point moveTarget, Point seeTarget) {
         robotLogic.setMovePosition(moveTarget);
         robotLogic.setSeePosition(seeTarget);
     }
-    public void setSeePosition(Point seeTarget){
+
+    public void setSeePosition(Point seeTarget) {
         robotLogic.setSeePosition(seeTarget);
     }
 }

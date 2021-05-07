@@ -4,7 +4,6 @@ import controller.logController.LogWindowSource;
 import model.Constants;
 import model.logModel.LogChangeListener;
 import model.logModel.LogEntry;
-import model.logModel.LogType;
 import view.frameClosing.InternalFrameClosing;
 
 import javax.swing.*;
@@ -32,6 +31,15 @@ public class LogFrame extends InternalFrameClosing implements LogChangeListener 
         setExitDialog();
     }
 
+    @Override
+    public void onLogChanged() {
+        EventQueue.invokeLater(this::updateLogContent);
+    }
+
+    public JTextArea getView() {
+        return logContent;
+    }
+
     private void setExitDialog() {
         setActionExiting(() -> {
             if (windowSource != null)
@@ -46,14 +54,5 @@ public class LogFrame extends InternalFrameClosing implements LogChangeListener 
         }
         logContent.setText(content.toString());
         logContent.invalidate();
-    }
-
-    @Override
-    public void onLogChanged() {
-        EventQueue.invokeLater(this::updateLogContent);
-    }
-
-    public JTextArea getView(){
-        return logContent;
     }
 }

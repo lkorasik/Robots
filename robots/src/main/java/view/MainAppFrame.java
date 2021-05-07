@@ -59,6 +59,11 @@ public class MainAppFrame extends FrameClosing {
         createLastSessionDialog();
     }
 
+    protected void addWindow(JInternalFrame frame) {
+        //desktopPane.add(frame);
+        frame.setVisible(true);
+    }
+
     private void createLastSessionDialog() {
         addWindowListener(new WindowAdapter() {
             @Override
@@ -141,11 +146,6 @@ public class MainAppFrame extends FrameClosing {
                 }
             }
         });
-    }
-
-    protected void addWindow(JInternalFrame frame) {
-        //desktopPane.add(frame);
-        frame.setVisible(true);
     }
 
     private JMenuBar createMenuBar() {

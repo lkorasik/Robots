@@ -1,7 +1,6 @@
 package view.robotFrame;
 
 import controller.robotController.RobotController;
-import lombok.SneakyThrows;
 import model.robotModel.RobotLogic;
 
 import javax.swing.*;
@@ -48,7 +47,7 @@ public class RobotVisualizer extends JPanel {
                 mouseMoveAction(e);
             }
         });
-        
+
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -60,6 +59,33 @@ public class RobotVisualizer extends JPanel {
                 keyReleaseAction(e);
             }
         });
+    }
+
+    public void onRedrawEvent() {
+        EventQueue.invokeLater(this::repaint);
+    }
+
+    public void drawRobot(Graphics2D graphics2D, int x, int y, double direction) {
+        AffineTransform t = AffineTransform.getRotateInstance(direction, x, y);
+        graphics2D.setTransform(t);
+        graphics2D.setColor(Color.MAGENTA);
+        fillOval(graphics2D, x, y, 30, 10);
+        graphics2D.setColor(Color.BLACK);
+        drawOval(graphics2D, x, y, 30, 10);
+        graphics2D.setColor(Color.WHITE);
+        fillOval(graphics2D, x + 10, y, 5, 5);
+        graphics2D.setColor(Color.BLACK);
+        drawOval(graphics2D, x + 10, y, 5, 5);
+    }
+
+    @Override
+    public void paint(Graphics graphics) {
+        super.paint(graphics);
+        Graphics2D g2d = (Graphics2D) graphics;
+        drawRobot(g2d,
+                RobotLogic.round(robotLogic.getPositionX()),
+                RobotLogic.round(robotLogic.getPositionY()),
+                robotLogic.getRobotDirection());
     }
 
     private void mouseMoveAction(MouseEvent event) {
@@ -97,7 +123,7 @@ public class RobotVisualizer extends JPanel {
         }
     }
 
-    private void startLiveUpdatePlayersState(){
+    private void startLiveUpdatePlayersState() {
         new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -133,32 +159,5 @@ public class RobotVisualizer extends JPanel {
 
     private static void drawOval(Graphics graphics, int centerX, int centerY, int diam1, int diam2) {
         graphics.drawOval(centerX - diam1 / 2, centerY - diam2 / 2, diam1, diam2);
-    }
-
-    public void onRedrawEvent() {
-        EventQueue.invokeLater(this::repaint);
-    }
-
-    public void drawRobot(Graphics2D graphics2D, int x, int y, double direction) {
-        AffineTransform t = AffineTransform.getRotateInstance(direction, x, y);
-        graphics2D.setTransform(t);
-        graphics2D.setColor(Color.MAGENTA);
-        fillOval(graphics2D, x, y, 30, 10);
-        graphics2D.setColor(Color.BLACK);
-        drawOval(graphics2D, x, y, 30, 10);
-        graphics2D.setColor(Color.WHITE);
-        fillOval(graphics2D, x + 10, y, 5, 5);
-        graphics2D.setColor(Color.BLACK);
-        drawOval(graphics2D, x + 10, y, 5, 5);
-    }
-
-    @Override
-    public void paint(Graphics graphics) {
-        super.paint(graphics);
-        Graphics2D g2d = (Graphics2D) graphics;
-        drawRobot(g2d,
-                RobotLogic.round(robotLogic.getPositionX()),
-                RobotLogic.round(robotLogic.getPositionY()),
-               robotLogic.getRobotDirection());
     }
 }
