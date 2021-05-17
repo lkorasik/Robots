@@ -9,4 +9,9 @@ public class MenuItem extends JMenu {
         setMnemonic(keyEvent);
         getAccessibleContext().setAccessibleDescription(description);
     }
+
+    public void updateState(String title, String description){
+        setText(title);
+        getAccessibleContext().setAccessibleDescription(description);
+    }
 }
