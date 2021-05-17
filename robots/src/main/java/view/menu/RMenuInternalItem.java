@@ -9,8 +9,8 @@ import view.MainAppFrame;
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 
-public class MenuInternalItem extends JMenuItem {
-    public MenuInternalItem(String title, int keyEvent, TypeMenuItem typeMenuItem, MainAppFrame mainAppFrame) {
+public class RMenuInternalItem extends JMenuItem {
+    public RMenuInternalItem(String title, int keyEvent, TypeMenuItem typeMenuItem, MainAppFrame mainAppFrame) {
         super(title, keyEvent);
         switch (typeMenuItem) {
             case EXIT -> addActionListener(event ->
