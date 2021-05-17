@@ -13,8 +13,8 @@ import translation.LocalizationTextKeys;
 import view.frameClosing.FrameClosing;
 import view.frameClosing.InternalFrameClosing;
 import view.logFrame.LogFrame;
-import view.menu.MenuInternalItem;
-import view.menu.MenuItem;
+import view.menu.RMenuInternalItem;
+import view.menu.RMenuItem;
 import view.menu.TypeMenuItem;
 import view.robotFrame.GameFrame;
 
@@ -158,15 +158,15 @@ public class MainAppFrame extends FrameClosing {
     private void updateProgramMenu(JMenuBar menuBar){
         var program = menuBar.getMenu(0);
 
-        if (program instanceof MenuItem) {
-            ((MenuItem) program).updateState(
+        if (program instanceof RMenuItem) {
+            ((RMenuItem) program).updateState(
                     LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_PROGRAM),
                     LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_MENU_DESCRIPTION)
             );
         }
 
         var exitItem = program.getItem(0);
-        if(exitItem instanceof MenuInternalItem){
+        if(exitItem instanceof RMenuInternalItem){
             exitItem.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_EXIT));
         }
     }
@@ -174,20 +174,20 @@ public class MainAppFrame extends FrameClosing {
     private void updateThemeMenu(JMenuBar menuBar){
         var theme = menuBar.getMenu(1);
 
-        if(theme instanceof MenuItem){
-            ((MenuItem) theme).updateState(
+        if(theme instanceof RMenuItem){
+            ((RMenuItem) theme).updateState(
                     LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_VIEW_MODE),
                     LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_MENU_DESCRIPTION)
             );
         }
 
         var systemTheme = theme.getItem(0);
-        if(systemTheme instanceof MenuInternalItem){
+        if(systemTheme instanceof RMenuInternalItem){
             systemTheme.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_SYSTEM_SCHEME));
         }
 
         var universalTheme = theme.getItem(1);
-        if(universalTheme instanceof MenuInternalItem){
+        if(universalTheme instanceof RMenuInternalItem){
             universalTheme.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_UNIVERSAL_SCHEME));
         }
     }
@@ -195,15 +195,15 @@ public class MainAppFrame extends FrameClosing {
     private void updateLogMenu(JMenuBar menuBar){
         var log = menuBar.getMenu(2);
 
-        if(log instanceof MenuItem){
-            ((MenuItem) log).updateState(
+        if(log instanceof RMenuItem){
+            ((RMenuItem) log).updateState(
                     LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_TESTS),
                     LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MENU_DESCRIPTION)
             );
         }
 
         var sendMessage = log.getItem(0);
-        if(sendMessage instanceof MenuInternalItem){
+        if(sendMessage instanceof RMenuInternalItem){
             sendMessage.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MESSAGE_TO_LOG));
         }
     }
@@ -211,31 +211,34 @@ public class MainAppFrame extends FrameClosing {
     private void updateLanguageMenu(JMenuBar menuBar){
         var language = menuBar.getMenu(3);
 
-        if(language instanceof MenuItem){
-            ((MenuItem) language).updateState(
+        if(language instanceof RMenuItem){
+            ((RMenuItem) language).updateState(
                     LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_LANGUAGE),
                     LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_MENU_DESCRIPTION)
             );
         }
 
         var english = language.getItem(0);
-        if(english instanceof MenuInternalItem){
+        if(english instanceof RMenuInternalItem){
             english.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_ENGLISH));
         }
 
-        var russian = language.getItem(0);
-        if(russian instanceof MenuInternalItem){
+        var russian = language.getItem(1);
+        if(russian instanceof RMenuInternalItem){
             russian.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_RUSSIAN));
         }
 
-        var czech = language.getItem(0);
-        if(czech instanceof MenuInternalItem){
+        var czech = language.getItem(2);
+        if(czech instanceof RMenuInternalItem){
             czech.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_CZECH));
         }
     }
 
-    private JMenuBar createMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
+    //TODO: Все переписать с использованием J...-классов
+    //TODO: Как-то бы вынести всю работу с меню в отдельный класс
+
+    private JMenuBar createMenuBar(){
+        var menuBar = new JMenuBar();
         menuBar.add(createProgramMenuItem());
         menuBar.add(createThemeMenuItem());
         menuBar.add(createLogMenuItem());
@@ -244,12 +247,12 @@ public class MainAppFrame extends FrameClosing {
         return menuBar;
     }
 
-    private MenuItem createProgramMenuItem() {
-        var programMenuItem = new MenuItem(
+    private RMenuItem createProgramMenuItem() {
+        var programMenuItem = new RMenuItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_PROGRAM),
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_MENU_DESCRIPTION),
                 KeyEvent.VK_P);
-        programMenuItem.add(new MenuInternalItem(
+        programMenuItem.add(new RMenuInternalItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_EXIT),
                 KeyEvent.VK_S,
                 TypeMenuItem.EXIT,
@@ -257,18 +260,18 @@ public class MainAppFrame extends FrameClosing {
         return programMenuItem;
     }
 
-    private MenuItem createThemeMenuItem() {
-        var menuItem = new MenuItem(
+    private RMenuItem createThemeMenuItem() {
+        var menuItem = new RMenuItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_VIEW_MODE),
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_MENU_DESCRIPTION),
                 KeyEvent.VK_T);
         //TODO: In MainAppFrame display mode, In LocalizationTextKeys view mode
-        menuItem.add(new MenuInternalItem(
+        menuItem.add(new RMenuInternalItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_SYSTEM_SCHEME),
                 KeyEvent.VK_S,
                 TypeMenuItem.THEME_SYSTEM,
                 this));
-        menuItem.add(new MenuInternalItem(
+        menuItem.add(new RMenuInternalItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_UNIVERSAL_SCHEME),
                 KeyEvent.VK_S,
                 TypeMenuItem.THEME_UNIVERSAL,
@@ -276,12 +279,12 @@ public class MainAppFrame extends FrameClosing {
         return menuItem;
     }
 
-    private MenuItem createLogMenuItem() {
-        var logMenuItem = new MenuItem(
+    private RMenuItem createLogMenuItem() {
+        var logMenuItem = new RMenuItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_TESTS),
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MENU_DESCRIPTION),
                 KeyEvent.VK_L);
-        logMenuItem.add(new MenuInternalItem(
+        logMenuItem.add(new RMenuInternalItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MESSAGE_TO_LOG),
                 KeyEvent.VK_S,
                 TypeMenuItem.LOG,
@@ -289,24 +292,24 @@ public class MainAppFrame extends FrameClosing {
         return logMenuItem;
     }
 
-    private MenuItem createLanguageMenuItem() {
-        var menuItem = new MenuItem(
+    private RMenuItem createLanguageMenuItem() {
+        var menuItem = new RMenuItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_LANGUAGE),
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_MENU_DESCRIPTION),
                 KeyEvent.VK_A);
-        menuItem.add(new MenuInternalItem(
+        menuItem.add(new RMenuInternalItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_ENGLISH),
                 KeyEvent.VK_E,
                 TypeMenuItem.LANGUAGE,
                 this
         ));
-        menuItem.add(new MenuInternalItem(
+        menuItem.add(new RMenuInternalItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_RUSSIAN),
                 KeyEvent.VK_R,
                 TypeMenuItem.LANGUAGE,
                 this
         ));
-        menuItem.add(new MenuInternalItem(
+        menuItem.add(new RMenuInternalItem(
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_CZECH),
                 KeyEvent.VK_C,
                 TypeMenuItem.LANGUAGE,
