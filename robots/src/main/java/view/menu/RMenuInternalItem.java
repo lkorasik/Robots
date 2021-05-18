@@ -3,15 +3,19 @@ package view.menu;
 import controller.logController.Logger;
 import model.Constants;
 import translation.LanguageBundle;
+import translation.LanguageChangeListener;
 import translation.Locales;
 import view.MainAppFrame;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 
-public class RMenuInternalItem extends JMenuItem {
-    public RMenuInternalItem(String title, int keyEvent, TypeMenuItem typeMenuItem, MainAppFrame mainAppFrame) {
-        super(title, keyEvent);
+public class RMenuInternalItem extends JMenuItem implements LanguageChangeListener {
+    private final String translationKey;
+
+    public RMenuInternalItem(String key, int keyEvent, TypeMenuItem typeMenuItem, MainAppFrame mainAppFrame) {
+        super(LanguageBundle.getInstance().getString(key), keyEvent);
+        translationKey = key;
         switch (typeMenuItem) {
             case EXIT -> addActionListener(event ->
                     mainAppFrame.dispatchEvent(new WindowEvent(mainAppFrame, WindowEvent.WINDOW_CLOSING)));
@@ -47,6 +51,11 @@ public class RMenuInternalItem extends JMenuItem {
         } catch (ClassNotFoundException | InstantiationException
                 | IllegalAccessException | UnsupportedLookAndFeelException ignored) {
         }
+    }
+
+    @Override
+    public void onChange() {
+        setText(LanguageBundle.getInstance().getString(translationKey));
     }
 }
 

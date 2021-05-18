@@ -42,8 +42,6 @@ public class MainAppFrame extends FrameClosing {
 
         setMinimumSize(new Dimension(1200, 600));
 
-        LanguageBundle.getInstance().addLanguageChangeListener(this::updateMenuBar);
-
         logFrame = new LogFrame(Logger.getDefaultLogSource());
         gameFrame = new GameFrame(robotController, robotLogic);
 
@@ -146,97 +144,6 @@ public class MainAppFrame extends FrameClosing {
         });
     }
 
-    private void updateMenuBar() {
-        var menuBar = getJMenuBar();
-
-        updateProgramMenu(menuBar);
-        updateThemeMenu(menuBar);
-        updateLogMenu(menuBar);
-        updateLanguageMenu(menuBar);
-    }
-
-    private void updateProgramMenu(JMenuBar menuBar){
-        var program = menuBar.getMenu(0);
-
-        if (program instanceof RMenuItem) {
-            ((RMenuItem) program).updateState(
-                    LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_PROGRAM),
-                    LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_MENU_DESCRIPTION)
-            );
-        }
-
-        var exitItem = program.getItem(0);
-        if(exitItem instanceof RMenuInternalItem){
-            exitItem.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_EXIT));
-        }
-    }
-
-    private void updateThemeMenu(JMenuBar menuBar){
-        var theme = menuBar.getMenu(1);
-
-        if(theme instanceof RMenuItem){
-            ((RMenuItem) theme).updateState(
-                    LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_VIEW_MODE),
-                    LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_MENU_DESCRIPTION)
-            );
-        }
-
-        var systemTheme = theme.getItem(0);
-        if(systemTheme instanceof RMenuInternalItem){
-            systemTheme.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_SYSTEM_SCHEME));
-        }
-
-        var universalTheme = theme.getItem(1);
-        if(universalTheme instanceof RMenuInternalItem){
-            universalTheme.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_UNIVERSAL_SCHEME));
-        }
-    }
-
-    private void updateLogMenu(JMenuBar menuBar){
-        var log = menuBar.getMenu(2);
-
-        if(log instanceof RMenuItem){
-            ((RMenuItem) log).updateState(
-                    LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_TESTS),
-                    LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MENU_DESCRIPTION)
-            );
-        }
-
-        var sendMessage = log.getItem(0);
-        if(sendMessage instanceof RMenuInternalItem){
-            sendMessage.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MESSAGE_TO_LOG));
-        }
-    }
-
-    private void updateLanguageMenu(JMenuBar menuBar){
-        var language = menuBar.getMenu(3);
-
-        if(language instanceof RMenuItem){
-            ((RMenuItem) language).updateState(
-                    LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_LANGUAGE),
-                    LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_MENU_DESCRIPTION)
-            );
-        }
-
-        var english = language.getItem(0);
-        if(english instanceof RMenuInternalItem){
-            english.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_ENGLISH));
-        }
-
-        var russian = language.getItem(1);
-        if(russian instanceof RMenuInternalItem){
-            russian.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_RUSSIAN));
-        }
-
-        var czech = language.getItem(2);
-        if(czech instanceof RMenuInternalItem){
-            czech.setText(LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_CZECH));
-        }
-    }
-
-    //TODO: Все переписать с использованием J...-классов
-    //TODO: Как-то бы вынести всю работу с меню в отдельный класс
-
     private JMenuBar createMenuBar(){
         var menuBar = new JMenuBar();
         menuBar.add(createProgramMenuItem());
@@ -249,72 +156,108 @@ public class MainAppFrame extends FrameClosing {
 
     private RMenuItem createProgramMenuItem() {
         var programMenuItem = new RMenuItem(
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_PROGRAM),
+                //LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_PROGRAM),
+                LocalizationTextKeys.TOOLBAR_PROGRAM,
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_MENU_DESCRIPTION),
                 KeyEvent.VK_P);
-        programMenuItem.add(new RMenuInternalItem(
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_EXIT),
+        LanguageBundle.getInstance().addLanguageChangeListener(programMenuItem);
+
+        var exitItem = new RMenuInternalItem(
+                //LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_EXIT),
+                LocalizationTextKeys.PROGRAM_EXIT,
                 KeyEvent.VK_S,
                 TypeMenuItem.EXIT,
-                this));
+                this);
+        programMenuItem.add(exitItem);
+        LanguageBundle.getInstance().addLanguageChangeListener(exitItem);
+
         return programMenuItem;
     }
 
     private RMenuItem createThemeMenuItem() {
         var menuItem = new RMenuItem(
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_VIEW_MODE),
+                LocalizationTextKeys.TOOLBAR_VIEW_MODE,
+                //LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_VIEW_MODE),
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_MENU_DESCRIPTION),
                 KeyEvent.VK_T);
+        LanguageBundle.getInstance().addLanguageChangeListener(menuItem);
         //TODO: In MainAppFrame display mode, In LocalizationTextKeys view mode
-        menuItem.add(new RMenuInternalItem(
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_SYSTEM_SCHEME),
+
+        var systemSchemeItem = new RMenuInternalItem(
+                //LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_SYSTEM_SCHEME),
+                LocalizationTextKeys.VIEW_MODE_SYSTEM_SCHEME,
                 KeyEvent.VK_S,
                 TypeMenuItem.THEME_SYSTEM,
-                this));
-        menuItem.add(new RMenuInternalItem(
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_UNIVERSAL_SCHEME),
+                this);
+        menuItem.add(systemSchemeItem);
+        LanguageBundle.getInstance().addLanguageChangeListener(systemSchemeItem);
+
+        var universalSchemeItem = new RMenuInternalItem(
+                //LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_UNIVERSAL_SCHEME),
+                LocalizationTextKeys.VIEW_MODE_UNIVERSAL_SCHEME,
                 KeyEvent.VK_S,
                 TypeMenuItem.THEME_UNIVERSAL,
-                this));
+                this);
+        menuItem.add(universalSchemeItem);
+        LanguageBundle.getInstance().addLanguageChangeListener(universalSchemeItem);
+
         return menuItem;
     }
 
     private RMenuItem createLogMenuItem() {
         var logMenuItem = new RMenuItem(
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_TESTS),
+                LocalizationTextKeys.TOOLBAR_TESTS,
+                //LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_TESTS),
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MENU_DESCRIPTION),
                 KeyEvent.VK_L);
-        logMenuItem.add(new RMenuInternalItem(
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MESSAGE_TO_LOG),
+        LanguageBundle.getInstance().addLanguageChangeListener(logMenuItem);
+
+        var messageToLogItem = new RMenuInternalItem(
+                //LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MESSAGE_TO_LOG),
+                LocalizationTextKeys.TESTS_MESSAGE_TO_LOG,
                 KeyEvent.VK_S,
                 TypeMenuItem.LOG,
-                this));
+                this);
+        logMenuItem.add(messageToLogItem);
+        LanguageBundle.getInstance().addLanguageChangeListener(messageToLogItem);
+
         return logMenuItem;
     }
 
     private RMenuItem createLanguageMenuItem() {
         var menuItem = new RMenuItem(
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_LANGUAGE),
+                LocalizationTextKeys.TOOLBAR_LANGUAGE,
+                //LanguageBundle.getInstance().getString(LocalizationTextKeys.TOOLBAR_LANGUAGE),
                 LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_MENU_DESCRIPTION),
                 KeyEvent.VK_A);
-        menuItem.add(new RMenuInternalItem(
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_ENGLISH),
+        LanguageBundle.getInstance().addLanguageChangeListener(menuItem);
+
+        var englishItem = new RMenuInternalItem(
+                //LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_ENGLISH),
+                LocalizationTextKeys.LANGUAGE_ENGLISH,
                 KeyEvent.VK_E,
                 TypeMenuItem.LANGUAGE,
-                this
-        ));
-        menuItem.add(new RMenuInternalItem(
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_RUSSIAN),
+                this);
+        menuItem.add(englishItem);
+        LanguageBundle.getInstance().addLanguageChangeListener(englishItem);
+
+        var russianItem = new RMenuInternalItem(
+                //LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_RUSSIAN),
+                LocalizationTextKeys.LANGUAGE_RUSSIAN,
                 KeyEvent.VK_R,
                 TypeMenuItem.LANGUAGE,
-                this
-        ));
-        menuItem.add(new RMenuInternalItem(
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_CZECH),
+                this);
+        menuItem.add(russianItem);
+        LanguageBundle.getInstance().addLanguageChangeListener(russianItem);
+
+        var czechLanguage = new RMenuInternalItem(
+                //LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_CZECH),
+                LocalizationTextKeys.LANGUAGE_CZECH,
                 KeyEvent.VK_C,
                 TypeMenuItem.LANGUAGE,
-                this
-        ));
+                this);
+        menuItem.add(czechLanguage);
+        LanguageBundle.getInstance().addLanguageChangeListener(czechLanguage);
 
         return menuItem;
     }
