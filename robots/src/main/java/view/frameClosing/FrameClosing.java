@@ -1,6 +1,5 @@
 package view.frameClosing;
 
-import model.Constants;
 import translation.LanguageBundle;
 import translation.LocalizationTextKeys;
 
@@ -15,12 +14,14 @@ public class FrameClosing extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 var languageBundle = LanguageBundle.getInstance();
-                Object[] options = {languageBundle.getString(LocalizationTextKeys.EXIT_DIALOG_YES), languageBundle.getString(LocalizationTextKeys.EXIT_DIALOG_NO)};
+                Object[] options = {
+                        languageBundle.getString(LocalizationTextKeys.EXIT_DIALOG_YES.getKey()),
+                        languageBundle.getString(LocalizationTextKeys.EXIT_DIALOG_NO.getKey())};
                 var decision = JOptionPane
                         .showOptionDialog(
                                 e.getWindow(),
-                                languageBundle.getString(LocalizationTextKeys.EXIT_DIALOG_MESSAGE),
-                                languageBundle.getString(LocalizationTextKeys.EXIT_DIALOG_TITLE),
+                                languageBundle.getString(LocalizationTextKeys.EXIT_DIALOG_MESSAGE.getKey()),
+                                languageBundle.getString(LocalizationTextKeys.EXIT_DIALOG_TITLE.getKey()),
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.QUESTION_MESSAGE,
                                 null,
