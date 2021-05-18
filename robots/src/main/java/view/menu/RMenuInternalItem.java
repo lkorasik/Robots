@@ -16,6 +16,8 @@ public class RMenuInternalItem extends JMenuItem implements LanguageChangeListen
     public RMenuInternalItem(String key, int keyEvent, TypeMenuItem typeMenuItem, MainAppFrame mainAppFrame) {
         super(LanguageBundle.getInstance().getString(key), keyEvent);
         translationKey = key;
+        LanguageBundle.getInstance().addLanguageChangeListener(this);
+
         switch (typeMenuItem) {
             case EXIT -> addActionListener(event ->
                     mainAppFrame.dispatchEvent(new WindowEvent(mainAppFrame, WindowEvent.WINDOW_CLOSING)));

@@ -15,6 +15,7 @@ public class RMenuItem extends JMenu implements LanguageChangeListener {
         translationKey = key;
         setMnemonic(keyEvent);
         getAccessibleContext().setAccessibleDescription(description);
+        LanguageBundle.getInstance().addLanguageChangeListener(this);
     }
 
     @Override
