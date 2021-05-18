@@ -157,7 +157,7 @@ public class MainAppFrame extends FrameClosing {
     private RMenuItem createProgramMenuItem() {
         var programMenuItem = new RMenuItem(
                 LocalizationTextKeys.TOOLBAR_PROGRAM,
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.PROGRAM_MENU_DESCRIPTION),
+                LocalizationTextKeys.PROGRAM_MENU_DESCRIPTION,
                 KeyEvent.VK_P);
 
         var exitItem = new RMenuInternalItem(
@@ -173,7 +173,7 @@ public class MainAppFrame extends FrameClosing {
     private RMenuItem createThemeMenuItem() {
         var menuItem = new RMenuItem(
                 LocalizationTextKeys.TOOLBAR_VIEW_MODE,
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.VIEW_MODE_MENU_DESCRIPTION),
+                LocalizationTextKeys.VIEW_MODE_MENU_DESCRIPTION,
                 KeyEvent.VK_T);
         //TODO: In MainAppFrame display mode, In LocalizationTextKeys view mode
 
@@ -197,7 +197,7 @@ public class MainAppFrame extends FrameClosing {
     private RMenuItem createLogMenuItem() {
         var logMenuItem = new RMenuItem(
                 LocalizationTextKeys.TOOLBAR_TESTS,
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.TESTS_MENU_DESCRIPTION),
+                LocalizationTextKeys.TESTS_MENU_DESCRIPTION,
                 KeyEvent.VK_L);
 
         var messageToLogItem = new RMenuInternalItem(
@@ -213,7 +213,7 @@ public class MainAppFrame extends FrameClosing {
     private RMenuItem createLanguageMenuItem() {
         var menuItem = new RMenuItem(
                 LocalizationTextKeys.TOOLBAR_LANGUAGE,
-                LanguageBundle.getInstance().getString(LocalizationTextKeys.LANGUAGE_MENU_DESCRIPTION),
+                LocalizationTextKeys.LANGUAGE_MENU_DESCRIPTION,
                 KeyEvent.VK_A);
 
         var englishItem = new RMenuInternalItem(

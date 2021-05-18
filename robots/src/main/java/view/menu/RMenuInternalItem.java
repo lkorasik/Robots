@@ -5,16 +5,17 @@ import model.Constants;
 import translation.LanguageBundle;
 import translation.LanguageChangeListener;
 import translation.Locales;
+import translation.LocalizationTextKeys;
 import view.MainAppFrame;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 
 public class RMenuInternalItem extends JMenuItem implements LanguageChangeListener {
-    private final String translationKey;
+    private final LocalizationTextKeys translationKey;
 
-    public RMenuInternalItem(String key, int keyEvent, TypeMenuItem typeMenuItem, MainAppFrame mainAppFrame) {
-        super(LanguageBundle.getInstance().getString(key), keyEvent);
+    public RMenuInternalItem(LocalizationTextKeys key, int keyEvent, TypeMenuItem typeMenuItem, MainAppFrame mainAppFrame) {
+        super(LanguageBundle.getInstance().getString(key.getKey()), keyEvent);
         translationKey = key;
         LanguageBundle.getInstance().addLanguageChangeListener(this);
 
@@ -57,7 +58,7 @@ public class RMenuInternalItem extends JMenuItem implements LanguageChangeListen
 
     @Override
     public void onChange() {
-        setText(LanguageBundle.getInstance().getString(translationKey));
+        setText(LanguageBundle.getInstance().getString(translationKey.getKey()));
     }
 }
 
