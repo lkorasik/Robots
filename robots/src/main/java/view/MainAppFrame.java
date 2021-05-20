@@ -1,17 +1,11 @@
 package view;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.logController.Logger;
 import controller.robotController.RobotController;
-import fileWorker.FileWorker;
 import model.Constants;
 import model.robotModel.RobotLogic;
-import serialization.SerializeInfo;
-import translation.LanguageBundle;
 import translation.LocalizationTextKeys;
 import view.frameClosing.FrameClosing;
-import view.frameClosing.InternalFrameClosing;
 import view.logFrame.LogFrame;
 import view.menu.RMenuInternalItem;
 import view.menu.RMenuItem;
@@ -21,11 +15,6 @@ import view.robotFrame.GameFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
 
 
 public class MainAppFrame extends FrameClosing {
@@ -49,102 +38,9 @@ public class MainAppFrame extends FrameClosing {
         setContentPane(split);
 
         setJMenuBar(createMenuBar());
-
-        setExitDialog();
-
-        createLastSessionDialog();
     }
 
-    protected void addWindow(JInternalFrame frame) {
-        //desktopPane.add(frame);
-        frame.setVisible(true);
-    }
-
-    private void createLastSessionDialog() {
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-                if (FileWorker.existsFile(SerializeInfo.CONFIG_FRAME_FILE)) {
-                    Object[] options = {Constants.ExitPaneOptions.YES, Constants.ExitPaneOptions.NO};
-                    var decision = JOptionPane
-                            .showOptionDialog(
-                                    e.getWindow(),
-                                    Constants.PreviousSessionOptions.MESSAGE,
-                                    Constants.PreviousSessionOptions.TITLE,
-                                    JOptionPane.YES_NO_OPTION,
-                                    JOptionPane.QUESTION_MESSAGE,
-                                    null,
-                                    options,
-                                    options[0]);
-                    if (decision == JOptionPane.YES_OPTION) {
-                        loadFramesUsingJson();
-                    } else {
-                        loadFrameDefaultValues();
-                    }
-                } else {
-                    loadFrameDefaultValues();
-                }
-            }
-        });
-    }
-
-    private void loadFrameDefaultValues() {
-        var size = new Dimension(Constants.PropertyFrame.LOG_FRAME_WIDTH, Constants.PropertyFrame.LOG_FRAME_HEIGHT);
-        var location = new Point(Constants.PropertyFrame.LOG_FRAME_POS_X, Constants.PropertyFrame.LOG_FRAME_POS_Y);
-        updateFrame(size, location, logFrame);
-
-        size = new Dimension(Constants.PropertyFrame.GAME_FRAME_WIDTH, Constants.PropertyFrame.GAME_FRAME_HEIGHT);
-        location = new Point(Constants.PropertyFrame.GAME_FRAME_POS_X, Constants.PropertyFrame.GAME_FRAME_POS_Y);
-        updateFrame(size, location, gameFrame);
-    }
-
-    private void loadFramesUsingJson() {
-        if (FileWorker.existsFile(SerializeInfo.CONFIG_FRAME_FILE))
-            try {
-                HashMap<String, InternalFrameClosing> map = new ObjectMapper().readValue(
-                        new File(SerializeInfo.CONFIG_FRAME_FILE),
-                        new TypeReference<>() {
-                        });
-
-                var sourceFrame = map.get(GameFrame.class.getName());
-                updateFrame(sourceFrame.getSize(), sourceFrame.getLocation(), gameFrame);
-
-                sourceFrame = map.get(LogFrame.class.getName());
-                updateFrame(sourceFrame.getSize(), sourceFrame.getLocation(), logFrame);
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-        else {
-            loadFrameDefaultValues();
-        }
-    }
-
-    private void updateFrame(Dimension size, Point location, InternalFrameClosing internalFrame) {
-        internalFrame.setMainParams(size, location);
-        addWindow(internalFrame);
-    }
-
-    private void setExitDialog() {
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                var map = new HashMap<String, InternalFrameClosing>();
-                map.put(GameFrame.class.getName(), gameFrame);
-                map.put(LogFrame.class.getName(), logFrame);
-
-                try {
-                    new ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(
-                            new File(SerializeInfo.CONFIG_FRAME_FILE), map);
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private JMenuBar createMenuBar(){
+    private JMenuBar createMenuBar() {
         var menuBar = new JMenuBar();
         menuBar.add(createProgramMenuItem());
         menuBar.add(createThemeMenuItem());

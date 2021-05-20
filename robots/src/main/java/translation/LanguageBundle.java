@@ -10,23 +10,23 @@ public class LanguageBundle {
     private final ArrayList<LanguageChangeListener> listeners;
     private static LanguageBundle instance;
 
-    public static void create(Locales locale){
-        if(instance == null)
+    public static void create(Locales locale) {
+        if (instance == null)
             instance = new LanguageBundle(locale);
     }
 
-    public static LanguageBundle getInstance(){
+    public static LanguageBundle getInstance() {
         return instance;
     }
 
-    public void addLanguageChangeListener(LanguageChangeListener listener){
+    public void addLanguageChangeListener(LanguageChangeListener listener) {
         listeners.add(listener);
     }
 
-    public void changeLanguage(Locales locale){
+    public void changeLanguage(Locales locale) {
         bundle = ResourceBundle.getBundle(filename, new Locale(locale.getLocale()));
 
-        for(var listener: listeners)
+        for (var listener : listeners)
             listener.onChange();
     }
 
@@ -35,7 +35,7 @@ public class LanguageBundle {
         listeners = new ArrayList<>();
     }
 
-    public String getString(String key){
+    public String getString(String key) {
         return bundle.getString(key);
     }
 }
