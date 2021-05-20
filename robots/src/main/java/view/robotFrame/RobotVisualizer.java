@@ -18,7 +18,8 @@ public class RobotVisualizer extends JPanel {
     private final RobotController robotController;
     private final EnemyController enemyController;
 
-    private List<EnemyLogic> listEnemies;
+//    private List<EnemyLogic> listEnemies;
+    private List<EnemyLogic> syncListEnemies;
     private final PlayerRobotLogic robotLogic;
 
     private final AtomicInteger mouseX = new AtomicInteger();
@@ -75,8 +76,8 @@ public class RobotVisualizer extends JPanel {
         EventQueue.invokeLater(this::repaint);
     }
 
-    public void setListEnemies(List<EnemyLogic>  listEnemies){
-        this.listEnemies = listEnemies;
+    public void setListEnemies(List<EnemyLogic>  syncQueueEnemies){
+        this.syncListEnemies = syncQueueEnemies;
     }
 
     public void drawRobot(Graphics2D graphics2D, int x, int y, double direction) {
@@ -101,7 +102,7 @@ public class RobotVisualizer extends JPanel {
                 PlayerRobotLogic.round(robotLogic.getPositionY()),
                 robotLogic.getRobotDirection());
 
-        for(EnemyLogic enemyLogic: listEnemies){
+        for(EnemyLogic enemyLogic: syncListEnemies){
             drawRobot(g2d,
                     EnemyLogic.round(enemyLogic.getPositionX()),
                     EnemyLogic.round(enemyLogic.getPositionY()),
