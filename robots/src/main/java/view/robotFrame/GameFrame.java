@@ -1,9 +1,9 @@
 package view.robotFrame;
 
 import controller.enemyController.EnemyController;
-import controller.robotController.RobotController;
+import controller.playerController.PlayerController;
 import model.Constants;
-import model.robotsModels.PlayerRobotModel.PlayerRobotLogic;
+import model.robotsModels.playerModel.PlayerLogic;
 import view.frameClosing.InternalFrameClosing;
 
 import javax.swing.*;
@@ -12,7 +12,7 @@ import java.awt.*;
 public class GameFrame extends InternalFrameClosing {
     private final RobotVisualizer robotVisualizer;
 
-    public GameFrame(RobotController robotController, PlayerRobotLogic robotLogic, EnemyController enemyController) {
+    public GameFrame(PlayerController robotController, PlayerLogic robotLogic, EnemyController enemyController) {
         super(Constants.GameWindow.WINDOW_TITLE, true, true, true, true);
         robotVisualizer = new RobotVisualizer(robotController, robotLogic, enemyController);
 

@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.enemyController.EnemyController;
 import controller.logController.Logger;
-import controller.robotController.RobotController;
+import controller.playerController.PlayerController;
 import fileWorker.FileWorker;
 import model.Constants;
-import model.robotsModels.PlayerRobotModel.PlayerRobotLogic;
+import model.robotsModels.playerModel.PlayerLogic;
 import serialization.SerializeInfo;
 import translation.LanguageBundle;
 import translation.LocalizationTextKeys;
@@ -33,7 +33,7 @@ public class MainAppFrame extends FrameClosing {
     private final GameFrame gameFrame;
     private final LogFrame logFrame;
 
-    public MainAppFrame(RobotController robotController, PlayerRobotLogic robotLogic, EnemyController enemyController) {
+    public MainAppFrame(PlayerController robotController, PlayerLogic robotLogic, EnemyController enemyController) {
         super();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(Constants.MainApplicationFrame.INSET,

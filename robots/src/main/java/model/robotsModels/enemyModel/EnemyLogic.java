@@ -46,7 +46,6 @@ public class EnemyLogic extends RobotLogic {
     }
 
     public void updatePosition(int width, int height, Point2D targetPosition) {
-//        System.out.println(robotPosition.getX() + " " + robotPosition.getY());
         this.targetPosition.setLocation(targetPosition.getX(), targetPosition.getY());
         double distance = distance(targetPosition.getX(), targetPosition.getY(), robotPosition.getX(), robotPosition.getY());
         if (distance >= 0.5)

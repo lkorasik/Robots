@@ -1,10 +1,9 @@
 package controller.enemyController;
 
 import model.robotsModels.enemyModel.EnemyLogic;
-import model.robotsModels.PlayerRobotModel.PlayerRobotLogic;
+import model.robotsModels.playerModel.PlayerLogic;
 import view.robotFrame.RobotVisualizer;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,51 +11,42 @@ import java.util.concurrent.*;
 
 public class EnemyController {
 
-    private ThreadPoolExecutor threadPoolEnemies;
+    private ScheduledExecutorService threadPoolEnemies;
     private RobotVisualizer robotVisualizer;
-    private PlayerRobotLogic robotLogic;
-    private Point sizeRobotVisualizer;
-    private DelayQueue<DelayedObject> delayQueueEnemies;
-    private List<EnemyLogic> syncQueueEnemies;
+    private PlayerLogic robotLogic;
+
+    private List<EnemyLogic> listEnemyLogic;
 
     private int numEnemies;
 
-//    private List<EnemyLogic> listEnemies;
-
     public void setRobotVisualizer(RobotVisualizer robotVisualizer) {
         this.robotVisualizer = robotVisualizer;
-        sizeRobotVisualizer = new Point(robotVisualizer.getWidth(), robotVisualizer.getHeight());
-        robotVisualizer.setListEnemies(syncQueueEnemies);
+        robotVisualizer.setListEnemies(listEnemyLogic);
     }
 
-    public EnemyController(int numEnemies, PlayerRobotLogic robotLogic) {
+    public EnemyController(int numEnemies, PlayerLogic robotLogic) {
         this.robotLogic = robotLogic;
-        syncQueueEnemies = Collections.synchronizedList(new ArrayList<>(numEnemies / 5));
-        delayQueueEnemies = fillListsEnemies(numEnemies);
-        threadPoolEnemies = (ThreadPoolExecutor) Executors.newFixedThreadPool(numEnemies / 5);
-
         this.numEnemies = numEnemies;
+        listEnemyLogic = getFilledListEnemy();
+
+        threadPoolEnemies =  Executors.newScheduledThreadPool(numEnemies / 5);
     }
 
-    private DelayQueue<DelayedObject> fillListsEnemies(int numEnemies) {
-        delayQueueEnemies = new DelayQueue<>();
-//        syncQueueEnemies =  Collections.synchronizedList(new ArrayList<>(numEnemies/5));
+    public List<EnemyLogic> getFilledListEnemy(){
+        listEnemyLogic = Collections.synchronizedList(new ArrayList<>(numEnemies));
         for (int i = 0; i < numEnemies; i++) {
-            var enemyLogic = new EnemyLogic();
-            delayQueueEnemies.put(new DelayedObject(enemyLogic, 1));
-//            syncQueueEnemies.add(enemyLogic);
+            listEnemyLogic.add(new EnemyLogic());
         }
-        return delayQueueEnemies;
-
+        return  listEnemyLogic;
     }
 
     public void startEnemyLogicThread() {
-        for (int i = 0; i < delayQueueEnemies.size() / 5; i++) {
-            threadPoolEnemies.execute(new WorkerLogicEnemy(syncQueueEnemies, delayQueueEnemies, robotVisualizer, robotLogic));
+        for (int i = 0; i < numEnemies; i++) {
+            var worker = new WorkerLogicEnemy(listEnemyLogic, listEnemyLogic.get(i), robotVisualizer, robotLogic, i);
+            var future = threadPoolEnemies.scheduleWithFixedDelay(worker, 1, 10, TimeUnit.MILLISECONDS);
+            worker.setFuture(future);
         }
-
     }
-
 
     public void stopPoolExecutor() {
         threadPoolEnemies.shutdown();

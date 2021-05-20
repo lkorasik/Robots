@@ -1,48 +1,51 @@
 package controller.enemyController;
 
 import model.robotsModels.enemyModel.EnemyLogic;
-import model.robotsModels.PlayerRobotModel.PlayerRobotLogic;
+import model.robotsModels.playerModel.PlayerLogic;
 import view.robotFrame.RobotVisualizer;
 
 import java.util.List;
-import java.util.concurrent.DelayQueue;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class WorkerLogicEnemy implements Runnable{
-//    private final EnemyLogic enemyLogic;
+public class WorkerLogicEnemy implements Runnable {
+    private final EnemyLogic enemyLogic;
     private final AtomicBoolean isStoppedWorker;
-//    private final Point sizeRobotVisualizer;
-    private final PlayerRobotLogic robotLogic;
-    private RobotVisualizer robotVisualizer;
-    private List<EnemyLogic> syncQueueEnemies;
+    private final PlayerLogic robotLogic;
+    private final RobotVisualizer robotVisualizer;
 
-    private DelayQueue<DelayedObject> delayQueue;
+    private List<EnemyLogic> listEnemyLogic;
+    private ScheduledFuture<?> future;
+    private final int index;
 
-
-    public WorkerLogicEnemy(List<EnemyLogic> syncQueueEnemies, DelayQueue<DelayedObject> delayQueue,  RobotVisualizer robotVisualizer, PlayerRobotLogic robotLogic){
-        this.delayQueue = delayQueue;
+    public WorkerLogicEnemy(List<EnemyLogic> listEnemyLogic, EnemyLogic enemyLogic,
+                            RobotVisualizer robotVisualizer, PlayerLogic robotLogic, int index) {
         this.robotLogic = robotLogic;
-        this.syncQueueEnemies = syncQueueEnemies;
-//        this.enemyLogic = enemyLogic;
-        isStoppedWorker = new AtomicBoolean(false);
+        this.listEnemyLogic = listEnemyLogic;
+        this.index = index;
+        this.enemyLogic = enemyLogic;
         this.robotVisualizer = robotVisualizer;
+
+        isStoppedWorker = new AtomicBoolean(false);
+    }
+
+    public void setFuture(ScheduledFuture<?> future) {
+        this.future = future;
     }
 
     @Override
     public void run() {
-        try {
-            var delayObject = delayQueue.take();
-            var enemyLogic = delayObject.getEnemyLogic();
+        if (!isStoppedWorker.get())
             enemyLogic.updatePosition(robotVisualizer.getWidth(), robotVisualizer.getHeight(), robotLogic.getRobotPosition());
-            delayQueue.put(delayObject);
-            syncQueueEnemies.add(delayObject.getEnemyLogic());
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        else
+            listEnemyLogic.remove(index);
     }
 
-    public void stopWorker(){
+    public int getIndex() {
+        return index;
+    }
+
+    public void stopWorker() {
         isStoppedWorker.set(false);
     }
 }

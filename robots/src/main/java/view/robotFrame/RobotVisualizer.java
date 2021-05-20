@@ -1,9 +1,9 @@
 package view.robotFrame;
 
 import controller.enemyController.EnemyController;
-import controller.robotController.RobotController;
+import controller.playerController.PlayerController;
 import model.robotsModels.enemyModel.EnemyLogic;
-import model.robotsModels.PlayerRobotModel.PlayerRobotLogic;
+import model.robotsModels.playerModel.PlayerLogic;
 
 import java.awt.geom.Point2D;
 import java.util.List;
@@ -15,12 +15,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RobotVisualizer extends JPanel {
-    private final RobotController robotController;
+    private final PlayerController robotController;
     private final EnemyController enemyController;
 
 //    private List<EnemyLogic> listEnemies;
     private List<EnemyLogic> syncListEnemies;
-    private final PlayerRobotLogic robotLogic;
+    private final PlayerLogic robotLogic;
 
     private final AtomicInteger mouseX = new AtomicInteger();
     private final AtomicInteger mouseY = new AtomicInteger();
@@ -33,7 +33,7 @@ public class RobotVisualizer extends JPanel {
     private static final int DX = 2;
     private static final int DY = 2;
 
-    public RobotVisualizer(RobotController robotController, PlayerRobotLogic robotLogic, EnemyController enemyController) {
+    public RobotVisualizer(PlayerController robotController, PlayerLogic robotLogic, EnemyController enemyController) {
         this.robotController = robotController;
         this.robotLogic = robotLogic;
         this.enemyController = enemyController;
@@ -98,8 +98,8 @@ public class RobotVisualizer extends JPanel {
         super.paint(graphics);
         Graphics2D g2d = (Graphics2D) graphics;
         drawRobot(g2d,
-                PlayerRobotLogic.round(robotLogic.getPositionX()),
-                PlayerRobotLogic.round(robotLogic.getPositionY()),
+                PlayerLogic.round(robotLogic.getPositionX()),
+                PlayerLogic.round(robotLogic.getPositionY()),
                 robotLogic.getRobotDirection());
 
         for(EnemyLogic enemyLogic: syncListEnemies){
@@ -146,26 +146,23 @@ public class RobotVisualizer extends JPanel {
     }
 
     private void startLiveUpdatePlayersState() {
-        new Timer(10, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isDown.get() && isRight.get())
-                    movePlayer(DX, DY, mouseX.get(), mouseY.get());
-                else if (isDown.get() && isLeft.get())
-                    movePlayer(-DX, DY, mouseX.get(), mouseY.get());
-                else if (isUp.get() && isRight.get())
-                    movePlayer(DX, -DY, mouseX.get(), mouseY.get());
-                else if (isUp.get() && isLeft.get())
-                    movePlayer(-DX, -DY, mouseX.get(), mouseY.get());
-                else if (isDown.get())
-                    movePlayer(0, DY, mouseX.get(), mouseY.get());
-                else if (isUp.get())
-                    movePlayer(0, -DY, mouseX.get(), mouseY.get());
-                else if (isRight.get())
-                    movePlayer(DX, 0, mouseX.get(), mouseY.get());
-                else if (isLeft.get())
-                    movePlayer(-DX, 0, mouseX.get(), mouseY.get());
-            }
+        new Timer(10, e -> {
+            if (isDown.get() && isRight.get())
+                movePlayer(DX, DY, mouseX.get(), mouseY.get());
+            else if (isDown.get() && isLeft.get())
+                movePlayer(-DX, DY, mouseX.get(), mouseY.get());
+            else if (isUp.get() && isRight.get())
+                movePlayer(DX, -DY, mouseX.get(), mouseY.get());
+            else if (isUp.get() && isLeft.get())
+                movePlayer(-DX, -DY, mouseX.get(), mouseY.get());
+            else if (isDown.get())
+                movePlayer(0, DY, mouseX.get(), mouseY.get());
+            else if (isUp.get())
+                movePlayer(0, -DY, mouseX.get(), mouseY.get());
+            else if (isRight.get())
+                movePlayer(DX, 0, mouseX.get(), mouseY.get());
+            else if (isLeft.get())
+                movePlayer(-DX, 0, mouseX.get(), mouseY.get());
         }).start();
     }
 

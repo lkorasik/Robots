@@ -1,6 +1,6 @@
-package controller.robotController;
+package controller.playerController;
 
-import model.robotsModels.PlayerRobotModel.PlayerRobotLogic;
+import model.robotsModels.playerModel.PlayerLogic;
 import view.robotFrame.RobotVisualizer;
 
 import java.awt.*;
@@ -8,23 +8,21 @@ import java.awt.geom.Point2D;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class RobotController {
+public class PlayerController {
     private Timer timer;
     private RobotVisualizer robotVisualizer;
-    private final PlayerRobotLogic robotLogic;
-    private Point sizeRobotVisualizer;
+    private final PlayerLogic robotLogic;
 
-    public RobotController(PlayerRobotLogic robotLogic) {
+    public PlayerController(PlayerLogic robotLogic) {
         this.robotLogic = robotLogic;
     }
 
     public void setRobotVisualizer(RobotVisualizer robotVisualizer) {
         this.robotVisualizer = robotVisualizer;
-        sizeRobotVisualizer = new Point(robotVisualizer.getWidth(),robotVisualizer.getHeight() );
     }
 
     public void initEventTimer() {
-        timer = new Timer("events robot generator", true);
+        timer = new Timer("Events generator", true);
 
         timer.schedule(new TimerTask() {
             @Override
@@ -35,7 +33,6 @@ public class RobotController {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-//                System.out.println(robotVisualizer.getWidth());
                 robotLogic.updatePosition(robotVisualizer.getWidth(), robotVisualizer.getHeight());
             }
         }, 0, 10);
