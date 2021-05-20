@@ -1,8 +1,12 @@
 package view.robotFrame;
 
+import controller.enemyController.EnemyController;
 import controller.robotController.RobotController;
-import model.robotModel.RobotLogic;
+import model.robotsModels.enemyModel.EnemyLogic;
+import model.robotsModels.PlayerRobotModel.PlayerRobotLogic;
 
+import java.awt.geom.Point2D;
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -12,7 +16,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class RobotVisualizer extends JPanel {
     private final RobotController robotController;
-    private final RobotLogic robotLogic;
+    private final EnemyController enemyController;
+
+    private List<EnemyLogic> listEnemies;
+    private final PlayerRobotLogic robotLogic;
 
     private final AtomicInteger mouseX = new AtomicInteger();
     private final AtomicInteger mouseY = new AtomicInteger();
@@ -25,12 +32,15 @@ public class RobotVisualizer extends JPanel {
     private static final int DX = 2;
     private static final int DY = 2;
 
-    public RobotVisualizer(RobotController robotController, RobotLogic robotLogic) {
+    public RobotVisualizer(RobotController robotController, PlayerRobotLogic robotLogic, EnemyController enemyController) {
         this.robotController = robotController;
         this.robotLogic = robotLogic;
+        this.enemyController = enemyController;
 
+        this.enemyController.setRobotVisualizer(this);
         this.robotController.setRobotVisualizer(this);
         this.robotController.initEventTimer();
+        this.enemyController.startEnemyLogicThread();
 
         setFocusable(true);
 
@@ -65,6 +75,10 @@ public class RobotVisualizer extends JPanel {
         EventQueue.invokeLater(this::repaint);
     }
 
+    public void setListEnemies(List<EnemyLogic>  listEnemies){
+        this.listEnemies = listEnemies;
+    }
+
     public void drawRobot(Graphics2D graphics2D, int x, int y, double direction) {
         AffineTransform t = AffineTransform.getRotateInstance(direction, x, y);
         graphics2D.setTransform(t);
@@ -83,9 +97,16 @@ public class RobotVisualizer extends JPanel {
         super.paint(graphics);
         Graphics2D g2d = (Graphics2D) graphics;
         drawRobot(g2d,
-                RobotLogic.round(robotLogic.getPositionX()),
-                RobotLogic.round(robotLogic.getPositionY()),
+                PlayerRobotLogic.round(robotLogic.getPositionX()),
+                PlayerRobotLogic.round(robotLogic.getPositionY()),
                 robotLogic.getRobotDirection());
+
+        for(EnemyLogic enemyLogic: listEnemies){
+            drawRobot(g2d,
+                    EnemyLogic.round(enemyLogic.getPositionX()),
+                    EnemyLogic.round(enemyLogic.getPositionY()),
+                    enemyLogic.getRobotDirection());
+        }
     }
 
     private void mouseMoveAction(MouseEvent event) {
@@ -149,7 +170,7 @@ public class RobotVisualizer extends JPanel {
 
     private void movePlayer(int dx, int dy, int mouseX, int mouseY) {
         var position = robotController.getRobotPosition();
-        position = new Point(position.x + dx, position.y + dy);
+        position = new Point2D.Double(position.getX() + dx, position.getY() + dy);
         robotController.setTargetPosition(position, new Point(mouseX, mouseY));
     }
 
