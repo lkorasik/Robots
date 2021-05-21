@@ -8,16 +8,16 @@ import java.awt.geom.Point2D;
 
 public class EnemyLogic extends RobotLogic {
 
-    public EnemyLogic(){
+    public EnemyLogic() {
         super();
         robotPosition = getRandomPos();
-        targetPosition = getRandomPos();
+        targetPosition = new Point2D.Double(0, 0);
     }
 
-    private Point2D getRandomPos(){
-        var x  = ((Math.random() * (320 - 20)) + 20);
-        var y  = ((Math.random() * (320 - 20)) + 20);
-        return new Point2D.Double(x,y);
+    private Point2D getRandomPos() {
+        var x = ((Math.random() * (320 - 20)) + 20);
+        var y = ((Math.random() * (320 - 20)) + 20);
+        return new Point2D.Double(x, y);
     }
 
     private void moveRobot(double angularVelocity, int width, int height) {
@@ -33,7 +33,8 @@ public class EnemyLogic extends RobotLogic {
             newY = robotPosition.getY() + Constants.Robot.MAX_VELOCITY * Constants.Robot.DEFAULT_DURATION * Math.sin(robotDirection);
         }
 
-        robotPosition.setLocation(newX, newY);
+
+        robotPosition.setLocation(Math.abs(newX), Math.abs(newY));
         robotDirection = asNormalizedRadians(correctDirection(newDirection, width, height));
     }
 
