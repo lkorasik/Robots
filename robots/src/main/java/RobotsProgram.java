@@ -1,5 +1,6 @@
-import controller.robotController.RobotController;
-import model.robotModel.RobotLogic;
+import controller.enemyController.EnemyController;
+import controller.playerController.PlayerController;
+import model.robotsModels.playerModel.PlayerLogic;
 import translation.LanguageBundle;
 import translation.Locales;
 import view.MainAppFrame;
@@ -21,8 +22,9 @@ public class RobotsProgram {
         LanguageBundle.create(Locales.EN);
 
         SwingUtilities.invokeLater(() -> {
-            RobotLogic robotLogic = new RobotLogic();
-            MainAppFrame mainAppFrame = new MainAppFrame(new RobotController(robotLogic), robotLogic);
+            PlayerLogic robotLogic = new PlayerLogic();
+            EnemyController enemyController = new EnemyController(50, robotLogic);
+            MainAppFrame mainAppFrame = new MainAppFrame(new PlayerController(robotLogic), robotLogic, enemyController);
             mainAppFrame.pack();
             mainAppFrame.setVisible(true);
             mainAppFrame.setExtendedState(Frame.MAXIMIZED_BOTH);

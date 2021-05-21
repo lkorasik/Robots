@@ -2,11 +2,12 @@ package view;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import controller.enemyController.EnemyController;
 import controller.logController.Logger;
-import controller.robotController.RobotController;
+import controller.playerController.PlayerController;
 import fileWorker.FileWorker;
 import model.Constants;
-import model.robotModel.RobotLogic;
+import model.robotsModels.playerModel.PlayerLogic;
 import serialization.SerializeInfo;
 import translation.LanguageBundle;
 import translation.LocalizationTextKeys;
@@ -32,7 +33,7 @@ public class MainAppFrame extends FrameClosing {
     private final GameFrame gameFrame;
     private final LogFrame logFrame;
 
-    public MainAppFrame(RobotController robotController, RobotLogic robotLogic) {
+    public MainAppFrame(PlayerController robotController, PlayerLogic robotLogic, EnemyController enemyController) {
         super();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(Constants.MainApplicationFrame.INSET,
@@ -43,7 +44,7 @@ public class MainAppFrame extends FrameClosing {
         setMinimumSize(new Dimension(1200, 600));
 
         logFrame = new LogFrame(Logger.getDefaultLogSource());
-        gameFrame = new GameFrame(robotController, robotLogic);
+        gameFrame = new GameFrame(robotController, robotLogic, enemyController);
 
         var split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, logFrame.getView(), gameFrame.getView());
         setContentPane(split);
